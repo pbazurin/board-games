@@ -6,17 +6,13 @@
     "module": "commonjs",
     "noImplicitAny": false,
     "noLib": false,
-    "outDir": "../../out-tsc/server",
+    "outDir": "../../dist",
     "removeComments": true,
     "target": "es6",
     "types": []
   },
   "include": [
-    "src/server/*",
-    "src/shared/*"
+    "*"
   ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ]
+  "exclude": []
 }

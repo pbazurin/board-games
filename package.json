@@ -1,17 +1,23 @@
 {
   "name": "table-games",
   "version": "0.0.0",
+  "engines": {
+    "node": "10.10.0",
+    "npm": "6.4.1"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:server:dev": "nodemon",
-    "start:server:debug": "nodemon --config nodemon-debug.json",
+    "start.server": "nodemon",
+    "start.server:debug": "nodemon --config nodemon-debug.json",
+    "prestart.server:prod": "npm run clean && ng build --prod && tsc -p src/server/tsconfig.server.json",
+    "start.server:prod": "node dist/server/main.js",
     "build": "ng build",
+    "clean": "rimraf dist",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^6.1.0",
     "@angular/common": "^6.1.0",
