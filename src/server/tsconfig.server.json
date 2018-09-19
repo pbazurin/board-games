@@ -1,11 +1,22 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "module": "commonjs",
+    "noImplicitAny": false,
+    "noLib": false,
     "outDir": "../../out-tsc/server",
+    "removeComments": true,
+    "target": "es6",
     "types": []
   },
+  "include": [
+    "src/server/*",
+    "src/shared/*"
+  ],
   "exclude": [
-    "test.ts",
+    "node_modules",
     "**/*.spec.ts"
   ]
 }

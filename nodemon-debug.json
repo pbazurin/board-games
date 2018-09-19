@@ -1,0 +1,6 @@
+{
+  "watch": ["src/server", "src/shared"],
+  "ext": "ts",
+  "ignore": ["src/**/*.spec.ts"],
+  "exec": "node --inspect-brk -r ./nodemon-ts-hook.js src/server/main.ts"
+}

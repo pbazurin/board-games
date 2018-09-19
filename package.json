@@ -4,6 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:server:dev": "nodemon",
+    "start:server:debug": "nodemon --config nodemon-debug.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -20,8 +22,13 @@
     "@angular/platform-browser": "^6.1.0",
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
+    "@nestjs/common": "^5.3.7",
+    "@nestjs/core": "^5.3.7",
+    "@nestjs/websockets": "^5.3.7",
     "core-js": "^2.5.4",
+    "reflect-metadata": "^0.1.12",
     "rxjs": "~6.2.0",
+    "typescript": "~2.9.2",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
@@ -40,9 +47,11 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "nodemon": "^1.18.4",
     "protractor": "~5.4.0",
+    "rimraf": "^2.6.2",
     "ts-node": "~7.0.0",
-    "tslint": "~5.11.0",
-    "typescript": "~2.9.2"
+    "tsconfig-paths": "^3.6.0",
+    "tslint": "~5.11.0"
   }
 }
