@@ -10,7 +10,7 @@
     "start": "ng serve",
     "start.server": "nodemon",
     "start.server:debug": "nodemon --config nodemon-debug.json",
-    "prestart.server:prod": "npm run clean && ng build --prod && tsc -p src/server/tsconfig.server.json",
+    "prestart.server:prod": "npm run clean && ng build --prod && tsc -p src/server/tsconfig.json",
     "start.server:prod": "node dist/server/main.js",
     "build": "ng build",
     "clean": "rimraf dist",

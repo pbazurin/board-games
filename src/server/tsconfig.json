@@ -9,7 +9,7 @@
     "outDir": "../../dist",
     "removeComments": true,
     "target": "es6",
-    "types": []
+    "types": ["node"]
   },
   "include": [
     "*"
