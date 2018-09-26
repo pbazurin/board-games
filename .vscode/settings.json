@@ -1,0 +1,39 @@
+{
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "typescriptHero.imports.grouping": [
+    {
+      "identifier": "/@angular/",
+      "order": "asc"
+    },
+    {
+      "identifier": "/@ngrx/",
+      "order": "asc"
+    },
+    {
+      "identifier": "/rxjs//",
+      "order": "asc"
+    },
+    {
+      "identifier": "Plains",
+      "order": "asc"
+    },
+    {
+      "identifier": "/^@?ng.*/",
+      "order": "asc"
+    },
+    {
+      "identifier": "Remaining",
+      "order": "asc"
+    },
+    "Workspace"
+  ],
+  "editor.formatOnSave": true,
+  "typescriptHero.imports.organizeOnSave": true,
+  "typescriptHero.index.workspaceIgnorePatterns": [
+    "**/build/**/*",
+    "**/out/**/*",
+    "**/dist/**/*",
+    "**/polyfills.ts"
+  ]
+}
