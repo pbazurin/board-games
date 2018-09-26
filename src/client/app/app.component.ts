@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { SharedModel } from '../../shared/shared.model';
 
 @Component({
-  selector: 'tg-root',
+  selector: 'bg-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
