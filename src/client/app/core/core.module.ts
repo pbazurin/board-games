@@ -1,13 +1,14 @@
-import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+
+import { SharedUIModule } from '../shared/ui/shared-ui.module';
 
 @NgModule({
   declarations: [],
   exports: [],
   imports: [
     HttpClientModule,
-    CommonModule
+    SharedUIModule
   ],
   providers: [],
 })

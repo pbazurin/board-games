@@ -1,0 +1,10 @@
+{
+  "Hello": "Hello",
+  "Language": "Language",
+  "preferences": {
+    "language": {
+      "en": "English",
+      "ru": "Russian"
+    }
+  }
+}

@@ -11,10 +11,14 @@ import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { HeaderComponent } from './header/header.component';
+import { LanguageSelectorComponent } from './language-selector/language-selector.component';
+import { TranslateLoaderService } from './shared/services/translate-loader.service';
 import { CustomRouterStateSerializer, metaReducers, reducers } from './store';
 import { AppEffects } from './store/app.effects';
 
@@ -50,11 +54,18 @@ const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument(
      * See: https://github.com/ngrx/platform/blob/master/docs/effects/api.md#forroot
      */
     EffectsModule.forRoot([AppEffects]),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: TranslateLoaderService,
+      }
+    }),
     MatToolbarModule
   ],
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    LanguageSelectorComponent
   ],
   providers: [
     /**
