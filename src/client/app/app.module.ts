@@ -20,7 +20,7 @@ import { HeaderComponent } from './header/header.component';
 import { LanguageSelectorComponent } from './language-selector/language-selector.component';
 import { TranslateLoaderService } from './shared/services/translate-loader.service';
 import { CustomRouterStateSerializer, metaReducers, reducers } from './store';
-import { AppEffects } from './store/app.effects';
+import { AppEffects } from './store/app/app.effects';
 
 const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument()] : [];
 

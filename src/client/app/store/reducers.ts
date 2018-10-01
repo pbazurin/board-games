@@ -4,7 +4,7 @@ import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
 
 import { environment } from '../../environments/environment';
-import { AppReducer } from './app.reducer';
+import { AppReducer } from './app/app.reducer';
 import { State } from './state';
 
 /**

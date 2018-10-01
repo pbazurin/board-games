@@ -1,33 +1,38 @@
-import { registerLocaleData } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { TranslateService } from '@ngx-translate/core';
+import { Store } from '@ngrx/store';
+
+import { UserSettings } from '../store';
+import { UserLanguageChangeAction } from '../store/app/app.actions';
+import { getUserAvailableLanguages, getUserLanguage } from '../store/app/app.reducer';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'bg-language-selector',
   templateUrl: './language-selector.component.html'
 })
-export class LanguageSelectorComponent {
+export class LanguageSelectorComponent implements OnInit, OnDestroy {
+  availableLanguages$: Observable<string[]>;
+  currentLanguage: string;
+
+  private subscriptions: Subscription[] = [];
+
   constructor(
-    private translate: TranslateService,
+    private store: Store<UserSettings>
   ) { }
 
+  ngOnInit() {
+    this.availableLanguages$ = this.store.select(getUserAvailableLanguages);
+
+    this.subscriptions.push(this.store.select(getUserLanguage)
+      .subscribe(lang => this.currentLanguage = lang));
+  }
+
   languageChanged(selectedItem: string): void {
-    this.translate.use(selectedItem);
-    this.loadLocaleData(selectedItem);
+    this.store.dispatch(new UserLanguageChangeAction(selectedItem));
   }
 
-  loadLocaleData(lang) {
-    import(`@angular/common/locales/${lang}.js`).then(locale => {
-      registerLocaleData(locale.default);
-    });
-  }
-
-  get currentLang() {
-    return this.translate.currentLang;
-  }
-
-  get languages() {
-    return this.translate.langs;
+  ngOnDestroy() {
+    this.subscriptions.forEach(s => s.unsubscribe());
   }
 }

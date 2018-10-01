@@ -2,7 +2,7 @@
   Language
 </label>
 <select id="language_selector" #selectLang (change)="languageChanged(selectLang.value)">
-  <option *ngFor="let lang of languages" translate value="{{ lang }}" [selected]="currentLang === lang">
-    preferences.language.{{ lang }}
+  <option *ngFor="let language of availableLanguages$ | async" translate [value]="language" [selected]="currentLanguage === language">
+    preferences.language.{{ language }}
   </option>
 </select>
