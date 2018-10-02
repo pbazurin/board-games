@@ -2,7 +2,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatIconModule, MatToolbarModule } from '@angular/material';
+import {
+  MatButtonModule,
+  MatDialogModule,
+  MatIconModule,
+  MatInputModule,
+  MatSelectModule,
+  MatToolbarModule,
+} from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -17,8 +24,8 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
+import { DialogUserSettings } from './header/dialog-user-settings/dialog-user-settings.component';
 import { HeaderComponent } from './header/header.component';
-import { LanguageSelectorComponent } from './language-selector/language-selector.component';
 import { TranslateLoaderService } from './shared/services/translate-loader.service';
 import { CustomRouterStateSerializer, metaReducers, reducers } from './store';
 import { AppEffects } from './store/app/app.effects';
@@ -64,13 +71,17 @@ const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument(
     }),
     MatToolbarModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule,
+    MatInputModule,
+    MatSelectModule
   ],
   declarations: [
     AppComponent,
     HeaderComponent,
-    LanguageSelectorComponent
+    DialogUserSettings
   ],
+  entryComponents: [DialogUserSettings],
   providers: [
     /**
      * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.

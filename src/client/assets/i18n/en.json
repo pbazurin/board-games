@@ -1,6 +1,11 @@
 {
   "Hello": "Hello",
   "Language": "Language",
+  "Settings": "Settings",
+  "Save": "Save",
+  "Cancel": "Cancel",
+  "Name": "Name",
+  "Secret": "Secret",
   "preferences": {
     "language": {
       "en": "English",

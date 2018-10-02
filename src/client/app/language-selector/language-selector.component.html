@@ -1,8 +1,0 @@
-<label for="language_selector">
-  {{ 'Language' | translate }}
-</label>
-<select id="language_selector" #selectLang (change)="languageChanged(selectLang.value)">
-  <option *ngFor="let language of availableLanguages$ | async" [value]="language" [selected]="currentLanguage === language">
-    {{ 'preferences.language.' + language | translate }}
-  </option>
-</select>

@@ -13,7 +13,7 @@ export interface AppState {
   userSettings: UserSettings
 }
 
-export interface State {
+export interface GlobalState {
   routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
   app: AppState;
 }

@@ -1,8 +1,8 @@
-<mat-toolbar color="primary">
-  <mat-icon svgIcon="icon-dice"></mat-icon>
-  <span>Board Games</span>
-  <span></span>
-  <button mat-icon-button>
-    <mat-icon svgIcon="icon-more-button"></mat-icon>
+<mat-toolbar color="primary" class="header">
+  <mat-icon svgIcon="icon-dice" class="header__brand-logo"></mat-icon>
+  <span class="header__brand-name">Board Games</span>
+  <span fxFlex></span>
+  <button mat-icon-button class="header_user-icon" (click)="openUserSettingsDialog()">
+    <mat-icon svgIcon="icon-user"></mat-icon>
   </button>
 </mat-toolbar>

@@ -2,7 +2,7 @@ import { registerLocaleData } from '@angular/common';
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { map, switchMap, tap } from 'rxjs/operators';
 
@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ofAction } from 'ngrx-actions';
 
 import { environment } from '../../../environments/environment';
-import { AppState, UserSettings } from '../state';
+import { GlobalState, UserSettings } from '../state';
 import {
   AppInitializeAction,
   UserLanguageChangeAction,
@@ -29,7 +29,7 @@ export class AppEffects {
 
   constructor(
     private translate: TranslateService,
-    private store: Store<AppState>,
+    private store: Store<GlobalState>,
     private actions$: Actions
   ) { }
 
@@ -48,6 +48,10 @@ export class AppEffects {
     map(() => {
       let userSettings = <UserSettings>(JSON.parse(localStorage.getItem(this.USER_SETTINGS_STORAGE_NAME)) || {});
       userSettings.availableLanguages = environment.supportedLanguages;
+
+      // TODO: add user initialization if empty
+      userSettings.name = userSettings.name || 'Player';
+      userSettings.secret = userSettings.secret || 'Secret';
 
       return new UserSettingsLoadCompleteAction(userSettings);
     })
@@ -82,7 +86,7 @@ export class AppEffects {
   @Effect()
   userSettingsSave$ = this.actions$.pipe(
     ofAction(UserSettingsSaveAction),
-    switchMap(_ => this.store.select(getUserSettings)),
+    switchMap(_ => this.store.pipe(select(getUserSettings))),
     tap(userSettings => localStorage.setItem(this.USER_SETTINGS_STORAGE_NAME, JSON.stringify(userSettings))),
     map(() => new UserSettingsSaveCompleteAction())
   );

@@ -5,7 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 
 import { SharedModel } from '../../shared/shared.model';
-import { AppState } from './store';
+import { GlobalState } from './store';
 import { AppInitializeAction } from './store/app/app.actions';
 
 @Component({
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   title: string;
 
   constructor(
-    private store: Store<AppState>,
+    private store: Store<GlobalState>,
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer
   ) { }

@@ -62,5 +62,7 @@ export const AppFeatureName = 'app';
 
 export const getMainState = createFeatureSelector<AppState>(AppFeatureName);
 export const getUserSettings = createSelector(getMainState, state => state.userSettings);
+export const getUserName = createSelector(getUserSettings, state => state.name);
+export const getUserSecret = createSelector(getUserSettings, state => state.secret);
 export const getUserAvailableLanguages = createSelector(getUserSettings, state => state.availableLanguages);
 export const getUserLanguage = createSelector(getUserSettings, state => state.language);
