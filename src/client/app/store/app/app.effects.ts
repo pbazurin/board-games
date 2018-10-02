@@ -52,6 +52,7 @@ export class AppEffects {
       // TODO: add user initialization if empty
       userSettings.name = userSettings.name || 'Player';
       userSettings.secret = userSettings.secret || 'Secret';
+      userSettings.language = userSettings.language || 'en';
 
       return new UserSettingsLoadCompleteAction(userSettings);
     })
