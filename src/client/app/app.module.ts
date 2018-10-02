@@ -1,7 +1,8 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { MatToolbarModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatToolbarModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -28,6 +29,7 @@ const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument(
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FlexLayoutModule,
     HttpClientModule,
     FormsModule,
     CoreModule.forRoot(),
@@ -60,7 +62,9 @@ const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument(
         useClass: TranslateLoaderService,
       }
     }),
-    MatToolbarModule
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule
   ],
   declarations: [
     AppComponent,

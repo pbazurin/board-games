@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { Store } from '@ngrx/store';
 
@@ -15,10 +17,14 @@ export class AppComponent implements OnInit {
   title: string;
 
   constructor(
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
+    this.matIconRegistry.addSvgIconSet(this.domSanitizer.bypassSecurityTrustResourceUrl('./assets/svg/sprite.svg'));
+
     this.store.dispatch(new AppInitializeAction());
 
     const sharedModel = <SharedModel>{
