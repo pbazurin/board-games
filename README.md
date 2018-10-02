@@ -4,8 +4,8 @@ Online portal for board games
 
 # Demo
 
-[https://boaga.herokuapp.com/](https://boaga.herokuapp.com/)
-Powered by [Heroku](https://www.heroku.com/)
+<p>[https://boaga.herokuapp.com/](https://boaga.herokuapp.com/)</p>
+<p>Powered by [Heroku](https://www.heroku.com/)</p>
 
 # Technical stack
 
