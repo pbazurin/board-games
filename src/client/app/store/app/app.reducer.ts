@@ -3,12 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Action, createReducer, Store } from 'ngrx-actions';
 
 import { AppState, initialState } from '../state';
-import {
-  UserLanguageChangeAction,
-  UserNameChangeAction,
-  UserSecretChangeAction,
-  UserSettingsLoadCompleteAction,
-} from './app.actions';
+import { UserSettingsChangeAction, UserSettingsLoadCompleteAction } from './app.actions';
 
 @Store(<AppState>initialState)
 export class AppStore {
@@ -20,35 +15,15 @@ export class AppStore {
     };
   }
 
-  @Action(UserNameChangeAction)
-  userNameChange(state: AppState, action: UserNameChangeAction): AppState {
+  @Action(UserSettingsChangeAction)
+  userSettingsChange(state: AppState, action: UserSettingsChangeAction): AppState {
     return {
       ...state,
       userSettings: {
         ...state.userSettings,
-        name: action.payload
-      }
-    };
-  }
-
-  @Action(UserSecretChangeAction)
-  userSecretChange(state: AppState, action: UserSecretChangeAction): AppState {
-    return {
-      ...state,
-      userSettings: {
-        ...state.userSettings,
-        secret: action.payload
-      }
-    };
-  }
-
-  @Action(UserLanguageChangeAction)
-  languageChange(state: AppState, action: UserNameChangeAction): AppState {
-    return {
-      ...state,
-      userSettings: {
-        ...state.userSettings,
-        language: action.payload
+        name: action.payload.name,
+        secret: action.payload.secret,
+        language: action.payload.language
       }
     };
   }

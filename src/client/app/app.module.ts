@@ -1,15 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule } from '@angular/forms';
-import {
-  MatButtonModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatSelectModule,
-  MatToolbarModule,
-} from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -24,8 +13,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { DialogUserSettings } from './header/dialog-user-settings/dialog-user-settings.component';
-import { HeaderComponent } from './header/header.component';
+import { HeaderModule } from './header/header.module';
 import { TranslateLoaderService } from './shared/services/translate-loader.service';
 import { CustomRouterStateSerializer, metaReducers, reducers } from './store';
 import { AppEffects } from './store/app/app.effects';
@@ -36,9 +24,6 @@ const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument(
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FlexLayoutModule,
-    HttpClientModule,
-    FormsModule,
     CoreModule.forRoot(),
     RouterModule.forRoot([]),
     /**
@@ -69,19 +54,9 @@ const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument(
         useClass: TranslateLoaderService,
       }
     }),
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    MatSelectModule
+    HeaderModule
   ],
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    DialogUserSettings
-  ],
-  entryComponents: [DialogUserSettings],
+  declarations: [AppComponent],
   providers: [
     /**
      * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.

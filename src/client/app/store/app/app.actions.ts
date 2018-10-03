@@ -17,19 +17,9 @@ export class UserSettingsLoadCompleteAction implements Action {
   constructor(public payload: UserSettings) { }
 }
 
-export class UserLanguageChangeAction implements Action {
-  readonly type = '[User settings] Change language';
-  constructor(public payload: string) { }
-}
-
-export class UserNameChangeAction implements Action {
-  readonly type = '[User settings] Change user name';
-  constructor(public payload: string) { }
-}
-
-export class UserSecretChangeAction implements Action {
-  readonly type = '[User settings] Change user secret';
-  constructor(public payload: string) { }
+export class UserSettingsChangeAction implements Action {
+  readonly type = '[User settings] Change';
+  constructor(public payload: UserSettings) { }
 }
 
 export class UserSettingsSaveAction implements Action {

@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 
 import { GlobalState, UserSettings } from '../../store';
-import { UserLanguageChangeAction, UserNameChangeAction, UserSecretChangeAction } from '../../store/app/app.actions';
+import { UserSettingsChangeAction } from '../../store/app/app.actions';
 import { getUserSettings } from '../../store/app/app.reducer';
 
 @Component({
@@ -14,6 +14,11 @@ import { getUserSettings } from '../../store/app/app.reducer';
   templateUrl: 'dialog-user-settings.component.html'
 })
 export class DialogUserSettings implements OnInit {
+  languageNames = {
+    'en': 'English',
+    'ru': 'Русский',
+    'ua': 'Українська'
+  };
   settings: UserSettings;
 
   constructor(
@@ -27,10 +32,7 @@ export class DialogUserSettings implements OnInit {
   }
 
   onSubmit() {
-    // TODO: use single action
-    this.store.dispatch(new UserNameChangeAction(this.settings.name));
-    this.store.dispatch(new UserSecretChangeAction(this.settings.secret));
-    this.store.dispatch(new UserLanguageChangeAction(this.settings.language));
+    this.store.dispatch(new UserSettingsChangeAction(this.settings));
 
     this.dialogRef.close();
   }

@@ -1,15 +1,8 @@
 {
-  "Hello": "Привет",
   "Language": "Язык",
   "Settings": "Настройки",
   "Save": "Сохранить",
   "Cancel": "Отмена",
   "Name": "Имя",
-  "Secret": "Секрет",
-  "preferences": {
-    "language": {
-      "en": "Английский",
-      "ru": "Русский"
-    }
-  }
+  "Secret": "Секрет"
 }

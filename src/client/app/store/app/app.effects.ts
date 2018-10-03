@@ -1,4 +1,3 @@
-import { registerLocaleData } from '@angular/common';
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect } from '@ngrx/effects';
@@ -13,9 +12,7 @@ import { environment } from '../../../environments/environment';
 import { GlobalState, UserSettings } from '../state';
 import {
   AppInitializeAction,
-  UserLanguageChangeAction,
-  UserNameChangeAction,
-  UserSecretChangeAction,
+  UserSettingsChangeAction,
   UserSettingsLoadAction,
   UserSettingsLoadCompleteAction,
   UserSettingsSaveAction,
@@ -69,18 +66,13 @@ export class AppEffects {
 
   @Effect({ dispatch: false })
   userLanguageChange$ = this.actions$.pipe(
-    ofAction(UserLanguageChangeAction),
-    tap(action => {
-      this.translate.use(action.payload);
-      import(`@angular/common/locales/${action.payload}.js`).then(locale => {
-        registerLocaleData(locale.default);
-      });
-    })
+    ofAction(UserSettingsChangeAction),
+    tap(action => this.translate.use(action.payload.language))
   );
 
   @Effect()
-  userSettingsUpdate$ = this.actions$.pipe(
-    ofAction(UserNameChangeAction, UserSecretChangeAction, UserLanguageChangeAction),
+  userSettingsChange$ = this.actions$.pipe(
+    ofAction(UserSettingsChangeAction),
     map(() => new UserSettingsSaveAction())
   );
 

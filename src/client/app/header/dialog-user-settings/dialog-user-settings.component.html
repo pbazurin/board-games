@@ -15,7 +15,7 @@
       <mat-form-field>
         <mat-select name="language" placeholder="{{ 'Language' | translate }}" [(ngModel)]="settings.language">
           <mat-option *ngFor="let language of settings.availableLanguages" [value]="language">
-            {{ 'preferences.language.' + language | translate }}
+            {{ languageNames[language] }}
           </mat-option>
         </mat-select>
       </mat-form-field>
