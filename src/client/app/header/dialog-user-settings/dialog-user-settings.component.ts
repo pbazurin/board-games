@@ -6,8 +6,8 @@ import { select, Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 
 import { GlobalState, UserSettings } from '../../store';
-import { UserSettingsChangeAction } from '../../store/app/app.actions';
-import { getUserSettings } from '../../store/app/app.reducer';
+import { UserSettingsChangeAction } from '../../store/app/user-settings/user-settings.actions';
+import { getUserSettings } from '../../store/app/user-settings/user-settings.reducer';
 
 @Component({
   selector: 'bg-dialog-user-settings',

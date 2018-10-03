@@ -3,6 +3,7 @@ import * as fromRouter from '@ngrx/router-store';
 import { RouterStateUrl } from './router.state';
 
 export interface UserSettings {
+  id: string;
   name: string;
   secret: string;
   language: string;

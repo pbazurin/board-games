@@ -16,7 +16,7 @@ import { CoreModule } from './core/core.module';
 import { HeaderModule } from './header/header.module';
 import { TranslateLoaderService } from './shared/services/translate-loader.service';
 import { CustomRouterStateSerializer, metaReducers, reducers } from './store';
-import { AppEffects } from './store/app/app.effects';
+import { effects } from './store/effects';
 
 const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument()] : [];
 
@@ -47,7 +47,7 @@ const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument(
      *
      * See: https://github.com/ngrx/platform/blob/master/docs/effects/api.md#forroot
      */
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot(effects),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
