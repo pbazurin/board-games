@@ -10,7 +10,7 @@ import { userSettingsReducer } from './app/user-settings/user-settings.reducer';
 import { AppState, GlobalState } from './state';
 
 const appReducers = [appStoreReducer, userSettingsReducer];
-function appReducer(state, action) {
+export function appReducer(state, action) {
   return reducerAgregator<AppState>(appReducers, state, action);
 }
 
