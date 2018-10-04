@@ -1,27 +1,21 @@
 <form (ngSubmit)="onSubmit()">
   <h2 mat-dialog-title>{{ 'Settings' | translate }}</h2>
   <mat-dialog-content>
-    <div>
-      <mat-form-field>
-        <input required matInput name="name" placeholder="{{ 'Name' | translate }}" [(ngModel)]="settings.name">
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field>
-        <input matInput name="secret" placeholder="{{ 'Secret' | translate }}" [(ngModel)]="settings.secret">
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field>
-        <mat-select name="language" placeholder="{{ 'Language' | translate }}" [(ngModel)]="settings.language">
-          <mat-option *ngFor="let language of settings.availableLanguages" [value]="language">
-            {{ languageNames[language] }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+    <mat-form-field fxFill>
+      <input required matInput name="name" placeholder="{{ 'Name' | translate }}" [(ngModel)]="settings.name">
+    </mat-form-field>
+    <mat-form-field fxFill>
+      <mat-select required name="language" placeholder="{{ 'Language' | translate }}" [(ngModel)]="settings.language">
+        <mat-option *ngFor="let language of settings.availableLanguages" [value]="language">
+          {{ languageNames[language] }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field fxFill>
+      <input required matInput name="secret" placeholder="{{ 'Secret word' | translate }}" [(ngModel)]="settings.secret">
+    </mat-form-field>
   </mat-dialog-content>
-  <mat-dialog-actions>
+  <mat-dialog-actions fxLayoutAlign="end">
     <button type="button" mat-button mat-dialog-close>{{ 'Cancel' | translate }}</button>
     <button type="submit" mat-button color="primary">{{ 'Save' | translate }}</button>
   </mat-dialog-actions>

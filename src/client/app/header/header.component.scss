@@ -1,5 +1,10 @@
 $brand-name-margin-left: 10px;
+$user-name-margin-left: 10px;
 
 .header__brand-name {
   margin-left: $brand-name-margin-left;
+}
+
+.header__user-name {
+  margin-left: $user-name-margin-left;
 }

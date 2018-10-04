@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ofAction } from 'ngrx-actions';
 
 import { environment } from '../../../../environments/environment';
+import { Utils } from '../../../shared/utils/utils';
 import { GlobalState, UserSettings } from '../../state';
 import { AppInitializeAction } from '../app.actions';
 import {
@@ -22,6 +23,7 @@ import {
 } from './user-settings.actions';
 import { getUserSettings } from './user-settings.reducer';
 import { sha256 } from 'js-sha256';
+import { generate as generateRandomName } from 'unique-names-generator';
 import { v4 } from 'uuid';
 
 @Injectable()
@@ -73,8 +75,8 @@ export class UserSettingsEffects {
     ofAction(UserSettingsGenerateNewAction),
     map(() => {
       let userSettings = <UserSettings>{
-        name: 'Player',
-        secret: v4(),
+        name: Utils.capitalizeString(generateRandomName(' ')),
+        secret: v4().replace(/-/g, ''),
         availableLanguages: environment.supportedLanguages,
         language: environment.supportedLanguages[0]
       };

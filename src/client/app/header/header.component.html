@@ -2,7 +2,8 @@
   <mat-icon svgIcon="icon-dice" class="header__brand-logo"></mat-icon>
   <span class="header__brand-name">Board Games</span>
   <span fxFlex></span>
-  <button mat-icon-button class="header_user-icon" (click)="openUserSettingsDialog()">
-    <mat-icon svgIcon="icon-user"></mat-icon>
+  <button mat-button (click)="openUserSettingsDialog()">
+    <mat-icon class="header__user-icon" svgIcon="icon-user"></mat-icon>
+    <span class="header__user-name">{{ userName$ | async }}</span>
   </button>
 </mat-toolbar>
