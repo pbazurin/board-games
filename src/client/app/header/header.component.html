@@ -1,5 +1,5 @@
-<mat-toolbar color="primary">
-  <header class="header">
+<mat-toolbar color="primary" class="header__container">
+  <div class="header__wrapper">
     <a mat-button class="header__brand-link" routerLink="/">
       <mat-icon svgIcon="icon-dice" class="header__brand-logo"></mat-icon>
       <span class="header__brand-name">Board Games</span>
@@ -18,5 +18,5 @@
       <mat-icon class="header__user-icon" svgIcon="icon-user"></mat-icon>
       <span class="header__user-name">{{ userName$ | async }}</span>
     </button>
-  </header>
+  </div>
 </mat-toolbar>

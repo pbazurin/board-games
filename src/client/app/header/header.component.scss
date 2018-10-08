@@ -1,10 +1,18 @@
 @import '../../css/mixins';
 
-$brand-name-margin-left: 10px;
+$brand-name-margin-left: 15px;
+$brand-logo-top: 7px;
+$brand-logo-left: 0px;
 $user-name-margin-left: 5px;
 
-.header {
+.header__wrapper {
   @include setFixedWidth;
+}
+
+.header__brand-logo {
+  position: absolute;
+  top: $brand-logo-top;
+  left: $brand-logo-left;
 }
 
 .header__brand-name {
