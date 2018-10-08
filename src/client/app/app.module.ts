@@ -11,9 +11,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { environment } from '../environments/environment';
+import { AboutModule } from './about/about.module';
 import { AppComponent } from './app.component';
+import { appRoutes } from './app.routes';
 import { CoreModule } from './core/core.module';
+import { GamesModule } from './games/games.module';
 import { HeaderModule } from './header/header.module';
+import { HomeModule } from './home/home.module';
 import { TranslateLoaderService } from './shared/services/translate-loader.service';
 import { CustomRouterStateSerializer, metaReducers, reducers } from './store';
 import { effects } from './store/effects';
@@ -25,7 +29,7 @@ const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument(
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule.forRoot(),
-    RouterModule.forRoot([]),
+    RouterModule.forRoot(appRoutes),
     /**
      * StoreModule.forRoot is imported once in the root module, accepting a reducer
      * function or object map of reducer functions. If passed an object of
@@ -54,7 +58,10 @@ const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument(
         useClass: TranslateLoaderService,
       }
     }),
-    HeaderModule
+    HeaderModule,
+    HomeModule,
+    GamesModule,
+    AboutModule
   ],
   declarations: [AppComponent],
   providers: [
