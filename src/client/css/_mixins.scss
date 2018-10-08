@@ -1,1 +1,6 @@
 @import './variables';
+
+@mixin setFixedWidth {
+  width: $document-width;
+  margin: auto;
+}

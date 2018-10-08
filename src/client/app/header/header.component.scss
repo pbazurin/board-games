@@ -1,26 +1,20 @@
-@import '../../css/theme';
+@import '../../css/mixins';
 
 $brand-name-margin-left: 10px;
-$brand-name-margin-right: 100px;
-$user-name-margin-left: 10px;
-$navigation-link-padding: 10px 30px;
+$user-name-margin-left: 5px;
+
+.header {
+  @include setFixedWidth;
+}
 
 .header__brand-name {
   margin-left: $brand-name-margin-left;
-  margin-right: $brand-name-margin-right;
+}
+
+.header__navigation-link--active {
+  text-decoration: underline;
 }
 
 .header__user-name {
   margin-left: $user-name-margin-left;
-}
-
-.header__navigation-link {
-  color: $light-primary-text;
-  padding: $navigation-link-padding;
-  text-decoration: none;
-}
-
-.header__navigation-link--active {
-  color: mat-color($app-primary);
-  background-color: mat-color($app-primary, '500-contrast');
 }

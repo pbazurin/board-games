@@ -1,20 +1,22 @@
-<mat-toolbar color="primary" class="header">
-  <mat-icon svgIcon="icon-dice" class="header__brand-logo"></mat-icon>
-  <span class="header__brand-name">Board Games</span>
-  <nav>
-    <a class="header__navigation-link" routerLink="home" routerLinkActive="header__navigation-link--active">
+<mat-toolbar color="primary">
+  <header class="header">
+    <a mat-button class="header__brand-link" routerLink="/">
+      <mat-icon svgIcon="icon-dice" class="header__brand-logo"></mat-icon>
+      <span class="header__brand-name">Board Games</span>
+    </a>
+    <a mat-button class="header__navigation-link" routerLink="/home" routerLinkActive="header__navigation-link--active">
       {{ 'Home' | translate }}
     </a>
-    <a class="header__navigation-link" routerLink="games" routerLinkActive="header__navigation-link--active">
+    <a mat-button class="header__navigation-link" routerLink="/games" routerLinkActive="header__navigation-link--active">
       {{ 'Games' | translate }}
     </a>
-    <a class="header__navigation-link" routerLink="about" routerLinkActive="header__navigation-link--active">
+    <a mat-button class="header__navigation-link" routerLink="/about" routerLinkActive="header__navigation-link--active">
       {{ 'About' | translate }}
     </a>
-  </nav>
-  <span fxFlex></span>
-  <button mat-button (click)="openUserSettingsDialog()">
-    <mat-icon class="header__user-icon" svgIcon="icon-user"></mat-icon>
-    <span class="header__user-name">{{ userName$ | async }}</span>
-  </button>
+    <span fxFlex></span>
+    <button mat-button (click)="openUserSettingsDialog()">
+      <mat-icon class="header__user-icon" svgIcon="icon-user"></mat-icon>
+      <span class="header__user-name">{{ userName$ | async }}</span>
+    </button>
+  </header>
 </mat-toolbar>

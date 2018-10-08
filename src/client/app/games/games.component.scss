@@ -1,0 +1,5 @@
+@import '../../css/mixins';
+
+.games__container {
+  @include setFixedWidth;
+}
