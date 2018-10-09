@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { SharedUIModule } from '../shared/ui/shared-ui.module';
+import { DialogNewGameComponent } from './dialog-new-game/dialog-new-game.component';
 import { GamesComponent } from './games.component';
 
 @NgModule({
@@ -8,7 +9,11 @@ import { GamesComponent } from './games.component';
     SharedUIModule
   ],
   declarations: [
-    GamesComponent
+    GamesComponent,
+    DialogNewGameComponent
+  ],
+  entryComponents: [
+    DialogNewGameComponent
   ],
   exports: [
     GamesComponent

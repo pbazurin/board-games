@@ -4,6 +4,13 @@ $brand-name-margin-left: 15px;
 $brand-logo-top: 7px;
 $brand-logo-left: 0px;
 $user-name-margin-left: 5px;
+$header-z-index: 1000;
+
+.header__container {
+  position: sticky;
+  top: 0;
+  z-index: $header-z-index;
+}
 
 .header__wrapper {
   @include setFixedWidth;

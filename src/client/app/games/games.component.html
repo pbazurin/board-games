@@ -1,5 +1,12 @@
 <div class="games__container">
-  <p>
-    games works!
-  </p>
+  <h1>{{ 'Running games list' | translate }}</h1>
+  <button mat-flat-button color="primary" (click)="openStartNewGameDialog()">{{ 'Start a new game' | translate }}</button>
+  <mat-list>
+    <mat-list-item *ngFor="let item of []">
+      <mat-icon mat-list-icon>folder</mat-icon>
+      <h4 mat-line>{{ item }}</h4>
+      <p mat-line> {{ item }}</p>
+    </mat-list-item>
+    <span>{{ 'No running games' | translate }}</span>
+  </mat-list>
 </div>

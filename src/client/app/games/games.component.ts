@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material';
+
+import { DialogNewGameComponent } from './dialog-new-game/dialog-new-game.component';
 
 @Component({
   selector: 'bg-games',
   templateUrl: './games.component.html',
   styleUrls: ['./games.component.scss']
 })
-export class GamesComponent implements OnInit {
+export class GamesComponent {
+  constructor(
+    private dialog: MatDialog
+  ) { }
 
-  constructor() { }
-
-  ngOnInit() {
+  openStartNewGameDialog() {
+    this.dialog.open(DialogNewGameComponent, { width: '300px' });
   }
-
 }

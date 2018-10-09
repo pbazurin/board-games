@@ -7,6 +7,7 @@ import {
   MatDialogModule,
   MatIconModule,
   MatInputModule,
+  MatListModule,
   MatSelectModule,
   MatToolbarModule,
 } from '@angular/material';
@@ -26,6 +27,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatDialogModule,
     MatInputModule,
     MatSelectModule,
+    MatListModule,
     TranslateModule,
     FlexLayoutModule,
   ]
