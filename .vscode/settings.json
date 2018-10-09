@@ -7,11 +7,15 @@
       "order": "asc"
     },
     {
+      "identifier": "/@nestjs/",
+      "order": "asc"
+    },
+    {
       "identifier": "/@ngrx/",
       "order": "asc"
     },
     {
-      "identifier": "/rxjs//",
+      "identifier": "/rxjs/?/",
       "order": "asc"
     },
     {

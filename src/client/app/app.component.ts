@@ -4,7 +4,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { Store } from '@ngrx/store';
 
-import { SharedModel } from '../../shared/shared.model';
 import { GlobalState } from './store';
 import { AppInitializeAction } from './store/app/app.actions';
 
@@ -14,8 +13,6 @@ import { AppInitializeAction } from './store/app/app.actions';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title: string;
-
   constructor(
     private store: Store<GlobalState>,
     private matIconRegistry: MatIconRegistry,
@@ -26,11 +23,5 @@ export class AppComponent implements OnInit {
     this.matIconRegistry.addSvgIconSet(this.domSanitizer.bypassSecurityTrustResourceUrl('./assets/svg/sprite.svg'));
 
     this.store.dispatch(new AppInitializeAction());
-
-    const sharedModel = <SharedModel>{
-      test: 'ta-ta'
-    };
-
-    this.title = sharedModel.test;
   }
 }
