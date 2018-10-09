@@ -18,7 +18,8 @@ export class GamesService {
             name: 'Test player 1'
           }
         ],
-        type: GameType.TestGame
+        type: GameType.TestGame,
+        createdOn: new Date()
       },
       {
         id: v4(),
@@ -32,7 +33,8 @@ export class GamesService {
             name: 'Test player 3'
           }
         ],
-        type: GameType.TestGame
+        type: GameType.TestGame,
+        createdOn: new Date()
       },
     ];
 

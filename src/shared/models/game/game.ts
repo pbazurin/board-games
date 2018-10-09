@@ -5,4 +5,5 @@ export interface Game {
   id: string;
   type: GameType;
   players: Player[];
+  createdOn: Date;
 }
