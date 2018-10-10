@@ -1,4 +1,4 @@
 export enum GameType {
-  Unknown = 0,
-  TestGame = 1
+  TestGame = 'Test game',
+  Munchkin = 'Munchkin'
 }

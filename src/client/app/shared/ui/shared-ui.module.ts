@@ -8,7 +8,9 @@ import {
   MatIconModule,
   MatInputModule,
   MatListModule,
+  MatProgressSpinnerModule,
   MatSelectModule,
+  MatSnackBarModule,
   MatToolbarModule,
 } from '@angular/material';
 
@@ -28,6 +30,8 @@ import { TranslateModule } from '@ngx-translate/core';
     MatInputModule,
     MatSelectModule,
     MatListModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
     TranslateModule,
     FlexLayoutModule,
   ]

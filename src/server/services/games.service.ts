@@ -12,28 +12,16 @@ export class GamesService {
     const games = <Game[]>[
       {
         id: v4(),
-        players: [
-          {
-            id: v4(),
-            name: 'Test player 1'
-          }
-        ],
+        playerIds: [v4(), v4()],
+        authorPlayerId: v4(),
         type: GameType.TestGame,
         createdOn: new Date()
       },
       {
         id: v4(),
-        players: [
-          {
-            id: v4(),
-            name: 'Test player 2'
-          },
-          {
-            id: v4(),
-            name: 'Test player 3'
-          }
-        ],
-        type: GameType.TestGame,
+        playerIds: [v4(), v4(), v4()],
+        authorPlayerId: v4(),
+        type: GameType.Munchkin,
         createdOn: new Date()
       },
     ];

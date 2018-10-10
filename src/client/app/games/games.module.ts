@@ -4,6 +4,7 @@ import { SharedUIModule } from '../shared/ui/shared-ui.module';
 import { DialogNewGameComponent } from './dialog-new-game/dialog-new-game.component';
 import { GamesComponent } from './games.component';
 import { GamesService } from './games.service';
+import { ListGamesComponent } from './list-games/list-games.component';
 
 @NgModule({
   imports: [
@@ -11,7 +12,8 @@ import { GamesService } from './games.service';
   ],
   declarations: [
     GamesComponent,
-    DialogNewGameComponent
+    DialogNewGameComponent,
+    ListGamesComponent
   ],
   entryComponents: [
     DialogNewGameComponent

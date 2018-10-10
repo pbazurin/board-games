@@ -1,19 +1,13 @@
 <form (ngSubmit)="onSubmit()">
   <h2 mat-dialog-title>{{ 'Start a new game' | translate }}</h2>
   <mat-dialog-content>
-    <!-- <mat-form-field fxFill>
-      <input required matInput name="name" placeholder="{{ 'Name' | translate }}" [(ngModel)]="settings.name">
-    </mat-form-field>
     <mat-form-field fxFill>
-      <mat-select required name="language" placeholder="{{ 'Language' | translate }}" [(ngModel)]="settings.language">
-        <mat-option *ngFor="let language of settings.availableLanguages" [value]="language">
-          {{ languageNames[language] }}
+      <mat-select required name="gameType" placeholder="{{ 'Game type' | translate }}" [(ngModel)]="selectedGameType">
+        <mat-option *ngFor="let gameType of gameTypes" [value]="gameType">
+          {{ gameType | translate }}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field fxFill>
-      <input required matInput name="secret" placeholder="{{ 'Secret word' | translate }}" [(ngModel)]="settings.secret">
-    </mat-form-field> -->
   </mat-dialog-content>
   <mat-dialog-actions fxLayoutAlign="end">
     <button type="button" mat-button mat-dialog-close>{{ 'Cancel' | translate }}</button>

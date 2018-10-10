@@ -1,13 +1,5 @@
 <div class="games__container">
   <h1>{{ 'Running games list' | translate }}</h1>
   <button mat-flat-button color="primary" (click)="openStartNewGameDialog()">{{ 'Start a new game' | translate }}</button>
-  <mat-list>
-    <mat-list-item *ngFor="let game of games">
-      <div fxFlex>{{ game.id }}</div>
-      <div fxFlex>{{ game.type }}</div>
-      <div fxFlex>{{ game.players.length }} player(s)</div>
-      <div fxFlex>{{ game.createdOn | date }}</div>
-    </mat-list-item>
-    <span *ngIf="!games.length">{{ 'No running games' | translate }}</span>
-  </mat-list>
+  <bg-list-games></bg-list-games>
 </div>

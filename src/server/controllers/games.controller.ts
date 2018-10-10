@@ -2,8 +2,8 @@ import { Controller, Get } from '@nestjs/common';
 
 import { Observable } from 'rxjs';
 
-import { GamesService } from '../services/games.service';
 import { Game } from '../../shared/models/game/game';
+import { GamesService } from '../services/games.service';
 
 @Controller('api/games')
 export class GamesController {
