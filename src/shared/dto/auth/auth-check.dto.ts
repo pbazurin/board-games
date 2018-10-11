@@ -1,4 +1,4 @@
-export interface AuthCheck {
+export interface AuthCheckDto {
   secretWord: string;
   userId: string;
 }

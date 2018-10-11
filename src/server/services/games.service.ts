@@ -1,31 +1,36 @@
 import { Injectable } from '@nestjs/common';
 
-import { Observable, of } from 'rxjs';
-
-import { Game } from '../../shared/models/game/game';
-import { GameType } from '../../shared/models/game/game-type.enum';
+import { GameDto } from '../../shared/dto/game/game.dto';
+import { AddGameRequest } from '../models/game/add-game-request';
 import { v4 } from 'uuid';
 
 @Injectable()
 export class GamesService {
-  getRunningGames(): Observable<Game[]> {
-    const games = <Game[]>[
-      {
-        id: v4(),
-        playerIds: [v4(), v4()],
-        authorPlayerId: v4(),
-        type: GameType.TestGame,
-        createdOn: new Date()
-      },
-      {
-        id: v4(),
-        playerIds: [v4(), v4(), v4()],
-        authorPlayerId: v4(),
-        type: GameType.Munchkin,
-        createdOn: new Date()
-      },
-    ];
+  private games: GameDto[] = [];
 
-    return of(games);
+  getRunningGames(): Promise<GameDto[]> {
+    return new Promise(resolve => resolve(this.games));
+  }
+
+  addNewGame(request: AddGameRequest): Promise<boolean> {
+    return new Promise(resolve => {
+      this.games.push({
+        id: v4(),
+        authorPlayerId: request.authorPlayerId,
+        createdOn: new Date(),
+        playerIds: [],
+        type: request.gameType
+      });
+
+      resolve(true);
+    });
+  }
+
+  stopGame(gameIdToStop: string): Promise<boolean> {
+    return new Promise(resolve => {
+      this.games = this.games.filter(g => g.id !== gameIdToStop);
+
+      resolve(true);
+    });
   }
 }

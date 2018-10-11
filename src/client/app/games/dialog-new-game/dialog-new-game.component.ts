@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 
-import { GameType } from '../../../../shared/models/game/game-type.enum';
+import { GameType } from '../../../../shared/dto/game/game-type.enum';
+import { GamesService } from '../games.service';
 
 @Component({
   selector: 'bg-dialog-new-game',
@@ -12,10 +13,12 @@ export class DialogNewGameComponent {
   selectedGameType: GameType = this.gameTypes[0];
 
   constructor(
-    private dialogRef: MatDialogRef<DialogNewGameComponent>
+    private dialogRef: MatDialogRef<DialogNewGameComponent>,
+    private gamesService: GamesService
   ) { }
 
   onSubmit() {
-    this.dialogRef.close();
+    this.gamesService.startNewGame(this.selectedGameType)
+      .subscribe(() => this.dialogRef.close());
   }
 }

@@ -4,8 +4,8 @@ import { MatSnackBar } from '@angular/material';
 import { interval, Subject } from 'rxjs';
 import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
-import { Game } from '../../../../shared/models/game/game';
-import { GameType } from '../../../../shared/models/game/game-type.enum';
+import { GameType } from '../../../../shared/dto/game/game-type.enum';
+import { GameDto } from '../../../../shared/dto/game/game.dto';
 import { GamesService } from '../games.service';
 
 @Component({
@@ -16,7 +16,7 @@ import { GamesService } from '../games.service';
 export class ListGamesComponent implements OnInit, OnDestroy {
   gameType = GameType;
   isLoading = false;
-  games: Game[] = [];
+  games: GameDto[] = [];
 
   private tearDown$ = new Subject();
 
