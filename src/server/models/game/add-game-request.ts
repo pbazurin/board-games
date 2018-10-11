@@ -1,4 +1,4 @@
-import { GameType } from '../../../shared/dto/game/game-type.enum';
+import { GameType } from '@dto/game/game-type.enum';
 
 export class AddGameRequest {
   gameType: GameType;

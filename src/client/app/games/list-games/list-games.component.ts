@@ -4,9 +4,9 @@ import { MatSnackBar } from '@angular/material';
 import { interval, Subject } from 'rxjs';
 import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
-import { GameType } from '../../../../shared/dto/game/game-type.enum';
-import { GameDto } from '../../../../shared/dto/game/game.dto';
 import { GamesService } from '../games.service';
+import { GameType } from '@dto/game/game-type.enum';
+import { GameDto } from '@dto/game/game.dto';
 
 @Component({
   selector: 'bg-list-games',

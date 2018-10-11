@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { AddGameDto } from '../../../shared/dto/game/add-game.dto';
-import { GameType } from '../../../shared/dto/game/game-type.enum';
-import { GameDto } from '../../../shared/dto/game/game.dto';
+import { AddGameDto } from '@dto/game/add-game.dto';
+import { GameType } from '@dto/game/game-type.enum';
+import { GameDto } from '@dto/game/game.dto';
 
 @Injectable()
 export class GamesService {
