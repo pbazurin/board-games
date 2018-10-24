@@ -2,9 +2,9 @@ import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 
 @WebSocketGateway('socket.io')
 export class HomeGateway {
-  @SubscribeMessage('ping')
+  @SubscribeMessage('hello')
   onPing(): any {
     console.log('event');
-    return { event: 'pong' };
+    return { event: 'world' };
   }
 }

@@ -29,8 +29,8 @@ export class AppComponent implements OnInit {
         console.log('ws connected');
 
         this.socketService.socket
-          .on('pong', () => console.log('pong'))
-          .emit('ping');
+          .on('world', () => console.log('Hello world'))
+          .emit('hello');
       });
 
     this.store.dispatch(new AppInitializeAction());
