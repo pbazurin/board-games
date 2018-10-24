@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
 import { SharedUIModule } from '../shared/ui/shared-ui.module';
+import { SocketService } from './services/socket.service';
 
 @NgModule({
   declarations: [],
@@ -16,7 +17,9 @@ export class CoreModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreModule,
-      providers: [],
+      providers: [
+        SocketService
+      ],
     };
   }
 

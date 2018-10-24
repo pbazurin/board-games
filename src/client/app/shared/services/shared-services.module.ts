@@ -9,7 +9,7 @@ import { TranslateLoaderService } from './translate-loader.service';
   exports: [],
   declarations: [],
   providers: [
-    TranslateLoaderService,
+    TranslateLoaderService
   ],
 })
 export class SharedServicesModule { }
