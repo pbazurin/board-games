@@ -62,7 +62,7 @@ export class UserSettingsEffects {
 
       userSettings.availableLanguages = environment.supportedLanguages;
 
-      if (!userSettings.name || !userSettings.secret || !userSettings.id || !userSettings.language) {
+      if (!userSettings.name || !userSettings.password || !userSettings.id || !userSettings.language) {
         return new UserSettingsGenerateNewAction();
       }
 
@@ -76,12 +76,12 @@ export class UserSettingsEffects {
     map(() => {
       let userSettings = <UserSettings>{
         name: Utils.capitalizeString(generateRandomName(' ')),
-        secret: v4().replace(/-/g, ''),
+        password: v4().replace(/-/g, ''),
         availableLanguages: environment.supportedLanguages,
         language: environment.supportedLanguages[0]
       };
 
-      userSettings.id = sha256(userSettings.secret);
+      userSettings.id = sha256(userSettings.password);
 
       return new UserSettingsGenerateNewCompleteAction(userSettings);
     })

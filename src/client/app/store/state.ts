@@ -5,7 +5,7 @@ import { RouterStateUrl } from './router.state';
 export interface UserSettings {
   id: string;
   name: string;
-  secret: string;
+  password: string;
   language: string;
   availableLanguages: string[];
 }

@@ -1,4 +1,4 @@
 export interface AuthCheckDto {
-  secretWord: string;
+  password: string;
   userId: string;
 }

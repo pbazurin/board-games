@@ -24,9 +24,9 @@ export class UserSettingsStore {
       userSettings: {
         ...state.userSettings,
         name: action.payload.name,
-        secret: action.payload.secret,
+        password: action.payload.password,
         language: action.payload.language,
-        id: sha256(action.payload.secret)
+        id: sha256(action.payload.password)
       }
     };
   }
@@ -38,6 +38,3 @@ export function userSettingsReducer(state, action) {
 
 export const getUserSettings = createSelector(getMainState, state => state.userSettings);
 export const getUserName = createSelector(getUserSettings, state => state.name);
-export const getUserSecret = createSelector(getUserSettings, state => state.secret);
-export const getUserAvailableLanguages = createSelector(getUserSettings, state => state.availableLanguages);
-export const getUserLanguage = createSelector(getUserSettings, state => state.language);
