@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { SocketService } from './core/services/socket.service';
 import { GlobalState } from './store';
 import { AppInitializeAction } from './store/app/app.actions';
+import { ConnectionIdGeneratedSuccessfullyAction, GenerateConnectionIdAction } from '@dto/auth/auth-actions';
 
 @Component({
   selector: 'bg-root',
@@ -28,9 +29,9 @@ export class AppComponent implements OnInit {
       .on('connect', () => {
         console.log('ws connected');
 
-        this.socketService.socket
-          .on('world', () => console.log('Hello world'))
-          .emit('hello');
+        this.socketService
+          .on(ConnectionIdGeneratedSuccessfullyAction, action => console.log(action.connectionId))
+          .emit(new GenerateConnectionIdAction('name', 'password'));
       });
 
     this.store.dispatch(new AppInitializeAction());
