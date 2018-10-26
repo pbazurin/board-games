@@ -22,7 +22,9 @@ import {
   UserSettingsSaveCompleteAction,
 } from './user-settings.actions';
 import { getUserSettings } from './user-settings.reducer';
+import { AuthConnectionIdGeneratedAction, AuthGenerateConnectionIdAction } from '@dto/auth/auth-actions';
 import { sha256 } from 'js-sha256';
+import { SocketService } from 'src/client/app/core/services/socket.service';
 import { generate as generateRandomName } from 'unique-names-generator';
 import { v4 } from 'uuid';
 
@@ -33,7 +35,8 @@ export class UserSettingsEffects {
   constructor(
     private translate: TranslateService,
     private store: Store<GlobalState>,
-    private actions$: Actions
+    private actions$: Actions,
+    private socketService: SocketService
   ) { }
 
   @Effect()
@@ -99,6 +102,10 @@ export class UserSettingsEffects {
     map(action => {
       this.translate.addLangs(action.payload.availableLanguages);
       this.translate.use(action.payload.language);
+
+      this.socketService
+        .on(AuthConnectionIdGeneratedAction, action => console.log(action.connectionId))
+        .emit(new AuthGenerateConnectionIdAction(action.payload.id, action.payload.password));
     })
   );
 
