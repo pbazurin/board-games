@@ -8,19 +8,27 @@ import * as io from 'socket.io-client';
 export class SocketService {
   socket: SocketIOClient.Socket;
 
-  connect(): SocketIOClient.Socket {
+  connect(): SocketService {
     this.socket = io();
 
-    return this.socket;
+    return this;
   }
 
   emit<T extends Action>(action: T): SocketService {
+    if (!this.socket) {
+      throw new Error('Socket is not connected');
+    }
+
     this.socket.emit(action.type, action);
 
     return this;
   }
 
   on<T extends Action>(A: new (...args) => T, handler: (action: T) => void): SocketService {
+    if (!this.socket) {
+      throw new Error('Socket is not connected');
+    }
+
     const action = new A();
 
     this.socket.on(action.type, handler);

@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 
 import { GamesController } from './controllers/games.controller';
 import { AuthGateway } from './gateways/auth.gateway';
-import { HomeGateway } from './gateways/home.gateway';
 import { GamesService } from './services/games.service';
 
 @Module({
@@ -12,7 +11,6 @@ import { GamesService } from './services/games.service';
   ],
   providers: [
     GamesService,
-    HomeGateway,
     AuthGateway
   ],
 })

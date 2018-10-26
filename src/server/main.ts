@@ -1,4 +1,4 @@
-import { NestFactory, HTTP_SERVER_REF } from '@nestjs/core';
+import { HTTP_SERVER_REF, NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app.module';
 import { config } from './config';
@@ -14,6 +14,6 @@ async function bootstrap() {
 
   app.useStaticAssets(config.staticAssetsDirPath);
 
-  await app.listen(process.env.PORT || config.port);
+  await app.listen(process.env.PORT || config.defaultPort);
 }
 bootstrap();

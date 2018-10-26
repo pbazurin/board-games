@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { SocketService } from './core/services/socket.service';
 import { GlobalState } from './store';
 import { AppInitializeAction } from './store/app/app.actions';
-import { ConnectionIdGeneratedSuccessfullyAction, GenerateConnectionIdAction } from '@dto/auth/auth-actions';
+import { AuthConnectionIdGeneratedAction, AuthGenerateConnectionIdAction } from '@dto/auth/auth-actions';
 
 @Component({
   selector: 'bg-root',
@@ -25,13 +25,13 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.matIconRegistry.addSvgIconSet(this.domSanitizer.bypassSecurityTrustResourceUrl('./assets/svg/sprite.svg'));
 
-    this.socketService.connect()
+    this.socketService.connect().socket
       .on('connect', () => {
         console.log('ws connected');
 
         this.socketService
-          .on(ConnectionIdGeneratedSuccessfullyAction, action => console.log(action.connectionId))
-          .emit(new GenerateConnectionIdAction('name', 'password'));
+          .on(AuthConnectionIdGeneratedAction, action => console.log(action.connectionId))
+          .emit(new AuthGenerateConnectionIdAction('name', 'password'));
       });
 
     this.store.dispatch(new AppInitializeAction());

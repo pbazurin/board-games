@@ -1,13 +1,13 @@
 import { WebSocketGateway } from '@nestjs/websockets';
 
+import { AuthConnectionIdGeneratedAction, AuthGenerateConnectionIdAction } from '../../shared/dto/auth/auth-actions';
 import { toResponse } from '../converters/action.converter';
 import { SubscribeAction } from '../utils/subscribe-action.decorator';
-import { ConnectionIdGeneratedSuccessfullyAction, GenerateConnectionIdAction } from '@dto/auth/auth-actions';
 
-@WebSocketGateway('socket.io')
+@WebSocketGateway()
 export class AuthGateway {
-  @SubscribeAction(GenerateConnectionIdAction)
-  onGenerateConnectionIdAction(): any {
-    return toResponse(new ConnectionIdGeneratedSuccessfullyAction('testConnectionId'));
+  @SubscribeAction(AuthGenerateConnectionIdAction)
+  onGenerateConnectionId(): any {
+    return toResponse(new AuthConnectionIdGeneratedAction('testConnectionId'));
   }
 }
