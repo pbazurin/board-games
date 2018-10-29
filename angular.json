@@ -39,6 +39,10 @@
                 {
                   "replace": "src/client/environments/environment.ts",
                   "with": "src/client/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "src/client/index.html",
+                  "with": "src/client/index.prod.html"
                 }
               ],
               "optimization": true,

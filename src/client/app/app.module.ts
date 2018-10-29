@@ -23,6 +23,7 @@ import { rollbarFactory, RollbarService } from './shared/error/rollbar';
 import { TranslateLoaderService } from './shared/services/translate-loader.service';
 import { CustomRouterStateSerializer, metaReducers, reducers } from './store';
 import { effects } from './store/effects';
+import { Angulartics2Module } from 'angulartics2';
 
 const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument()] : [];
 
@@ -60,6 +61,7 @@ const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument(
         useClass: TranslateLoaderService,
       }
     }),
+    Angulartics2Module.forRoot(),
     HeaderModule,
     HomeModule,
     GamesModule,
