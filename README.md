@@ -1,10 +1,12 @@
 <p align="center">
-  ![Alt text](/src/client/assets/images/board-games.jpg?raw=true)
+  ![Logo](src/client/assets/images/board-games.jpg)
 </p>
 
 # Board Games
 
-Free and opensource project that allows you to play most of the board games online.
+Free opensource portal that allows you to play most of the board games online.
+
+
 Currently supported games:
 * Test (in progress)
 
@@ -28,4 +30,4 @@ Powered by [Heroku](https://www.heroku.com/)
 
 # License
 
-[MIT](LICENSE).
+[MIT](LICENSE)
