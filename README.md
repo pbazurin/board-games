@@ -1,6 +1,12 @@
+<p align="center">
+  ![Alt text](/src/client/assets/images/board-games.jpg?raw=true)
+</p>
+
 # Board Games
 
-Online portal for board games
+Free and opensource project that allows you to play most of the board games online.
+Currently supported games:
+* Test (in progress)
 
 # Demo
 
@@ -15,6 +21,11 @@ Powered by [Heroku](https://www.heroku.com/)
 * @ngrx store ([https://github.com/ngrx/store](https://github.com/ngrx/store))
 * @ngx-translate localization ([https://github.com/ngx-translate](https://github.com/ngx-translate))
 
+# Monitoring
+
+* Rollbar ([https://rollbar.com/](https://rollbar.com/))
+* Google analytics ([https://analytics.google.com/analytics/web/](https://analytics.google.com/analytics/web/))
+
 # License
 
-MIT
+[MIT](LICENSE).
