@@ -1,6 +1,4 @@
-<p align="center">
 ![Logo](src/client/assets/images/board-games.jpg)
-</p>
 
 # Board Games
 
