@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -18,6 +18,8 @@ import { CoreModule } from './core/core.module';
 import { GamesModule } from './games/games.module';
 import { HeaderModule } from './header/header.module';
 import { HomeModule } from './home/home.module';
+import { CustomErrorHandler } from './shared/error/custom-error-handler';
+import { rollbarFactory, RollbarService } from './shared/error/rollbar';
 import { TranslateLoaderService } from './shared/services/translate-loader.service';
 import { CustomRouterStateSerializer, metaReducers, reducers } from './store';
 import { effects } from './store/effects';
@@ -74,6 +76,14 @@ const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument(
       provide: RouterStateSerializer,
       useClass: CustomRouterStateSerializer,
     },
+    {
+      provide: ErrorHandler,
+      useClass: CustomErrorHandler,
+    },
+    {
+      provide: RollbarService,
+      useFactory: rollbarFactory
+    }
   ],
   bootstrap: [AppComponent]
 })

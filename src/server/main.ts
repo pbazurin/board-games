@@ -7,11 +7,15 @@ import { NotFoundExceptionsFilter } from './filters/not-found-exceptions.filter'
 import * as Rollbar from 'rollbar';
 
 async function bootstrap() {
-  const rollbar = new Rollbar({
-    accessToken: config.rollbarAccessToken,
-    captureUncaught: true,
-    captureUnhandledRejections: true
-  });
+  let rollbar: Rollbar;
+
+  if (config.rollbarAccessToken) {
+    rollbar = new Rollbar({
+      accessToken: config.rollbarAccessToken,
+      captureUncaught: true,
+      captureUnhandledRejections: true
+    });
+  }
 
   const app = await NestFactory.create(AppModule);
 

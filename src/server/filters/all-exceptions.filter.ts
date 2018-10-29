@@ -13,7 +13,9 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
   }
 
   catch(exception: any, host: ArgumentsHost) {
-    this.rollbar.error(exception);
+    if (this.rollbar) {
+      this.rollbar.error(exception);
+    }
 
     console.log(JSON.stringify(exception));
 
