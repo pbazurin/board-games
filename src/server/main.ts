@@ -4,16 +4,23 @@ import { AppModule } from './app.module';
 import { config } from './config';
 import { AllExceptionsFilter } from './filters/all-exceptions.filter';
 import { NotFoundExceptionsFilter } from './filters/not-found-exceptions.filter';
+import * as Rollbar from 'rollbar';
 
 async function bootstrap() {
+  const rollbar = new Rollbar({
+    accessToken: config.rollbarAccessToken,
+    captureUncaught: true,
+    captureUnhandledRejections: true
+  });
+
   const app = await NestFactory.create(AppModule);
 
   const httpRef = app.get(HTTP_SERVER_REF);
-  app.useGlobalFilters(new AllExceptionsFilter(httpRef));
+  app.useGlobalFilters(new AllExceptionsFilter(httpRef, rollbar));
   app.useGlobalFilters(new NotFoundExceptionsFilter(httpRef));
 
   app.useStaticAssets(config.staticAssetsDirPath);
 
-  await app.listen(process.env.PORT || config.defaultPort);
+  await app.listen(config.port);
 }
 bootstrap();

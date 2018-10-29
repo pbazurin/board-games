@@ -47,6 +47,7 @@
     "ngrx-actions": "^4.0.0",
     "ngrx-store-freeze": "^0.2.4",
     "reflect-metadata": "^0.1.12",
+    "rollbar": "^2.5.0",
     "rxjs": "~6.2.0",
     "typescript": "~2.9.2",
     "unique-names-generator": "^1.0.13",

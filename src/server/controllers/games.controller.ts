@@ -15,6 +15,13 @@ export class GamesController {
     return this.gamesService.getRunningGames();
   }
 
+  // TODO: remove
+  @Get('error')
+  getError(): void {
+    const c = null;
+    const d = c.test;
+  }
+
   @Post()
   @HttpCode(204)
   startNewGame(@Body() addGameDto: AddGameDto): Promise<boolean> {
