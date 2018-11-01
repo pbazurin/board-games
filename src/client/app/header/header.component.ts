@@ -1,32 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
-import { Store } from '@ngrx/store';
-
-import { Observable } from 'rxjs';
-
-import { GlobalState } from '../store';
-import { getUserName } from '../store/app/user-settings/user-settings.reducer';
-import { DialogUserSettings } from './dialog-user-settings/dialog-user-settings.component';
+import { DialogAboutComponent } from './dialog-about/dialog-about.component';
+import { DialogUserSettingsComponent } from './dialog-user-settings/dialog-user-settings.component';
 
 @Component({
   selector: 'bg-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
-  userName$: Observable<string>;
-
+export class HeaderComponent {
   constructor(
     private dialog: MatDialog,
-    private store: Store<GlobalState>
   ) { }
 
-  ngOnInit() {
-    this.userName$ = this.store.select(getUserName);
+  openUserSettingsDialog() {
+    this.dialog.open(DialogUserSettingsComponent, { width: '400px' });
   }
 
-  openUserSettingsDialog() {
-    this.dialog.open(DialogUserSettings, { width: '400px' });
+  openAboutDialog() {
+    this.dialog.open(DialogAboutComponent, { width: '500px' });
   }
 }

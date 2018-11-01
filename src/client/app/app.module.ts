@@ -11,7 +11,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { environment } from '../environments/environment';
-import { AboutModule } from './about/about.module';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { CoreModule } from './core/core.module';
@@ -64,8 +63,7 @@ const storeDevtools = !environment.production ? [StoreDevtoolsModule.instrument(
     Angulartics2Module.forRoot(),
     HeaderModule,
     HomeModule,
-    GamesModule,
-    AboutModule
+    GamesModule
   ],
   declarations: [AppComponent],
   providers: [

@@ -13,7 +13,7 @@ import { getUserSettings } from '../../store/app/user-settings/user-settings.red
   selector: 'bg-dialog-user-settings',
   templateUrl: 'dialog-user-settings.component.html'
 })
-export class DialogUserSettings implements OnInit {
+export class DialogUserSettingsComponent implements OnInit {
   languageNames = {
     'en': 'English',
     'ru': 'Русский',
@@ -23,7 +23,7 @@ export class DialogUserSettings implements OnInit {
 
   constructor(
     private store: Store<GlobalState>,
-    private dialogRef: MatDialogRef<DialogUserSettings>
+    private dialogRef: MatDialogRef<DialogUserSettingsComponent>
   ) { }
 
   ngOnInit() {

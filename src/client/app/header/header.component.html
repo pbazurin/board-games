@@ -7,16 +7,16 @@
     <a mat-button class="header__navigation-link" routerLink="/home" routerLinkActive="header__navigation-link--active">
       {{ 'Home' | translate }}
     </a>
-    <a mat-button class="header__navigation-link" routerLink="/games" routerLinkActive="header__navigation-link--active">
+    <a mat-button class="header__navigation-link" routerLink="/games" routerLinkActive="header__navigation-link--active"
+      [routerLinkActiveOptions]="{exact: true}">
       {{ 'Games' | translate }}
     </a>
-    <a mat-button class="header__navigation-link" routerLink="/about" routerLinkActive="header__navigation-link--active">
-      {{ 'About us' | translate }}
-    </a>
     <span fxFlex></span>
-    <button mat-button (click)="openUserSettingsDialog()">
+    <button mat-icon-button (click)="openAboutDialog()">
+      <mat-icon class="header__user-icon" svgIcon="icon-info"></mat-icon>
+    </button>
+    <button mat-icon-button (click)="openUserSettingsDialog()">
       <mat-icon class="header__user-icon" svgIcon="icon-user"></mat-icon>
-      <span class="header__user-name">{{ userName$ | async }}</span>
     </button>
   </div>
 </mat-toolbar>

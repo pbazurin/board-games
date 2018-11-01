@@ -1,12 +1,6 @@
-@import '../../css/mixins';
-
 $about-contact-item-line-height: 40px;
 $about-contact-item-icon-top: 5px;
-$about-contact-item-name-margin-left: 30px;
-
-.about__container {
-  @include setFixedWidth;
-}
+$about-contact-item-icon-left: -30px;
 
 .about__list {
   list-style: none;
@@ -20,9 +14,9 @@ $about-contact-item-name-margin-left: 30px;
 .about__list-item-icon {
   position: absolute;
   top: $about-contact-item-icon-top;
+  left: $about-contact-item-icon-left;
 }
 
 .about__list-item-name {
   text-decoration: none;
-  margin-left: $about-contact-item-name-margin-left;
 }

@@ -1,8 +1,12 @@
 @import '../../css/mixins';
 
+$brand-link-margin-right: 30px;
 $brand-name-margin-left: 15px;
+$brand-name-font-size: 20px;
 $brand-logo-top: 7px;
 $brand-logo-left: 0px;
+$navigation-link-font-size: 16px;
+$navigation-link-padding-top: 2px;
 $user-name-margin-left: 5px;
 $header-z-index: 1000;
 
@@ -16,6 +20,10 @@ $header-z-index: 1000;
   @include setFixedWidth;
 }
 
+.header__brand-link {
+  margin-right: $brand-link-margin-right;
+}
+
 .header__brand-logo {
   position: absolute;
   top: $brand-logo-top;
@@ -23,7 +31,13 @@ $header-z-index: 1000;
 }
 
 .header__brand-name {
+  font-size: $brand-name-font-size;
   margin-left: $brand-name-margin-left;
+}
+
+.header__navigation-link {
+  font-size: $navigation-link-font-size;
+  padding-top: $navigation-link-padding-top;
 }
 
 .header__navigation-link--active {

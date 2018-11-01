@@ -1,5 +1,5 @@
-<div class="about__container">
-  <h1>{{ 'About us' | translate }}</h1>
+<h2 mat-dialog-title>{{ 'About us' | translate }}</h2>
+<mat-dialog-content>
   <p>{{ 'This is onesource' | translate }}</p>
   <p>{{ 'Feel free to contact us' | translate }}</p>
   <ul class="about__list">
@@ -16,4 +16,7 @@
       <a class="about__list-item-name" href="mailto:petr.bazurin@gmail.com">petr.bazurin@gmail.com</a>
     </li>
   </ul>
-</div>
+</mat-dialog-content>
+<mat-dialog-actions fxLayoutAlign="end">
+  <button type="button" mat-button mat-dialog-close>{{ 'Close' | translate }}</button>
+</mat-dialog-actions>

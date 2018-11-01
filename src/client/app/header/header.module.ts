@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SharedUIModule } from '../shared/ui/shared-ui.module';
-import { DialogUserSettings } from './dialog-user-settings/dialog-user-settings.component';
+import { DialogAboutComponent } from './dialog-about/dialog-about.component';
+import { DialogUserSettingsComponent } from './dialog-user-settings/dialog-user-settings.component';
 import { HeaderComponent } from './header.component';
 
 @NgModule({
@@ -12,9 +13,13 @@ import { HeaderComponent } from './header.component';
   ],
   declarations: [
     HeaderComponent,
-    DialogUserSettings
+    DialogUserSettingsComponent,
+    DialogAboutComponent
   ],
-  entryComponents: [DialogUserSettings],
+  entryComponents: [
+    DialogUserSettingsComponent,
+    DialogAboutComponent
+  ],
   exports: [
     HeaderComponent
   ]
