@@ -2,37 +2,50 @@ import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
 
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+
 import * as io from 'socket.io-client';
 
 @Injectable()
 export class SocketService {
-  socket: SocketIOClient.Socket;
+  private socket: SocketIOClient.Socket;
+  private onAnyEvent = new Subject();
 
-  connect(): SocketService {
+  isConnected$ = new BehaviorSubject<boolean>(false);
+
+  constructor() {
     this.socket = io();
+    this.socket.on('connect', () => this.isConnected$.next(true));
+    this.socket.on('disconnect', () => this.isConnected$.next(false));
 
-    return this;
+    this.patchWildcardEvent();
   }
 
-  emit<T extends Action>(action: T): SocketService {
-    if (!this.socket) {
-      throw new Error('Socket is not connected');
-    }
-
+  emit<T extends Action>(action: T) {
     this.socket.emit(action.type, action);
-
-    return this;
   }
 
-  on<T extends Action>(A: new (...args) => T, handler: (action: T) => void): SocketService {
-    if (!this.socket) {
-      throw new Error('Socket is not connected');
-    }
+  listen<T extends Action>(A: new (...args) => T): Observable<any> {
+    return new Observable(observer => {
+      const action = new A();
+      this.socket.on(action.type, data => {
+        observer.next(data);
+      });
 
-    const action = new A();
+      return () => this.socket.off(action.type);
+    });
+  }
 
-    this.socket.on(action.type, handler);
+  listenAll(): Observable<any> {
+    return this.onAnyEvent.asObservable();
+  }
 
-    return this;
+  private patchWildcardEvent() {
+    const oldOnEvent = this.socket['onevent'];
+    const that = this;
+    this.socket['onevent'] = function () {
+      that.onAnyEvent.next(arguments[0].data[1]);
+      oldOnEvent.apply(that.socket, arguments);
+    };
   }
 }

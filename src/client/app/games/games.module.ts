@@ -5,10 +5,12 @@ import { DialogNewGameComponent } from './dialog-new-game/dialog-new-game.compon
 import { GamesComponent } from './games.component';
 import { GamesService } from './games.service';
 import { ListGamesComponent } from './list-games/list-games.component';
+import { TestGameModule } from './test-game/test-game.module';
 
 @NgModule({
   imports: [
-    SharedUIModule
+    SharedUIModule,
+    TestGameModule
   ],
   declarations: [
     GamesComponent,

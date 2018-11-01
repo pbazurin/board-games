@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
 import { SharedUIModule } from '../shared/ui/shared-ui.module';
+import { SocketToStoreService } from './services/socket-to-store.service';
 import { SocketService } from './services/socket.service';
 
 @NgModule({
@@ -18,7 +19,8 @@ export class CoreModule {
     return {
       ngModule: CoreModule,
       providers: [
-        SocketService
+        SocketService,
+        SocketToStoreService
       ],
     };
   }

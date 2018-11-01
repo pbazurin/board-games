@@ -9,10 +9,10 @@ import { v4 } from 'uuid';
 @WebSocketGateway()
 export class AuthGateway {
   @SubscribeAction(AuthGenerateConnectionIdAction)
-  onGenerateConnectionId(client, data: AuthGenerateConnectionIdAction): any {
-    const validUserId = sha256(data.password);
+  onGenerateConnectionId(client, action: AuthGenerateConnectionIdAction): any {
+    const validUserId = sha256(action.payload.password);
 
-    if (validUserId === data.userId) {
+    if (validUserId === action.payload.userId) {
       const connectionId = v4();
       return toResponse(new AuthConnectionIdGeneratedAction(connectionId));
     }

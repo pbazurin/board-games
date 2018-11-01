@@ -1,13 +1,18 @@
 import { Action } from '@ngrx/store';
 
+export class GenerateConnectionIdPayload {
+  userId: string;
+  password: string;
+}
+
 export class AuthGenerateConnectionIdAction implements Action {
   readonly type = '[Auth] Generate connection id';
-  constructor(public userId: string, public password: string) { }
+  constructor(public payload: GenerateConnectionIdPayload) { }
 }
 
 export class AuthConnectionIdGeneratedAction implements Action {
   readonly type = '[Auth] Connection id generated';
-  constructor(public connectionId: string) { }
+  constructor(public payload: string) { }
 }
 
 export class AuthFailedAction implements Action {

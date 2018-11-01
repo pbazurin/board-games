@@ -15,8 +15,8 @@ export class GamesService {
     return this.httpClient.get<GameDto[]>('api/games');
   }
 
-  startNewGame(gameType: GameType): Observable<boolean> {
-    return this.httpClient.post<boolean>('api/games', <AddGameDto>{ gameType });
+  startNewGame(gameType: GameType): Observable<string> {
+    return this.httpClient.post<string>('api/games', <AddGameDto>{ gameType });
   }
 
   stopGame(gameIdToStop: string): Observable<boolean> {

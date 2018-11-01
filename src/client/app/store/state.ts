@@ -11,7 +11,9 @@ export interface UserSettings {
 }
 
 export interface AppState {
-  userSettings: UserSettings
+  isInitialized: boolean,
+  userSettings: UserSettings,
+  connectionId: string
 }
 
 export interface GlobalState {
