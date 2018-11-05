@@ -1,7 +1,8 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
 import { SharedUIModule } from '../shared/ui/shared-ui.module';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 import { SocketToStoreService } from './services/socket-to-store.service';
 import { SocketService } from './services/socket.service';
 
@@ -20,7 +21,12 @@ export class CoreModule {
       ngModule: CoreModule,
       providers: [
         SocketService,
-        SocketToStoreService
+        SocketToStoreService,
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: TokenInterceptor,
+          multi: true
+        }
       ],
     };
   }

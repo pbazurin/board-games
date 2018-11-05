@@ -10,7 +10,8 @@
     "removeComments": true,
     "target": "es6",
     "types": [
-      "node"
+      "node",
+      "socket.io-client"
     ]
   },
   "include": [

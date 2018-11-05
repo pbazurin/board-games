@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, UseGuards } from '@nestjs/common';
 
+import { AuthHttpGuard } from '../guards/auth-http.guard';
 import { AddGameRequest } from '../models/game/add-game-request';
 import { GamesService } from '../services/games.service';
+import { ConnectionId } from '../utils/connection-id.decorator';
 import { AddGameDto } from '@dto/game/add-game.dto';
 import { GameDto } from '@dto/game/game.dto';
 import { v4 } from 'uuid';
@@ -11,12 +13,16 @@ export class GamesController {
   constructor(private readonly gamesService: GamesService) { }
 
   @Get()
-  getRunningGames(): Promise<GameDto[]> {
+  @UseGuards(AuthHttpGuard)
+  getRunningGames(@ConnectionId() connectionId: string): Promise<GameDto[]> {
+    console.log(connectionId);
+
     return this.gamesService.getRunningGames();
   }
 
   @Post()
   @HttpCode(204)
+  @UseGuards(AuthHttpGuard)
   startNewGame(@Body() addGameDto: AddGameDto): Promise<boolean> {
     const request = <AddGameRequest>{
       authorPlayerId: v4(),
@@ -27,6 +33,7 @@ export class GamesController {
   }
 
   @Delete(':gameIdToStop')
+  @UseGuards(AuthHttpGuard)
   stopGame(@Param() gameIdToStop: string): Promise<boolean> {
     return this.gamesService.stopGame(gameIdToStop);
   }

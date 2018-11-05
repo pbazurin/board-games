@@ -37,4 +37,5 @@ export function userSettingsReducer(state, action) {
 }
 
 export const getUserSettings = createSelector(getMainState, state => state.userSettings);
+export const getConnectionId = createSelector(getMainState, state => state.connectionId);
 export const getUserName = createSelector(getUserSettings, state => state.name);
