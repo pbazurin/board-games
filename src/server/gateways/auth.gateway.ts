@@ -1,12 +1,14 @@
 import { OnGatewayDisconnect, WebSocketGateway } from '@nestjs/websockets';
 
+import { sha256 } from 'js-sha256';
+import { v4 } from 'uuid';
+
+import { AuthConnectionIdGeneratedAction, AuthFailedAction, AuthGenerateConnectionIdAction } from '@dto/auth/auth-actions';
+
 import { toResponse } from '../converters/action.converter';
 import { AuthConnection } from '../models/auth/auth-connection';
 import { AuthService } from '../services/auth.service';
 import { SubscribeAction } from '../utils/subscribe-action.decorator';
-import { AuthConnectionIdGeneratedAction, AuthFailedAction, AuthGenerateConnectionIdAction } from '@dto/auth/auth-actions';
-import { sha256 } from 'js-sha256';
-import { v4 } from 'uuid';
 
 @WebSocketGateway()
 export class AuthGateway implements OnGatewayDisconnect {

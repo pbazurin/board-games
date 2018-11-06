@@ -1,10 +1,11 @@
 import { HTTP_SERVER_REF, NestFactory } from '@nestjs/core';
 
+import * as Rollbar from 'rollbar';
+
 import { AppModule } from './app.module';
 import { config } from './config';
 import { AllExceptionsFilter } from './filters/all-exceptions.filter';
 import { NotFoundExceptionsFilter } from './filters/not-found-exceptions.filter';
-import * as Rollbar from 'rollbar';
 
 async function bootstrap() {
   let rollbar: Rollbar;

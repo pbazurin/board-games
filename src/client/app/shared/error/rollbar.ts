@@ -1,7 +1,8 @@
 import { InjectionToken } from '@angular/core';
 
-import { environment } from '../../../environments/environment';
 import * as Rollbar from 'rollbar';
+
+import { environment } from '../../../environments/environment';
 
 const rollbarConfig = {
   accessToken: environment.rollbarAccessToken,

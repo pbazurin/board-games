@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { Action } from '@dto/action';
 
 export class GenerateConnectionIdPayload {
   userId: string;

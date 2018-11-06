@@ -1,7 +1,8 @@
 import { ErrorHandler, Inject, Injectable } from '@angular/core';
 
-import { RollbarService } from './rollbar';
 import * as Rollbar from 'rollbar';
+
+import { RollbarService } from './rollbar';
 
 @Injectable()
 export class CustomErrorHandler extends ErrorHandler {

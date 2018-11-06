@@ -3,8 +3,9 @@ import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core
 
 import { SharedUIModule } from '../shared/ui/shared-ui.module';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-import { SocketToStoreService } from './services/socket-to-store.service';
+import { AuthService } from './services/auth.service';
 import { SocketService } from './services/socket.service';
+import { UserSettingsService } from './services/user-settings.service';
 
 @NgModule({
   declarations: [],
@@ -20,8 +21,9 @@ export class CoreModule {
     return {
       ngModule: CoreModule,
       providers: [
+        AuthService,
         SocketService,
-        SocketToStoreService,
+        UserSettingsService,
         {
           provide: HTTP_INTERCEPTORS,
           useClass: TokenInterceptor,

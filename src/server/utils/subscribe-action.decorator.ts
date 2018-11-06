@@ -1,6 +1,6 @@
 import { SubscribeMessage } from '@nestjs/websockets';
 
-import { Action } from '@ngrx/store';
+import { Action } from '@dto/action';
 
 export const SubscribeAction = (T: new (...args) => Action): MethodDecorator => {
   return (target, key, descriptor: PropertyDescriptor) => {

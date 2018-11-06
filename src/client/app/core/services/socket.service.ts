@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
 
-import { Action } from '@ngrx/store';
-
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import * as io from 'socket.io-client';
+
+import { Action } from '@dto/action';
 
 @Injectable()
 export class SocketService {
   private socket: SocketIOClient.Socket;
   private onAnyEvent = new Subject();
+  private isConnectedSubject$ = new BehaviorSubject<boolean>(false);
 
-  isConnected$ = new BehaviorSubject<boolean>(false);
+  get isConnected$(): Observable<boolean> {
+    return this.isConnectedSubject$.asObservable();
+  }
 
-  constructor() {
+  init() {
     this.socket = io();
-    this.socket.on('connect', () => this.isConnected$.next(true));
-    this.socket.on('disconnect', () => this.isConnected$.next(false));
+    this.socket.on('connect', () => this.isConnectedSubject$.next(true));
+    this.socket.on('disconnect', () => this.isConnectedSubject$.next(false));
 
     this.patchWildcardEvent();
   }

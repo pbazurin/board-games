@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 
-import { StoreModule } from '@ngrx/store';
-
 import { TranslateLoaderService } from './translate-loader.service';
 
 @NgModule({
-  imports: [StoreModule],
+  imports: [],
   exports: [],
   declarations: [],
   providers: [

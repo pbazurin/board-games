@@ -1,49 +1,66 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { Store } from '@ngrx/store';
-
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, map, take, takeUntil } from 'rxjs/operators';
 
 import { TranslateService } from '@ngx-translate/core';
+import { Angulartics2GoogleGlobalSiteTag } from 'angulartics2/gst';
+
+import { AuthGenerateConnectionIdAction } from '@dto/auth/auth-actions';
 
 import { environment } from '../environments/environment';
-import { SocketToStoreService } from './core/services/socket-to-store.service';
-import { GlobalState } from './store';
-import { UserSettingsLoadAction } from './store/app/user-settings/user-settings.actions';
-import { Angulartics2GoogleGlobalSiteTag } from 'angulartics2/gst';
+import { AuthService } from './core/services/auth.service';
+import { SocketService } from './core/services/socket.service';
+import { UserSettingsService } from './core/services/user-settings.service';
 
 @Component({
   selector: 'bg-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnDestroy {
   private tearDown$ = new Subject();
 
   constructor(
-    store: Store<GlobalState>,
     matIconRegistry: MatIconRegistry,
     domSanitizer: DomSanitizer,
     translate: TranslateService,
     angulartics: Angulartics2GoogleGlobalSiteTag,
-    socketToStoreService: SocketToStoreService
+    userSettingsService: UserSettingsService,
+    socketService: SocketService,
+    authService: AuthService
   ) {
     angulartics.startTracking();
     matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('./assets/svg/sprite.svg'));
+
+    socketService.init();
+    authService.init().pipe(takeUntil(this.tearDown$)).subscribe();
+    userSettingsService.init();
+
     translate.setDefaultLang(environment.supportedLanguages[0]);
+    userSettingsService.userSettings$
+      .pipe(
+        takeUntil(this.tearDown$),
+        take(1)
+      )
+      .subscribe(userSettings => {
+        translate.addLangs(userSettings.availableLanguages);
+        translate.use(userSettings.language);
 
-    socketToStoreService.sendAllSocketEventsToStore()
-      .pipe(takeUntil(this.tearDown$))
-      .subscribe();
-
-    store.dispatch(new UserSettingsLoadAction());
-  }
-
-  ngOnInit() {
-
+        socketService.emit(new AuthGenerateConnectionIdAction({
+          userId: userSettings.id,
+          password: userSettings.password
+        }));
+      });
+    userSettingsService.userSettings$
+      .pipe(
+        takeUntil(this.tearDown$),
+        map(s => s.language),
+        distinctUntilChanged()
+      )
+      .subscribe(selectedLanguage => translate.use(selectedLanguage));
   }
 
   ngOnDestroy() {

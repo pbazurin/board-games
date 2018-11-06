@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
-import { AddGameRequest } from '../models/game/add-game-request';
-import { GameDto } from '@dto/game/game.dto';
 import { v4 } from 'uuid';
+
+import { GameDto } from '@dto/game/game.dto';
+
+import { AddGameRequest } from '../models/game/add-game-request';
 
 @Injectable()
 export class GamesService {

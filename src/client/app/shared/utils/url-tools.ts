@@ -1,11 +1,6 @@
 import { URLSearchParams } from '@angular/http';
 
 export class UrlTools {
-  /**
-   * Retrieves a fragment of an url path
-   * @param url url to take the frament from
-   * @param fragmentIndex index of fragment ( starts at 0 ) @default 0
-   */
   static getUrlPathFragment(url: string, fragmentIndex = 0) {
     // remove any http(s)//:[domain] the url may have
     const splitAbsolutUrl = url.split(/https?:\/{2}[^\/]+\//);
@@ -14,9 +9,6 @@ export class UrlTools {
     return relativeUrl.split('?', 1)[0].split('/')[fragmentIndex + +relativeUrl.startsWith('/')];
   }
 
-  /**
-   * Builds an url with query string parameters
-   */
   static buildQueryString(baseUrl: string = '', ...params: Object[]) {
     const qsParams = new URLSearchParams();
 

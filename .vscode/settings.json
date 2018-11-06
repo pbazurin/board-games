@@ -11,10 +11,6 @@
       "order": "asc"
     },
     {
-      "identifier": "/@ngrx/",
-      "order": "asc"
-    },
-    {
       "identifier": "/rxjs/?/",
       "order": "asc"
     },
@@ -23,11 +19,15 @@
       "order": "asc"
     },
     {
-      "identifier": "/^@?ng.*/",
+      "identifier": "Remaining",
       "order": "asc"
     },
     {
-      "identifier": "Remaining",
+      "identifier": "/@dto/",
+      "order": "asc"
+    },
+    {
+      "identifier": "/^[.]/",
       "order": "asc"
     },
     "Workspace"

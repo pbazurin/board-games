@@ -1,12 +1,14 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Post, UseGuards } from '@nestjs/common';
 
+import { v4 } from 'uuid';
+
+import { AddGameDto } from '@dto/game/add-game.dto';
+import { GameDto } from '@dto/game/game.dto';
+
 import { AuthHttpGuard } from '../guards/auth-http.guard';
 import { AddGameRequest } from '../models/game/add-game-request';
 import { GamesService } from '../services/games.service';
 import { ConnectionId } from '../utils/connection-id.decorator';
-import { AddGameDto } from '@dto/game/add-game.dto';
-import { GameDto } from '@dto/game/game.dto';
-import { v4 } from 'uuid';
 
 @Controller('api/games')
 export class GamesController {

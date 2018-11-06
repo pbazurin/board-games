@@ -20,9 +20,6 @@
     "paths": {
       "@dto/*": [
         "src/shared/dto/*"
-      ],
-      "ngrx-actions": [
-        "node_modules/ngrx-actions/dist"
       ]
     }
   }

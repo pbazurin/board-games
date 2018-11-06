@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 
-import { select, Store } from '@ngrx/store';
-
 import { take } from 'rxjs/operators';
 
-import { GlobalState, UserSettings } from '../../store';
-import { UserSettingsChangeAction } from '../../store/app/user-settings/user-settings.actions';
-import { getUserSettings } from '../../store/app/user-settings/user-settings.reducer';
+import { UserSettings, UserSettingsService } from '../../core/services/user-settings.service';
 
 @Component({
   selector: 'bg-dialog-user-settings',
@@ -22,17 +18,17 @@ export class DialogUserSettingsComponent implements OnInit {
   settings: UserSettings;
 
   constructor(
-    private store: Store<GlobalState>,
-    private dialogRef: MatDialogRef<DialogUserSettingsComponent>
+    private dialogRef: MatDialogRef<DialogUserSettingsComponent>,
+    private userSettingsService: UserSettingsService
   ) { }
 
   ngOnInit() {
-    this.store.pipe(select(getUserSettings), take(1))
+    this.userSettingsService.userSettings$.pipe(take(1))
       .subscribe(settings => this.settings = { ...settings });
   }
 
   onSubmit() {
-    this.store.dispatch(new UserSettingsChangeAction(this.settings));
+    this.userSettingsService.update(this.settings);
 
     this.dialogRef.close();
   }
