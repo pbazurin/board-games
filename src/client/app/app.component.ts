@@ -61,6 +61,10 @@ export class AppComponent implements OnDestroy {
         distinctUntilChanged()
       )
       .subscribe(selectedLanguage => translate.use(selectedLanguage));
+
+    socketService.listenAll()
+      .pipe(takeUntil(this.tearDown$))
+      .subscribe(action => console.log(`${action.type} (${JSON.stringify(action.payload)})`));
   }
 
   ngOnDestroy() {

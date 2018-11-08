@@ -5,6 +5,7 @@ import { AuthGateway } from './gateways/auth.gateway';
 import { GamesGateway } from './gateways/games.gateway';
 import { AuthService } from './services/auth.service';
 import { GamesService } from './services/games.service';
+import { LoggerService } from './services/logger.service';
 
 @Module({
   imports: [],
@@ -12,6 +13,7 @@ import { GamesService } from './services/games.service';
     GamesController
   ],
   providers: [
+    LoggerService,
     AuthService,
     GamesService,
     AuthGateway,

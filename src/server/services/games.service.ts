@@ -34,8 +34,9 @@ export class GamesService {
       return false;
     }
 
-    targetGame.userIds.push(userId);
-    targetGame.userIds = [...new Set(targetGame.userIds)];
+    if (targetGame.userIds.indexOf(userId) === -1) {
+      targetGame.userIds.push(userId);
+    }
 
     return true;
   }
@@ -48,17 +49,13 @@ export class GamesService {
     }
 
     targetGame.userIds = targetGame.userIds.filter(u => u !== userId);
-
-    if (!targetGame.userIds.length) {
-      this.stopGame(targetGame.id);
-    }
   }
 
   leaveAllGames(userId: string): void {
     this.games.forEach(g => this.leaveGame(userId, g.id));
   }
 
-  private stopGame(gameId: string) {
+  removeGame(gameId: string) {
     this.games = this.games.filter(g => g.id !== gameId);
   }
 }

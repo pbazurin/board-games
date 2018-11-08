@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { GameJoinAction, GameLeaveAction } from '@dto/game/game-actions';
+import { JoinGameAction, LeaveGameAction } from '@dto/game/game-actions';
 
 import { SocketService } from '../../core/services/socket.service';
 
@@ -28,13 +28,13 @@ export class TestGameComponent implements OnInit, OnDestroy {
       .subscribe(params => {
         this.gameId = params['id'];
 
-        this.socketService.emit(new GameJoinAction(this.gameId));
+        this.socketService.emit(new JoinGameAction(this.gameId));
       });
   }
 
   ngOnDestroy() {
     if (this.gameId) {
-      this.socketService.emit(new GameLeaveAction(this.gameId));
+      this.socketService.emit(new LeaveGameAction(this.gameId));
     }
 
     this.tearDown$.next();

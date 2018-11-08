@@ -9,7 +9,7 @@ import { Action } from '@dto/action';
 @Injectable()
 export class SocketService {
   private socket: SocketIOClient.Socket;
-  private onAnyEvent = new Subject();
+  private onAnyEvent = new Subject<Action>();
   private isConnectedSubject$ = new BehaviorSubject<boolean>(false);
 
   get isConnected$(): Observable<boolean> {
@@ -39,7 +39,7 @@ export class SocketService {
     });
   }
 
-  listenAll(): Observable<any> {
+  listenAll(): Observable<Action> {
     return this.onAnyEvent.asObservable();
   }
 
