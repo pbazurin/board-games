@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
+import { Router } from '@angular/router';
 
 import { GameType } from '../../../../shared/dto/game/game-type.enum';
 import { GamesService } from '../games.service';
@@ -14,11 +15,15 @@ export class DialogNewGameComponent {
 
   constructor(
     private dialogRef: MatDialogRef<DialogNewGameComponent>,
-    private gamesService: GamesService
+    private gamesService: GamesService,
+    private route: Router
   ) { }
 
   onSubmit() {
     this.gamesService.startNewGame(this.selectedGameType)
-      .subscribe(() => this.dialogRef.close());
+      .subscribe(newGameId => {
+        this.dialogRef.close();
+        this.route.navigate(['games', 'test', newGameId]);
+      });
   }
 }

@@ -1,42 +1,33 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, UseGuards } from '@nestjs/common';
-
-import { v4 } from 'uuid';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 
 import { AddGameDto } from '@dto/game/add-game.dto';
 import { GameDto } from '@dto/game/game.dto';
 
+import { GamesConverter } from '../converters/games.converter';
 import { AuthHttpGuard } from '../guards/auth-http.guard';
-import { AddGameRequest } from '../models/game/add-game-request';
+import { AuthService } from '../services/auth.service';
 import { GamesService } from '../services/games.service';
 import { ConnectionId } from '../utils/connection-id.decorator';
 
 @Controller('api/games')
 export class GamesController {
-  constructor(private readonly gamesService: GamesService) { }
+  constructor(
+    private gamesService: GamesService,
+    private authService: AuthService
+  ) { }
 
   @Get()
   @UseGuards(AuthHttpGuard)
-  getRunningGames(@ConnectionId() connectionId: string): Promise<GameDto[]> {
-    console.log(connectionId);
-
-    return this.gamesService.getRunningGames();
+  getRunningGames(): GameDto[] {
+    return this.gamesService.getRunningGames().map(game => GamesConverter.toDto(game));
   }
 
   @Post()
-  @HttpCode(204)
   @UseGuards(AuthHttpGuard)
-  startNewGame(@Body() addGameDto: AddGameDto): Promise<boolean> {
-    const request = <AddGameRequest>{
-      authorPlayerId: v4(),
-      gameType: addGameDto.gameType
-    };
+  startNewGame(@Body() addGameDto: AddGameDto, @ConnectionId() connectionId: string): string {
+    const userId = this.authService.getUserIdByConnectionId(connectionId);
+    const newGameId = this.gamesService.addNewGame(userId, addGameDto.gameType);
 
-    return this.gamesService.addNewGame(request);
-  }
-
-  @Delete(':gameIdToStop')
-  @UseGuards(AuthHttpGuard)
-  stopGame(@Param() gameIdToStop: string): Promise<boolean> {
-    return this.gamesService.stopGame(gameIdToStop);
+    return newGameId;
   }
 }

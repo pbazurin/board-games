@@ -1,12 +1,11 @@
 import { OnGatewayDisconnect, WebSocketGateway } from '@nestjs/websockets';
 
-import { sha256 } from 'js-sha256';
-import { v4 } from 'uuid';
+import { Socket } from 'socket.io';
 
 import { AuthConnectionIdGeneratedAction, AuthFailedAction, AuthGenerateConnectionIdAction } from '@dto/auth/auth-actions';
 
-import { toResponse } from '../converters/action.converter';
-import { AuthConnection } from '../models/auth/auth-connection';
+import { ActionsConverter } from '../converters/actions.converter';
+import { GatewayResponse } from '../models/gateway-response';
 import { AuthService } from '../services/auth.service';
 import { SubscribeAction } from '../utils/subscribe-action.decorator';
 
@@ -14,25 +13,18 @@ import { SubscribeAction } from '../utils/subscribe-action.decorator';
 export class AuthGateway implements OnGatewayDisconnect {
   constructor(private authService: AuthService) { }
 
-  handleDisconnect(client: SocketIOClient.Socket) {
-    this.authService.removeConnection(client.id);
+  handleDisconnect(client: Socket) {
+    this.authService.disconnect(client.id);
   }
 
   @SubscribeAction(AuthGenerateConnectionIdAction)
-  onGenerateConnectionId(client: SocketIOClient.Socket, action: AuthGenerateConnectionIdAction): any {
-    const validUserId = sha256(action.payload.password);
+  onGenerateConnectionId(client: Socket, action: AuthGenerateConnectionIdAction): GatewayResponse {
+    const connectionId = this.authService.connect(action.payload.userId, action.payload.password, client.id);
 
-    if (validUserId === action.payload.userId) {
-      const connectionId = v4();
-
-      this.authService.addConnection(<AuthConnection>{
-        connectionId: connectionId,
-        socketId: client.id
-      });
-
-      return toResponse(new AuthConnectionIdGeneratedAction(connectionId));
+    if (connectionId) {
+      return ActionsConverter.toResponse(new AuthConnectionIdGeneratedAction(connectionId));
+    } else {
+      return ActionsConverter.toResponse(new AuthFailedAction());
     }
-
-    return toResponse(new AuthFailedAction());
   }
 }

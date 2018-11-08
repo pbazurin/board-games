@@ -2,37 +2,63 @@ import { Injectable } from '@nestjs/common';
 
 import { v4 } from 'uuid';
 
-import { GameDto } from '@dto/game/game.dto';
+import { GameType } from '@dto/game/game-type.enum';
 
-import { AddGameRequest } from '../models/game/add-game-request';
+import { Game } from '../models/game/game';
 
 @Injectable()
 export class GamesService {
-  private games: GameDto[] = [];
+  private games: Game[] = [];
 
-  getRunningGames(): Promise<GameDto[]> {
-    return new Promise(resolve => resolve(this.games));
+  getRunningGames(): Game[] {
+    return this.games;
   }
 
-  addNewGame(request: AddGameRequest): Promise<boolean> {
-    return new Promise(resolve => {
-      this.games.push({
-        id: v4(),
-        authorPlayerId: request.authorPlayerId,
-        createdOn: new Date(),
-        playerIds: [],
-        type: request.gameType
-      });
-
-      resolve(true);
+  addNewGame(authorUserId: string, gameType: GameType): string {
+    const newGameId = v4();
+    this.games.push({
+      id: newGameId,
+      authorUserId: authorUserId,
+      createdOn: new Date(),
+      userIds: [],
+      type: gameType
     });
+
+    return newGameId;
   }
 
-  stopGame(gameIdToStop: string): Promise<boolean> {
-    return new Promise(resolve => {
-      this.games = this.games.filter(g => g.id !== gameIdToStop);
+  joinGame(userId: string, gameId: string): boolean {
+    const targetGame = this.games.find(g => g.id === gameId);
 
-      resolve(true);
-    });
+    if (!targetGame) {
+      return false;
+    }
+
+    targetGame.userIds.push(userId);
+    targetGame.userIds = [...new Set(targetGame.userIds)];
+
+    return true;
+  }
+
+  leaveGame(userId: string, gameId: string): void {
+    const targetGame = this.games.find(g => g.id === gameId);
+
+    if (!targetGame) {
+      return;
+    }
+
+    targetGame.userIds = targetGame.userIds.filter(u => u !== userId);
+
+    if (!targetGame.userIds.length) {
+      this.stopGame(targetGame.id);
+    }
+  }
+
+  leaveAllGames(userId: string): void {
+    this.games.forEach(g => this.leaveGame(userId, g.id));
+  }
+
+  private stopGame(gameId: string) {
+    this.games = this.games.filter(g => g.id !== gameId);
   }
 }

@@ -16,10 +16,6 @@ export class GamesService {
   }
 
   startNewGame(gameType: GameType): Observable<string> {
-    return this.httpClient.post<string>('api/games', <AddGameDto>{ gameType });
-  }
-
-  stopGame(gameIdToStop: string): Observable<boolean> {
-    return this.httpClient.delete<boolean>(`api/games/${gameIdToStop}`);
+    return this.httpClient.post('api/games', <AddGameDto>{ gameType }, { responseType: 'text' });
   }
 }
