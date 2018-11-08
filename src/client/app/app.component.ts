@@ -64,7 +64,7 @@ export class AppComponent implements OnDestroy {
 
     socketService.listenAll()
       .pipe(takeUntil(this.tearDown$))
-      .subscribe(action => console.log(`${action.type} (${JSON.stringify(action.payload)})`));
+      .subscribe(action => console.log(`${action.type} ${JSON.stringify(action.payload)}`));
   }
 
   ngOnDestroy() {

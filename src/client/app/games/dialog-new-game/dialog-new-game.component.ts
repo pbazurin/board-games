@@ -16,14 +16,14 @@ export class DialogNewGameComponent {
   constructor(
     private dialogRef: MatDialogRef<DialogNewGameComponent>,
     private gamesService: GamesService,
-    private route: Router
+    private router: Router
   ) { }
 
   onSubmit() {
     this.gamesService.startNewGame(this.selectedGameType)
       .subscribe(newGameId => {
         this.dialogRef.close();
-        this.route.navigate(['games', 'test', newGameId]);
+        this.router.navigate(['games', 'test', newGameId]);
       });
   }
 }

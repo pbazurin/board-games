@@ -1,30 +1,36 @@
-import { OnGatewayDisconnect, WebSocketGateway } from '@nestjs/websockets';
+import { OnGatewayDisconnect, OnGatewayInit, WebSocketGateway } from '@nestjs/websockets';
 
-import { Socket } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 
 import { AuthConnectionIdGeneratedAction, AuthFailedAction, AuthGenerateConnectionIdAction } from '@dto/auth/auth-actions';
 
-import { ActionsConverter } from '../converters/actions.converter';
-import { GatewayResponse } from '../models/gateway-response';
 import { AuthService } from '../services/auth.service';
+import { SocketService } from '../services/socket.service';
 import { SubscribeAction } from '../utils/subscribe-action.decorator';
 
 @WebSocketGateway()
-export class AuthGateway implements OnGatewayDisconnect {
-  constructor(private authService: AuthService) { }
+export class AuthGateway implements OnGatewayDisconnect, OnGatewayInit {
+  constructor(
+    private authService: AuthService,
+    private socketService: SocketService
+  ) { }
+
+  afterInit(server: Server) {
+    this.socketService.init(server);
+  }
 
   handleDisconnect(client: Socket) {
     this.authService.disconnect(client.id);
   }
 
   @SubscribeAction(AuthGenerateConnectionIdAction)
-  onGenerateConnectionId(client: Socket, action: AuthGenerateConnectionIdAction): GatewayResponse {
+  onGenerateConnectionId(client: Socket, action: AuthGenerateConnectionIdAction): void {
     const connectionId = this.authService.connect(action.payload.userId, action.payload.password, client.id);
 
     if (connectionId) {
-      return ActionsConverter.toResponse(new AuthConnectionIdGeneratedAction(connectionId));
+      this.socketService.sendToClient(client, new AuthConnectionIdGeneratedAction(connectionId));
     } else {
-      return ActionsConverter.toResponse(new AuthFailedAction());
+      this.socketService.sendToClient(client, new AuthFailedAction());
     }
   }
 }

@@ -6,6 +6,7 @@ import { GamesGateway } from './gateways/games.gateway';
 import { AuthService } from './services/auth.service';
 import { GamesService } from './services/games.service';
 import { LoggerService } from './services/logger.service';
+import { SocketService } from './services/socket.service';
 
 @Module({
   imports: [],
@@ -13,6 +14,7 @@ import { LoggerService } from './services/logger.service';
     GamesController
   ],
   providers: [
+    SocketService,
     LoggerService,
     AuthService,
     GamesService,

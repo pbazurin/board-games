@@ -24,18 +24,35 @@ export class SocketService {
     this.patchWildcardEvent();
   }
 
-  emit<T extends Action>(action: T) {
-    this.socket.emit(action.type, action);
+  emit(...actions: Action[]) {
+    actions.forEach(action => {
+      this.socket.emit(action.type, action);
+    });
   }
 
-  listen<T extends Action>(A: new (...args) => T): Observable<any> {
+  listen<T extends Action>(A: new (...args) => T): Observable<T> {
     return new Observable(observer => {
       const action = new A();
-      this.socket.on(action.type, data => {
-        observer.next(data);
+      this.socket.on(action.type, action => {
+        observer.next(action);
       });
 
       return () => this.socket.off(action.type);
+    });
+  }
+
+  listenAnyOf(...actionClasses: (new (...args) => Action)[]): Observable<void> {
+    return new Observable(observer => {
+      const actionTypes = [];
+      actionClasses.forEach(ActionClass => {
+        const action = new ActionClass();
+        this.socket.on(action.type, data => {
+          observer.next(data);
+        });
+        actionTypes.push(action.type);
+      })
+
+      return () => actionTypes.forEach(actionType => this.socket.off(actionType));
     });
   }
 

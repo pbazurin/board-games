@@ -31,6 +31,7 @@ export class GamesService {
     const targetGame = this.games.find(g => g.id === gameId);
 
     if (!targetGame) {
+      console.log('No game');
       return false;
     }
 

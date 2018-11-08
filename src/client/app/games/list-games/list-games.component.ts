@@ -1,12 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
-import { interval, Subject } from 'rxjs';
-import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { debounceTime, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
+import { GameCreatedAction, GameRemovedAction, GameUserJoinedAction, GameUserLeftAction } from '@dto/game/game-actions';
 import { GameType } from '@dto/game/game-type.enum';
 import { GameDto } from '@dto/game/game.dto';
 
+import { SocketService } from '../../core/services/socket.service';
 import { GamesService } from '../games.service';
 
 @Component({
@@ -23,31 +26,41 @@ export class ListGamesComponent implements OnInit, OnDestroy {
 
   constructor(
     private gamesService: GamesService,
-    private snackBar: MatSnackBar
+    private socketService: SocketService,
+    private snackBar: MatSnackBar,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    interval(5000).pipe(
-      startWith(-1),
-      takeUntil(this.tearDown$),
-      switchMap(() => this.gamesService.getAllRunningGames()),
-      tap(() => this.isLoading = true)
-    ).subscribe(
-      games => {
-        this.isLoading = false;
-        this.games = games;
-      },
-      error => {
-        // TODO: add global error handling. But since so far we have only one list, it's ok
-        this.isLoading = false;
-        let snackRef = this.snackBar.open(error.message, 'Close');
-        snackRef.onAction().subscribe(() => snackRef.dismiss());
-      }
-    );
+    this.socketService
+      .listenAnyOf(
+        GameCreatedAction,
+        GameRemovedAction,
+        GameUserJoinedAction,
+        GameUserLeftAction
+      )
+      .pipe(
+        startWith(-1),
+        takeUntil(this.tearDown$),
+        debounceTime(1000),
+        switchMap(() => this.gamesService.getAllRunningGames()),
+        tap(() => this.isLoading = true)
+      ).subscribe(
+        games => {
+          this.isLoading = false;
+          this.games = games;
+        },
+        error => {
+          // TODO: add global error handling. But since so far we have only one list, it's ok
+          this.isLoading = false;
+          let snackRef = this.snackBar.open(error.message, 'Close');
+          snackRef.onAction().subscribe(() => snackRef.dismiss());
+        }
+      );
   }
 
   joinGame(gameId: number) {
-    console.log(`Joining game ${gameId}`);
+    this.router.navigate(['games', 'test', gameId]);
   }
 
   ngOnDestroy() {

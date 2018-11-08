@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@nestjs/common';
 
 import { Observable, Subject } from 'rxjs';
 

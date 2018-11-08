@@ -2,16 +2,24 @@ import { OnGatewayInit, WebSocketGateway } from '@nestjs/websockets';
 
 import { Socket } from 'socket.io';
 
-import { JoinGameAction, LeaveGameAction } from '@dto/game/game-actions';
+import {
+  GameRemovedAction,
+  GameUserLeftAction,
+  JoinGameAction,
+  LeaveGameAction,
+  UserGameRelationPayload,
+} from '@dto/game/game-actions';
 
 import { AuthService } from '../services/auth.service';
 import { GamesService } from '../services/games.service';
+import { SocketService } from '../services/socket.service';
 import { SubscribeAction } from '../utils/subscribe-action.decorator';
 
 @WebSocketGateway()
 export class GamesGateway implements OnGatewayInit {
   constructor(
     private authService: AuthService,
+    private socketService: SocketService,
     private gamesService: GamesService
   ) { }
 
@@ -32,8 +40,22 @@ export class GamesGateway implements OnGatewayInit {
   @SubscribeAction(LeaveGameAction)
   onLeaveGame(client: Socket, action: LeaveGameAction): void {
     const userId = this.authService.getUserIdBySocketId(client.id);
+    const targetGameId = action.payload;
     this.gamesService.leaveGame(userId, action.payload);
 
-    client.leave(action.payload);
+    const userLeftAction = new GameUserLeftAction(<UserGameRelationPayload>{
+      gameId: targetGameId,
+      userId: userId
+    });
+    this.socketService.broadcastToOther(client, userLeftAction);
+
+    client.leave(targetGameId);
+
+    const targetGame = this.gamesService.getRunningGames().find(g => g.id === targetGameId);
+    if (!targetGame.userIds.length) {
+      this.gamesService.removeGame(targetGameId);
+
+      this.socketService.broadcastToOther(client, new GameRemovedAction(targetGameId));
+    }
   }
 }
