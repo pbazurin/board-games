@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { GameCreatedAction, GameRemovedAction, GameUserJoinedAction, GameUserLeftAction } from '@dto/game/game-actions';
-import { GameType } from '@dto/game/game-type.enum';
+import { GameTypeNames } from '@dto/game/game-type.enum';
 import { GameDto } from '@dto/game/game.dto';
 
 import { SocketService } from '../../core/services/socket.service';
@@ -18,7 +18,7 @@ import { GamesService } from '../games.service';
   styleUrls: ['./list-games.component.scss']
 })
 export class ListGamesComponent implements OnInit, OnDestroy {
-  gameType = GameType;
+  gameTypeName = GameTypeNames;
   isLoading = false;
   games: GameDto[] = [];
 

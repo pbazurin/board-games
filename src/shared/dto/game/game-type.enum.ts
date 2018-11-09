@@ -1,4 +1,9 @@
 export enum GameType {
-  Test = 'Test game',
-  Munchkin = 'Munchkin'
+  Test,
+  Munchkin
 }
+
+export const GameTypeNames: { [index: number]: string } = {
+  [GameType.Test]: 'Test game',
+  [GameType.Munchkin]: 'Munchkin'
+};

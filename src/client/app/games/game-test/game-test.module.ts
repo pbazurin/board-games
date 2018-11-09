@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 
 import { SharedUIModule } from '../../shared/ui/shared-ui.module';
-import { TestGameComponent } from './test-game.component';
+import { GameTestComponent } from './game-test.component';
 
 @NgModule({
   imports: [
     SharedUIModule
   ],
   declarations: [
-    TestGameComponent
+    GameTestComponent
   ],
   entryComponents: [
-    TestGameComponent
+    GameTestComponent
   ],
   exports: [
-    TestGameComponent
+    GameTestComponent
   ]
 })
-export class TestGameModule { }
+export class GameTestModule { }

@@ -1,7 +1,7 @@
 <mat-list>
   <mat-spinner class="list__spinner" *ngIf="!games.length && isLoading"></mat-spinner>
   <mat-list-item *ngFor="let game of games">
-    <div fxFlex>{{ game.type | translate }}</div>
+    <div fxFlex>{{ gameTypeName[game.type] | translate }}</div>
     <div fxFlex>{{ game.authorUserId }} author</div>
     <div fxFlex>{{ game.userIds.length }} player(s)</div>
     <div fxFlex>Created {{ game.createdOn | date }}</div>

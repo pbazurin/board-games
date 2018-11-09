@@ -9,10 +9,10 @@ import { JoinGameAction, LeaveGameAction } from '@dto/game/game-actions';
 import { SocketService } from '../../core/services/socket.service';
 
 @Component({
-  selector: 'bg-test-game',
-  templateUrl: './test-game.component.html'
+  selector: 'bg-game-munchkin',
+  templateUrl: './game-munchkin.component.html'
 })
-export class TestGameComponent implements OnInit, OnDestroy {
+export class GameMunchkinComponent implements OnInit, OnDestroy {
   gameId: string;
 
   private tearDown$ = new Subject();

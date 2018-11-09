@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 
-import { GameType } from '../../../../shared/dto/game/game-type.enum';
+import { GameType, GameTypeNames } from '../../../../shared/dto/game/game-type.enum';
 import { GamesService } from '../games.service';
 
 @Component({
@@ -10,7 +10,8 @@ import { GamesService } from '../games.service';
   templateUrl: './dialog-new-game.component.html'
 })
 export class DialogNewGameComponent {
-  gameTypes = Object.values(GameType);
+  gameTypeNames = GameTypeNames;
+  gameTypes = [GameType.Test, GameType.Munchkin];
   selectedGameType: GameType = this.gameTypes[0];
 
   constructor(
@@ -23,7 +24,7 @@ export class DialogNewGameComponent {
     this.gamesService.startNewGame(this.selectedGameType)
       .subscribe(newGameId => {
         this.dialogRef.close();
-        this.router.navigate(['games', 'test', newGameId]);
+        this.router.navigate(['games', GameType[this.selectedGameType].toLowerCase(), newGameId]);
       });
   }
 }

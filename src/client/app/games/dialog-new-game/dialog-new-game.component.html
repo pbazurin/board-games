@@ -4,7 +4,7 @@
     <mat-form-field fxFill>
       <mat-select required name="gameType" placeholder="{{ 'Game type' | translate }}" [(ngModel)]="selectedGameType">
         <mat-option *ngFor="let gameType of gameTypes" [value]="gameType">
-          {{ gameType | translate }}
+          {{ gameTypeNames[gameType] | translate }}
         </mat-option>
       </mat-select>
     </mat-form-field>
