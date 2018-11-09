@@ -28,7 +28,7 @@ export class GamesController {
   @Post()
   @UseGuards(AuthHttpGuard)
   startNewGame(@Body() addGameDto: AddGameDto, @ConnectionId() connectionId: string): string {
-    const userId = this.authService.getUserIdByConnectionId(connectionId);
+    const userId = this.authService.getUserIdByConnection(connectionId);
     const newGameId = this.gamesService.addNewGame(userId, addGameDto.gameType);
 
     this.socketService.sendToAll(new GameCreatedAction(newGameId));

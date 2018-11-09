@@ -1,5 +1,5 @@
 export class AuthConnection {
+  id: string;
   userId: string;
   socketId: string;
-  connectionId: string;
 }

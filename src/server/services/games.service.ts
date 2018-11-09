@@ -31,7 +31,6 @@ export class GamesService {
     const targetGame = this.games.find(g => g.id === gameId);
 
     if (!targetGame) {
-      console.log('No game');
       return false;
     }
 
@@ -42,21 +41,25 @@ export class GamesService {
     return true;
   }
 
-  leaveGame(userId: string, gameId: string): void {
+  leaveGame(userId: string, gameId: string): boolean {
     const targetGame = this.games.find(g => g.id === gameId);
 
     if (!targetGame) {
-      return;
+      return false;
     }
 
     targetGame.userIds = targetGame.userIds.filter(u => u !== userId);
+    return true;
   }
 
-  leaveAllGames(userId: string): void {
-    this.games.forEach(g => this.leaveGame(userId, g.id));
-  }
+  removeGame(gameId: string): boolean {
+    const isGameExists = this.games.some(g => g.id === gameId);
 
-  removeGame(gameId: string) {
+    if (!isGameExists) {
+      return false;
+    }
+
     this.games = this.games.filter(g => g.id !== gameId);
+    return true;
   }
 }

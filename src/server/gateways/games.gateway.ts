@@ -1,15 +1,18 @@
+import { UseGuards } from '@nestjs/common';
 import { OnGatewayInit, WebSocketGateway } from '@nestjs/websockets';
 
 import { Socket } from 'socket.io';
 
 import {
   GameRemovedAction,
+  GameUserJoinedAction,
   GameUserLeftAction,
   JoinGameAction,
   LeaveGameAction,
   UserGameRelationPayload,
 } from '@dto/game/game-actions';
 
+import { AuthSocketGuard } from '../guards/auth-socket.guard';
 import { AuthService } from '../services/auth.service';
 import { GamesService } from '../services/games.service';
 import { SocketService } from '../services/socket.service';
@@ -24,38 +27,73 @@ export class GamesGateway implements OnGatewayInit {
   ) { }
 
   afterInit() {
-    this.authService.userDisconnected$.subscribe(c => this.gamesService.leaveAllGames(c.userId));
+    this.authService.userDisconnected$.subscribe(connection => {
+      this.gamesService.getRunningGames().forEach(game => {
+        this.leaveGame(connection.userId, game.id);
+      });
+    });
   }
 
   @SubscribeAction(JoinGameAction)
-  onJoinGame(client: Socket, action: JoinGameAction): void {
-    const userId = this.authService.getUserIdBySocketId(client.id);
-    const isSuccess = this.gamesService.joinGame(userId, action.payload);
+  @UseGuards(AuthSocketGuard)
+  onJoinGame(socket: Socket, action: JoinGameAction): void {
+    const userId = this.authService.getUserIdBySocket(socket.id);
+    const gameId = action.payload;
+    const isSuccess = this.gamesService.joinGame(userId, gameId);
 
     if (isSuccess) {
-      client.join(action.payload);
+      socket.join(action.payload);
+
+      const userJoinedAction = new GameUserJoinedAction(<UserGameRelationPayload>{
+        gameId: gameId,
+        userId: userId
+      });
+      this.socketService.sendToOthers(socket, userJoinedAction);
     }
   }
 
   @SubscribeAction(LeaveGameAction)
-  onLeaveGame(client: Socket, action: LeaveGameAction): void {
-    const userId = this.authService.getUserIdBySocketId(client.id);
-    const targetGameId = action.payload;
-    this.gamesService.leaveGame(userId, action.payload);
+  @UseGuards(AuthSocketGuard)
+  onLeaveGame(socket: Socket, action: LeaveGameAction): void {
+    const userId = this.authService.getUserIdBySocket(socket.id);
+    const gameId = action.payload;
+
+    this.leaveGame(userId, gameId, socket);
+  }
+
+  private leaveGame(userId: string, gameId: string, socket?: Socket) {
+    const isValidGame = this.gamesService.leaveGame(userId, gameId);
+
+    if (!isValidGame) {
+      return;
+    }
 
     const userLeftAction = new GameUserLeftAction(<UserGameRelationPayload>{
-      gameId: targetGameId,
+      gameId: gameId,
       userId: userId
     });
-    this.socketService.broadcastToOther(client, userLeftAction);
 
-    client.leave(targetGameId);
+    if (socket) {
+      this.socketService.sendToOthers(socket, userLeftAction);
 
-    const targetGame = this.gamesService.getRunningGames().find(g => g.id === targetGameId);
-    if (!targetGame.userIds.length) {
-      this.gamesService.removeGame(targetGameId);
+      socket.leave(gameId);
+    } else {
+      this.socketService.sendToAll(userLeftAction);
+    }
 
-      this.socketService.broadcastToOther(client, new GameRemovedAction(targetGameId));
+    const targetGame = this.gamesService.getRunningGames().find(g => g.id === gameId);
+
+    if (targetGame.userIds.length) {
+      return;
+    }
+
+    this.gamesService.removeGame(gameId);
+    const gameRemovedAction = new GameRemovedAction(gameId);
+
+    if (socket) {
+      this.socketService.sendToOthers(socket, gameRemovedAction);
+    } else {
+      this.socketService.sendToAll(gameRemovedAction);
     }
   }
 }

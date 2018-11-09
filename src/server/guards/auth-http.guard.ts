@@ -18,6 +18,6 @@ export class AuthHttpGuard implements CanActivate {
 
     const connectionId = authHeader.split(' ')[1];
 
-    return this.authService.isValidConnection(connectionId);
+    return this.authService.isAuthenticatedConnection(connectionId);
   }
 }

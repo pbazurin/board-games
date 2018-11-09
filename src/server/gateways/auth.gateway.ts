@@ -19,18 +19,18 @@ export class AuthGateway implements OnGatewayDisconnect, OnGatewayInit {
     this.socketService.init(server);
   }
 
-  handleDisconnect(client: Socket) {
-    this.authService.disconnect(client.id);
+  handleDisconnect(socket: Socket) {
+    this.authService.disconnect(socket.id);
   }
 
   @SubscribeAction(AuthGenerateConnectionIdAction)
-  onGenerateConnectionId(client: Socket, action: AuthGenerateConnectionIdAction): void {
-    const connectionId = this.authService.connect(action.payload.userId, action.payload.password, client.id);
+  onGenerateConnectionId(socket: Socket, action: AuthGenerateConnectionIdAction): void {
+    const connectionId = this.authService.authenticateSocket(socket.id, action.payload.userId, action.payload.password);
 
     if (connectionId) {
-      this.socketService.sendToClient(client, new AuthConnectionIdGeneratedAction(connectionId));
+      this.socketService.sendToSocket(socket, new AuthConnectionIdGeneratedAction(connectionId));
     } else {
-      this.socketService.sendToClient(client, new AuthFailedAction());
+      this.socketService.sendToSocket(socket, new AuthFailedAction());
     }
   }
 }

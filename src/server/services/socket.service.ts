@@ -12,12 +12,12 @@ export class SocketService {
     this.server = server;
   }
 
-  broadcastToOther(client: Socket, action: Action) {
-    client.broadcast.emit(action.type, action);
+  sendToOthers(socket: Socket, action: Action) {
+    socket.broadcast.emit(action.type, action);
   }
 
-  sendToClient(client: Socket, action: Action) {
-    client.emit(action.type, action);
+  sendToSocket(socket: Socket, action: Action) {
+    socket.emit(action.type, action);
   }
 
   sendToAll(action: Action) {

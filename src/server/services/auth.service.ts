@@ -9,23 +9,27 @@ import { AuthConnection } from '../models/auth/auth-connection';
 
 @Injectable()
 export class AuthService {
-  private connections: AuthConnection[] = [];
-  private userConnectedSubject$ = new Subject<AuthConnection>();
+  private authConnections: AuthConnection[] = [];
+  private userAuthenticatedSubject$ = new Subject<AuthConnection>();
   private userDisconnectedSubject$ = new Subject<AuthConnection>();
 
-  get userConnected$(): Observable<AuthConnection> {
-    return this.userConnectedSubject$.asObservable();
+  get userAuthenticated$(): Observable<AuthConnection> {
+    return this.userAuthenticatedSubject$.asObservable();
   }
 
   get userDisconnected$(): Observable<AuthConnection> {
     return this.userDisconnectedSubject$.asObservable();
   }
 
-  isValidConnection(connectionId: string): boolean {
-    return this.connections.some(c => c.connectionId === connectionId);
+  isAuthenticatedConnection(connectionId: string): boolean {
+    return this.authConnections.some(c => c.id === connectionId);
   }
 
-  connect(userId: string, userPassword: string, socketId: string): string {
+  isAuthenticatedSocket(socketId: string): boolean {
+    return this.authConnections.some(c => c.socketId === socketId);
+  }
+
+  authenticateSocket(socketId: string, userId: string, userPassword: string): string {
     const validUserId = sha256(userPassword);
 
     if (userId !== validUserId) {
@@ -34,27 +38,27 @@ export class AuthService {
 
     const connectionId = v4();
     const newConnection = <AuthConnection>{
+      id: connectionId,
       userId: userId,
-      connectionId: connectionId,
       socketId: socketId
     };
-    this.connections.push(newConnection);
+    this.authConnections.push(newConnection);
 
-    this.userConnectedSubject$.next(newConnection);
+    this.userAuthenticatedSubject$.next(newConnection);
 
     return connectionId;
   }
 
-  getUserIdByConnectionId(connectionId: string): string {
-    return this.connections.find(c => c.connectionId === connectionId).userId;
+  getUserIdByConnection(connectionId: string): string {
+    return this.authConnections.find(c => c.id === connectionId).userId;
   }
 
-  getUserIdBySocketId(socketId: string): string {
-    return this.connections.find(c => c.socketId === socketId).userId;
+  getUserIdBySocket(socketId: string): string {
+    return this.authConnections.find(c => c.socketId === socketId).userId;
   }
 
   disconnect(socketId: string): void {
-    const targetConnection = this.connections.find(c => c.socketId === socketId);
+    const targetConnection = this.authConnections.find(c => c.socketId === socketId);
 
     if (!targetConnection) {
       return;
@@ -62,6 +66,6 @@ export class AuthService {
 
     this.userDisconnectedSubject$.next(targetConnection);
 
-    this.connections = this.connections.filter(c => c.socketId !== socketId);
+    this.authConnections = this.authConnections.filter(c => c.socketId !== socketId);
   }
 }
