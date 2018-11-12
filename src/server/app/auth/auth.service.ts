@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { sha256 } from 'js-sha256';
 import { v4 } from 'uuid';
 
-import { AuthConnection } from '../models/auth/auth-connection';
+import { AuthConnection } from './auth-connection';
 
 @Injectable()
 export class AuthService {
@@ -49,12 +49,16 @@ export class AuthService {
     return connectionId;
   }
 
-  getUserIdByConnection(connectionId: string): string {
+  getUserIdByConnectionId(connectionId: string): string {
     return this.authConnections.find(c => c.id === connectionId).userId;
   }
 
-  getUserIdBySocket(socketId: string): string {
+  getUserIdBySocketId(socketId: string): string {
     return this.authConnections.find(c => c.socketId === socketId).userId;
+  }
+
+  getSocketIdByConnectionId(connectionId: string): string {
+    return this.authConnections.find(c => c.id === connectionId).socketId;
   }
 
   disconnect(socketId: string): void {

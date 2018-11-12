@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Socket } from 'socket.io';
 
-import { AuthService } from '../services/auth.service';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthSocketGuard implements CanActivate {

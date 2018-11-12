@@ -1,6 +1,6 @@
 import { GameDto } from '@dto/game/game.dto';
 
-import { Game } from '../models/game/game';
+import { Game } from './game';
 
 export class GamesConverter {
   static toDto(game: Game): GameDto {

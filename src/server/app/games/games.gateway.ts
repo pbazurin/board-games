@@ -12,11 +12,11 @@ import {
   UserGameRelationPayload,
 } from '@dto/game/game-actions';
 
-import { AuthSocketGuard } from '../guards/auth-socket.guard';
-import { AuthService } from '../services/auth.service';
-import { GamesService } from '../services/games.service';
-import { SocketService } from '../services/socket.service';
+import { AuthSocketGuard } from '../auth/auth-socket.guard';
+import { AuthService } from '../auth/auth.service';
+import { SocketService } from '../socket/socket.service';
 import { SubscribeAction } from '../utils/subscribe-action.decorator';
+import { GamesService } from './games.service';
 
 @WebSocketGateway()
 export class GamesGateway implements OnGatewayInit {
@@ -37,7 +37,7 @@ export class GamesGateway implements OnGatewayInit {
   @SubscribeAction(JoinGameAction)
   @UseGuards(AuthSocketGuard)
   onJoinGame(socket: Socket, action: JoinGameAction): void {
-    const userId = this.authService.getUserIdBySocket(socket.id);
+    const userId = this.authService.getUserIdBySocketId(socket.id);
     const gameId = action.payload;
     const isSuccess = this.gamesService.joinGame(userId, gameId);
 
@@ -55,7 +55,7 @@ export class GamesGateway implements OnGatewayInit {
   @SubscribeAction(LeaveGameAction)
   @UseGuards(AuthSocketGuard)
   onLeaveGame(socket: Socket, action: LeaveGameAction): void {
-    const userId = this.authService.getUserIdBySocket(socket.id);
+    const userId = this.authService.getUserIdBySocketId(socket.id);
     const gameId = action.payload;
 
     this.leaveGame(userId, gameId, socket);

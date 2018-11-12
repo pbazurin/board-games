@@ -1,7 +1,7 @@
 import { ArgumentsHost, Catch, HttpServer, Inject, NotFoundException } from '@nestjs/common';
 import { BaseExceptionFilter, HTTP_SERVER_REF } from '@nestjs/core';
 
-import { config } from '../config';
+import { config } from '../../config';
 
 @Catch(NotFoundException)
 export class NotFoundExceptionsFilter extends BaseExceptionFilter {

@@ -1,10 +1,10 @@
 import { HTTP_SERVER_REF, NestFactory } from '@nestjs/core';
 
-import { AppModule } from './app.module';
+import { AppModule } from './app/app.module';
+import { AllExceptionsFilter } from './app/filters/all-exceptions.filter';
+import { NotFoundExceptionsFilter } from './app/filters/not-found-exceptions.filter';
+import { LoggerService } from './app/logger/logger.service';
 import { config } from './config';
-import { AllExceptionsFilter } from './filters/all-exceptions.filter';
-import { NotFoundExceptionsFilter } from './filters/not-found-exceptions.filter';
-import { LoggerService } from './services/logger.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

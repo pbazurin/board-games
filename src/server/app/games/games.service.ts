@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 
 import { GameType } from '@dto/game/game-type.enum';
 
-import { Game } from '../models/game/game';
+import { Game } from './game';
 
 @Injectable()
 export class GamesService {

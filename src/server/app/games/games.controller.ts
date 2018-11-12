@@ -4,20 +4,23 @@ import { AddGameDto } from '@dto/game/add-game.dto';
 import { GameCreatedAction } from '@dto/game/game-actions';
 import { GameDto } from '@dto/game/game.dto';
 
-import { GamesConverter } from '../converters/games.converter';
-import { AuthHttpGuard } from '../guards/auth-http.guard';
-import { AuthService } from '../services/auth.service';
-import { GamesService } from '../services/games.service';
-import { SocketService } from '../services/socket.service';
+import { AuthHttpGuard } from '../auth/auth-http.guard';
+import { AuthService } from '../auth/auth.service';
+import { SocketService } from '../socket/socket.service';
 import { ConnectionId } from '../utils/connection-id.decorator';
+import { BaseController } from './base.controller';
+import { GamesConverter } from './games.converter';
+import { GamesService } from './games.service';
 
 @Controller('api/games')
-export class GamesController {
+export class GamesController extends BaseController {
   constructor(
-    private gamesService: GamesService,
-    private authService: AuthService,
-    private socketService: SocketService
-  ) { }
+    authService: AuthService,
+    socketService: SocketService,
+    private gamesService: GamesService
+  ) {
+    super(authService, socketService);
+  }
 
   @Get()
   @UseGuards(AuthHttpGuard)
@@ -28,10 +31,10 @@ export class GamesController {
   @Post()
   @UseGuards(AuthHttpGuard)
   startNewGame(@Body() addGameDto: AddGameDto, @ConnectionId() connectionId: string): string {
-    const userId = this.authService.getUserIdByConnection(connectionId);
+    const userId = this.authService.getUserIdByConnectionId(connectionId);
     const newGameId = this.gamesService.addNewGame(userId, addGameDto.gameType);
 
-    this.socketService.sendToAll(new GameCreatedAction(newGameId));
+    this.socketService.sendToOthers(this.getSocketByConnectionId(connectionId), new GameCreatedAction(newGameId));
 
     return newGameId;
   }

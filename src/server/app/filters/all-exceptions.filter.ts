@@ -1,7 +1,7 @@
 import { ArgumentsHost, Catch, HttpServer, Inject } from '@nestjs/common';
 import { BaseExceptionFilter, HTTP_SERVER_REF } from '@nestjs/core';
 
-import { LoggerService } from '../services/logger.service';
+import { LoggerService } from '../logger/logger.service';
 
 @Catch()
 export class AllExceptionsFilter extends BaseExceptionFilter {

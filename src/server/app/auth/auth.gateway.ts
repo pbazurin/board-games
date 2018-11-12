@@ -4,9 +4,9 @@ import { Server, Socket } from 'socket.io';
 
 import { AuthConnectionIdGeneratedAction, AuthFailedAction, AuthGenerateConnectionIdAction } from '@dto/auth/auth-actions';
 
-import { AuthService } from '../services/auth.service';
-import { SocketService } from '../services/socket.service';
+import { SocketService } from '../socket/socket.service';
 import { SubscribeAction } from '../utils/subscribe-action.decorator';
+import { AuthService } from './auth.service';
 
 @WebSocketGateway()
 export class AuthGateway implements OnGatewayDisconnect, OnGatewayInit {

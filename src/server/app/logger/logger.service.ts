@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import * as Rollbar from 'rollbar';
 
-import { config } from '../config';
+import { config } from '../../config';
 
 @Injectable()
 export class LoggerService {
