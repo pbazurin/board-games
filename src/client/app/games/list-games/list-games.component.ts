@@ -19,7 +19,7 @@ import { GamesService } from '../games.service';
 })
 export class ListGamesComponent implements OnInit, OnDestroy {
   gameTypeName = GameTypeNames;
-  isLoading = false;
+  isLoading = true;
   games: GameDto[] = [];
 
   private tearDown$ = new Subject();

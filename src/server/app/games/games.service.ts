@@ -1,13 +1,18 @@
 import { Injectable } from '@nestjs/common';
 
-import { v4 } from 'uuid';
-
 import { GameType } from '@dto/game/game-type.enum';
 
 import { Game } from './game';
+import { GameMunchkinService } from './game-munchkin/game-munchkin.service';
+import { GameTestService } from './game-test/game-test.service';
 
 @Injectable()
 export class GamesService {
+  constructor(
+    private gameTestService: GameTestService,
+    private gameMunchkinService: GameMunchkinService
+  ) { }
+
   private games: Game[] = [];
 
   getRunningGames(): Game[] {
@@ -15,16 +20,35 @@ export class GamesService {
   }
 
   addNewGame(authorUserId: string, gameType: GameType): string {
-    const newGameId = v4();
-    this.games.push({
-      id: newGameId,
-      authorUserId: authorUserId,
-      createdOn: new Date(),
-      userIds: [],
-      type: gameType
-    });
+    let newGame: Game;
 
-    return newGameId;
+    switch (gameType) {
+      case GameType.Test:
+        newGame = this.gameTestService.createNewGame(authorUserId);
+        break;
+      case GameType.Munchkin:
+        newGame = this.gameMunchkinService.createNewGame(authorUserId);
+        break;
+    }
+
+    this.games.push(newGame);
+
+    return newGame.id;
+  }
+
+  canUserJoinGame(userId: string, gameId: string): boolean {
+    const targetGame = this.games.find(g => g.id === gameId);
+
+    if (!targetGame) {
+      return false;
+    }
+
+    switch (targetGame.type) {
+      case GameType.Test:
+        return this.gameTestService.canUserJoinGame(userId, targetGame);
+      case GameType.Munchkin:
+        return this.gameMunchkinService.canUserJoinGame(userId, targetGame);
+    }
   }
 
   joinGame(userId: string, gameId: string): boolean {
@@ -34,11 +58,12 @@ export class GamesService {
       return false;
     }
 
-    if (targetGame.userIds.indexOf(userId) === -1) {
-      targetGame.userIds.push(userId);
+    switch (targetGame.type) {
+      case GameType.Test:
+        return this.gameTestService.addUserToGame(userId, targetGame);
+      case GameType.Munchkin:
+        return this.gameMunchkinService.addUserToGame(userId, targetGame);
     }
-
-    return true;
   }
 
   leaveGame(userId: string, gameId: string): boolean {
@@ -48,8 +73,12 @@ export class GamesService {
       return false;
     }
 
-    targetGame.userIds = targetGame.userIds.filter(u => u !== userId);
-    return true;
+    switch (targetGame.type) {
+      case GameType.Test:
+        return this.gameTestService.removeUserFromGame(userId, targetGame);
+      case GameType.Munchkin:
+        return this.gameMunchkinService.removeUserFromGame(userId, targetGame);
+    }
   }
 
   removeGame(gameId: string): boolean {

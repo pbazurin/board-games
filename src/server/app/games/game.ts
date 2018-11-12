@@ -1,6 +1,6 @@
 import { GameType } from '@dto/game/game-type.enum';
 
-export class Game {
+export interface Game {
   id: string;
   type: GameType;
   userIds: string[];
