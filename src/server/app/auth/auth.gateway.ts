@@ -4,8 +4,9 @@ import { Server, Socket } from 'socket.io';
 
 import { AuthConnectionIdGeneratedAction, AuthFailedAction, AuthGenerateConnectionIdAction } from '@dto/auth/auth-actions';
 
+import { config } from '../../config';
+import { SubscribeAction } from '../helpers/subscribe-action.decorator';
 import { SocketService } from '../socket/socket.service';
-import { SubscribeAction } from '../utils/subscribe-action.decorator';
 import { AuthService } from './auth.service';
 
 @WebSocketGateway()
@@ -29,6 +30,7 @@ export class AuthGateway implements OnGatewayDisconnect, OnGatewayInit {
 
     if (connectionId) {
       this.socketService.sendToSocket(socket, new AuthConnectionIdGeneratedAction(connectionId));
+      socket.join(config.generalRoomName);
     } else {
       this.socketService.sendToSocket(socket, new AuthFailedAction());
     }

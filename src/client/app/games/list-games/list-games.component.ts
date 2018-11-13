@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { GameCreatedAction, GameRemovedAction, GameUserJoinedAction, GameUserLeftAction } from '@dto/game/game-actions';
-import { GameTypeNames } from '@dto/game/game-type.enum';
+import { GameType, GameTypeNames } from '@dto/game/game-type.enum';
 import { GameDto } from '@dto/game/game.dto';
 
 import { SocketService } from '../../core/services/socket.service';
@@ -59,8 +59,15 @@ export class ListGamesComponent implements OnInit, OnDestroy {
       );
   }
 
-  joinGame(gameId: number) {
-    this.router.navigate(['games', 'test', gameId]);
+  joinGame(game: GameDto) {
+    switch (game.type) {
+      case GameType.Test:
+        this.router.navigate(['games', 'test', game.id]);
+        break;
+      case GameType.Munchkin:
+        this.router.navigate(['games', 'munchkin', game.id]);
+        break;
+    }
   }
 
   ngOnDestroy() {

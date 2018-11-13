@@ -3,19 +3,32 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { AddGameDto } from '@dto/game/add-game.dto';
 import { GameType } from '@dto/game/game-type.enum';
 import { GameDto } from '@dto/game/game.dto';
 
+import { GameMunchkinService } from './game-munchkin/game-munchkin.service';
+import { GameTestService } from './game-test/game-test.service';
+
 @Injectable()
 export class GamesService {
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    private gameTestService: GameTestService,
+    private gameMunchkinService: GameMunchkinService
+  ) { }
 
   getAllRunningGames(): Observable<GameDto[]> {
     return this.httpClient.get<GameDto[]>('api/games');
   }
 
   startNewGame(gameType: GameType): Observable<string> {
-    return this.httpClient.post('api/games', <AddGameDto>{ gameType }, { responseType: 'text' });
+    switch (gameType) {
+      case GameType.Test:
+        return this.gameTestService.startNewGame();
+      case GameType.Munchkin:
+        return this.gameMunchkinService.startNewGame();
+      default:
+        throw Error('Unknown game');
+    }
   }
 }

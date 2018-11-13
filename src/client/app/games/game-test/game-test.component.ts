@@ -2,11 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { switchMap, takeUntil, tap } from 'rxjs/operators';
 
-import { JoinGameAction, LeaveGameAction } from '@dto/game/game-actions';
+import { LeaveGameAction } from '@dto/game/game-actions';
 
 import { SocketService } from '../../core/services/socket.service';
+import { GameTestService } from './game-test.service';
 
 @Component({
   selector: 'bg-game-test',
@@ -19,17 +20,18 @@ export class GameTestComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private gameTestService: GameTestService
   ) { }
 
   ngOnInit() {
     this.route.params
-      .pipe(takeUntil(this.tearDown$))
-      .subscribe(params => {
-        this.gameId = params['id'];
-
-        this.socketService.emit(new JoinGameAction(this.gameId));
-      });
+      .pipe(
+        takeUntil(this.tearDown$),
+        tap(params => this.gameId = params['gameId']),
+        switchMap(() => this.gameTestService.joinGame(this.gameId))
+      )
+      .subscribe();
   }
 
   ngOnDestroy() {

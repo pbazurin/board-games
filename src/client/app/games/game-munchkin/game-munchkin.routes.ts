@@ -4,7 +4,7 @@ import { GameMunchkinComponent } from './game-munchkin.component';
 
 export const gameMunchkinRoutes: Routes = [
   {
-    path: 'munchkin/:id',
+    path: 'munchkin/:gameId',
     component: GameMunchkinComponent
   }
 ];

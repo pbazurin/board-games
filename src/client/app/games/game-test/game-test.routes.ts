@@ -4,7 +4,7 @@ import { GameTestComponent } from './game-test.component';
 
 export const gameTestRoutes: Routes = [
   {
-    path: 'test/:id',
+    path: 'test/:gameId',
     component: GameTestComponent
   }
 ];

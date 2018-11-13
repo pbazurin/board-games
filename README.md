@@ -7,6 +7,7 @@ Free opensource portal that allows you to play most of the board games online.
 
 Currently supported games:
 * Test (in progress)
+* Munchkin (in progress)
 
 # Demo
 

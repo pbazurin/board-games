@@ -4,12 +4,11 @@ import { v4 } from 'uuid';
 
 import { GameType } from '@dto/game/game-type.enum';
 
-import { Game } from '../game';
-import { GameBaseService } from '../game-base.service';
+import { Game } from '../games/game';
 import { GameMunchkin } from './game-munchkin';
 
 @Injectable()
-export class GameMunchkinService implements GameBaseService {
+export class GameMunchkinService {
   createNewGame(authorUserId: string): Game {
     const newGameId = v4();
     const newGame = <GameMunchkin>{
@@ -17,26 +16,30 @@ export class GameMunchkinService implements GameBaseService {
       authorUserId: authorUserId,
       createdOn: new Date(),
       userIds: [],
-      type: GameType.Test,
-      munchkin: 'Munchkin'
+      type: GameType.Munchkin,
+      munchkin: 'munchkin'
     };
 
     return newGame;
   }
 
-  canUserJoinGame(userId: string, game: Game): boolean {
-    return true;
-  }
-
-  addUserToGame(userId: string, game: Game): boolean {
-    if (game.userIds.indexOf(userId) === -1) {
-      game.userIds.push(userId);
+  addUserToGame(userId: string, game: Game): void {
+    if (game.userIds.indexOf(userId) !== -1) {
+      throw Error(`User '${userId}' already in game`);
     }
 
-    return true;
+    if (game.userIds.length >= 1) {
+      throw Error(`1 player is maximum here`);
+    }
+
+    game.userIds.push(userId);
   }
 
   removeUserFromGame(userId: string, game: Game): boolean {
+    if (game.userIds.indexOf(userId) === -1) {
+      return false;
+    }
+
     game.userIds = game.userIds.filter(u => u !== userId);
 
     return true;

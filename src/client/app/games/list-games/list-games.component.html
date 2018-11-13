@@ -5,7 +5,7 @@
     <div fxFlex>{{ game.authorUserId }} author</div>
     <div fxFlex>{{ game.userIds.length }} player(s)</div>
     <div fxFlex>Created {{ game.createdOn | date }}</div>
-    <button mat-button color="primary" (click)="joinGame(game.id)">{{ 'Join' | translate }}</button>
+    <button mat-button color="primary" (click)="joinGame(game)">{{ 'Join' | translate }}</button>
   </mat-list-item>
   <span *ngIf="!games.length && !isLoading">{{ 'No running games' | translate }}</span>
 </mat-list>
