@@ -1,20 +1,34 @@
-import { ArgumentsHost, Catch, HttpServer, Inject } from '@nestjs/common';
-import { BaseExceptionFilter, HTTP_SERVER_REF } from '@nestjs/core';
+import { ArgumentsHost, Catch, HttpStatus } from '@nestjs/common';
+
+import { ServerResponse } from 'http';
+
+import { ErrorResponseDto } from '@dto/error/error-response.dto';
 
 import { LoggerService } from '../logger/logger.service';
 
 @Catch()
-export class AllExceptionsFilter extends BaseExceptionFilter {
+export class AllExceptionsFilter {
   constructor(
-    @Inject(HTTP_SERVER_REF) applicationRef: HttpServer,
     private loggerService: LoggerService
-  ) {
-    super(applicationRef);
-  }
+  ) { }
 
-  catch(exception: any, host: ArgumentsHost) {
-    this.loggerService.error(exception);
+  catch(exception: Error, host: ArgumentsHost) {
+    this.loggerService.error(exception.message, exception.stack);
 
-    super.catch(exception, host);
+    if (host.getArgByIndex(1) instanceof ServerResponse) {
+      const ctx = host.switchToHttp();
+      const response = ctx.getResponse();
+
+      response
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json(<ErrorResponseDto>{
+          timestamp: new Date().toISOString(),
+          errorName: exception.name,
+          errorMessage: exception.message
+        });
+    } else {
+      // TODO: add handler for ws errors
+      throw exception;
+    }
   }
 }

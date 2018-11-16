@@ -2,8 +2,10 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
 import { SharedUIModule } from '../shared/ui/shared-ui.module';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { AuthService } from './services/auth.service';
+import { NotificationService } from './services/notification.service';
 import { SocketService } from './services/socket.service';
 import { UserSettingsService } from './services/user-settings.service';
 
@@ -23,10 +25,16 @@ export class CoreModule {
       providers: [
         AuthService,
         SocketService,
+        NotificationService,
         UserSettingsService,
         {
           provide: HTTP_INTERCEPTORS,
           useClass: TokenInterceptor,
+          multi: true
+        },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: ErrorInterceptor,
           multi: true
         }
       ],

@@ -25,7 +25,7 @@ export class GameTestService {
 
   addUserToGame(userId: string, game: Game): void {
     if (game.userIds.indexOf(userId) !== -1) {
-      throw Error(`User '${userId}' already in game`);
+      throw new Error(`User '${userId}' already in game`);
     }
 
     game.userIds.push(userId);

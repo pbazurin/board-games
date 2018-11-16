@@ -2,8 +2,11 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 
+import { Observable } from 'rxjs';
+
 import { GameType, GameTypeNames } from '../../../../shared/dto/game/game-type.enum';
-import { GamesService } from '../games.service';
+import { GameMunchkinService } from '../game-munchkin/game-munchkin.service';
+import { GameTestService } from '../game-test/game-test.service';
 
 @Component({
   selector: 'bg-dialog-new-game',
@@ -16,12 +19,24 @@ export class DialogNewGameComponent {
 
   constructor(
     private dialogRef: MatDialogRef<DialogNewGameComponent>,
-    private gamesService: GamesService,
-    private router: Router
+    private router: Router,
+    private gameTestService: GameTestService,
+    private gameMunchkinService: GameMunchkinService
   ) { }
 
   onSubmit() {
-    this.gamesService.startNewGame(this.selectedGameType)
+    let startNewGame$: Observable<string>;
+
+    switch (this.selectedGameType) {
+      case GameType.Test:
+        startNewGame$ = this.gameTestService.startNewGame();
+        break;
+      case GameType.Munchkin:
+        startNewGame$ = this.gameMunchkinService.startNewGame();
+        break;
+    }
+
+    startNewGame$
       .subscribe(newGameId => {
         this.dialogRef.close();
         this.router.navigate(['games', GameType[this.selectedGameType].toLowerCase(), newGameId]);

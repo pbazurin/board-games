@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
@@ -27,7 +26,6 @@ export class ListGamesComponent implements OnInit, OnDestroy {
   constructor(
     private gamesService: GamesService,
     private socketService: SocketService,
-    private snackBar: MatSnackBar,
     private router: Router
   ) { }
 
@@ -50,24 +48,14 @@ export class ListGamesComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.games = games;
         },
-        error => {
-          // TODO: add global error handling. But since so far we have only one list, it's ok
+        () => {
           this.isLoading = false;
-          let snackRef = this.snackBar.open(error.message, 'Close');
-          snackRef.onAction().subscribe(() => snackRef.dismiss());
         }
       );
   }
 
   joinGame(game: GameDto) {
-    switch (game.type) {
-      case GameType.Test:
-        this.router.navigate(['games', 'test', game.id]);
-        break;
-      case GameType.Munchkin:
-        this.router.navigate(['games', 'munchkin', game.id]);
-        break;
-    }
+    this.router.navigate(['games', GameType[game.type].toLowerCase(), game.id]);
   }
 
   ngOnDestroy() {

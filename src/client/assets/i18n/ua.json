@@ -10,7 +10,7 @@
   "Invite your friends to play with you or fight against the AI": "Запросіть своїх друзів грати з вами або бийтеся проти штучного інтелекту.",
   "Running games list": "Список активних ігор",
   "No running games": "Немає активних ігор",
-  "Start a new game": "Почати нову гру",
+  "Start new game": "Почати нову гру",
   "Start": "Почати",
   "Test game": "Тестова гра",
   "Munchkin": "Манчкін",
@@ -23,5 +23,6 @@
   "Save": "Зберегти",
   "Cancel": "Cкасувати",
   "Name": "Ім'я",
-  "Password": "Пароль"
+  "Password": "Пароль",
+  "Close": "Закрити"
 }

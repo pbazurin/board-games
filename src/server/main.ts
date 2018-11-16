@@ -1,4 +1,4 @@
-import { HTTP_SERVER_REF, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
 import { AllExceptionsFilter } from './app/filters/all-exceptions.filter';
@@ -9,10 +9,9 @@ import { config } from './config';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const httpRef = app.get(HTTP_SERVER_REF);
   const loggerService = app.get(LoggerService);
-  app.useGlobalFilters(new AllExceptionsFilter(httpRef, loggerService));
-  app.useGlobalFilters(new NotFoundExceptionsFilter(httpRef));
+  app.useGlobalFilters(new AllExceptionsFilter(loggerService));
+  app.useGlobalFilters(new NotFoundExceptionsFilter());
 
   app.useStaticAssets(config.staticAssetsDirPath);
 

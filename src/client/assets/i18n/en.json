@@ -9,7 +9,7 @@
   "Find a game or create a new one": "Find a game or create a new one on 'Games' tab.",
   "Running games list": "Running games list",
   "No running games": "No running games",
-  "Start a new game": "Start a new game",
+  "Start new game": "Start new game",
   "Start": "Start",
   "Test game": "Test game",
   "Munchkin": "Munchkin",
@@ -23,5 +23,6 @@
   "Save": "Save",
   "Cancel": "Cancel",
   "Name": "Name",
-  "Password": "Password"
+  "Password": "Password",
+  "Close": "Close"
 }

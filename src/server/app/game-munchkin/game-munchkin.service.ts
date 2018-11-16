@@ -25,11 +25,11 @@ export class GameMunchkinService {
 
   addUserToGame(userId: string, game: Game): void {
     if (game.userIds.indexOf(userId) !== -1) {
-      throw Error(`User '${userId}' already in game`);
+      throw new Error(`User '${userId}' already in game`);
     }
 
     if (game.userIds.length >= 1) {
-      throw Error(`1 player is maximum here`);
+      throw new Error(`1 player is maximum here`);
     }
 
     game.userIds.push(userId);

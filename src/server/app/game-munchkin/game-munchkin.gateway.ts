@@ -39,7 +39,7 @@ export class GameMunchkinGateway implements OnGatewayInit {
   onLeaveGame(socket: Socket, action: LeaveGameAction): void {
     const userId = this.authService.getUserIdBySocketId(socket.id);
     const gameId = action.payload;
-    const targetGame = this.gamesService.getGameById(gameId);
+    const targetGame = this.gamesService.getGame(gameId);
 
     if (targetGame.type !== GameType.Munchkin) {
       return;

@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+
+import { GameType } from '@dto/game/game-type.enum';
 
 import { Game } from './game';
 
@@ -10,8 +12,14 @@ export class GamesService {
     return this.games;
   }
 
-  getGameById(gameId: string): Game {
-    return this.games.find(g => g.id === gameId);
+  getGame(id: string, type?: GameType): Game {
+    const game = this.games.find(g => g.id === id);
+
+    if (!game || (type && game.type !== type)) {
+      throw new Error(`Game with id '${id}' wasn't found`);
+    }
+
+    return game;
   }
 
   addNewGame(newGame: Game): void {

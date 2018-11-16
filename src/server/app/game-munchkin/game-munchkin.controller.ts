@@ -41,11 +41,7 @@ export class GameMunchkinController extends BaseController {
   @UseGuards(AuthHttpGuard)
   joinGame(@Param('gameId') gameId, @ConnectionId() connectionId: string): void {
     const userId = this.authService.getUserIdByConnectionId(connectionId);
-    const targetGame = this.gamesService.getGameById(gameId);
-
-    if (!targetGame || targetGame.type !== GameType.Munchkin) {
-      throw Error(`Game wasn't found`);
-    }
+    const targetGame = this.gamesService.getGame(gameId, GameType.Munchkin);
 
     this.gameMunchkinService.addUserToGame(userId, targetGame);
 

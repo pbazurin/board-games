@@ -41,11 +41,7 @@ export class GameTestController extends BaseController {
   @UseGuards(AuthHttpGuard)
   joinGame(@Param('gameId') gameId, @ConnectionId() connectionId: string): void {
     const userId = this.authService.getUserIdByConnectionId(connectionId);
-    const targetGame = this.gamesService.getGameById(gameId);
-
-    if (!targetGame || targetGame.type !== GameType.Test) {
-      throw Error(`Game wasn't found`);
-    }
+    const targetGame = this.gamesService.getGame(gameId, GameType.Test);
 
     this.gameTestService.addUserToGame(userId, targetGame);
 

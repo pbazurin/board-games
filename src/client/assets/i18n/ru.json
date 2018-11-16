@@ -9,7 +9,7 @@
   "Find a game or create a new one": "Найдите игру или создайте новую на вкладке 'Игры'.",
   "Running games list": "Список активных игр",
   "No running games": "Нет активных игр",
-  "Start a new game": "Начать новую игру",
+  "Start new game": "Начать новую игру",
   "Start": "Начать",
   "Test game": "Тестовая игра",
   "Munchkin": "Манчкин",
@@ -23,5 +23,6 @@
   "Save": "Сохранить",
   "Cancel": "Отмена",
   "Name": "Имя",
-  "Password": "Пароль"
+  "Password": "Пароль",
+  "Close": "Закрыть"
 }

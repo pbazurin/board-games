@@ -18,11 +18,9 @@ export class LoggerService {
     }
   }
 
-  error(error: any, context?: any, response?: any) {
-    console.log(JSON.stringify(error));
-
+  error(message: any, trace?: any) {
     if (this.rollbar) {
-      this.rollbar.error(error, context, response);
+      this.rollbar.error(message);
     }
   }
 }
