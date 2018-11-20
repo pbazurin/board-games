@@ -1,0 +1,28 @@
+<div fxFlex fxLayout="column">
+  <mat-list fxFlex #messagesList class="chat__messages-container">
+    <mat-list-item *ngFor="let message of messages">
+      <mat-icon
+        mat-list-avatar
+        class="chat__message-icon"
+        [svgIcon]="message.isSystem ? 'icon-info' : 'icon-user'"
+      ></mat-icon>
+      <div mat-line>
+        <p class="chat__message-title">{{ message.from }}</p>
+        <p class="chat__message-text">{{ message.text }}</p>
+      </div>
+    </mat-list-item>
+  </mat-list>
+  <form fxFlex="0 0 auto" class="chat__form" (ngSubmit)="onSubmit()">
+    <mat-form-field fxFlex>
+      <input
+        matInput
+        placeholder="{{ 'Message' | translate }}"
+        name="message"
+        [(ngModel)]="currentMessage"
+      />
+    </mat-form-field>
+    <button mat-button type="submit" [disabled]="!currentMessage">
+      {{ 'Send' | translate }}
+    </button>
+  </form>
+</div>

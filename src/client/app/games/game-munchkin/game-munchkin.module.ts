@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { SharedUIModule } from '../../shared/ui/shared-ui.module';
+import { SharedUIModule } from '../../shared/shared-ui.module';
 import { GameMunchkinComponent } from './game-munchkin.component';
 import { GameMunchkinService } from './game-munchkin.service';
 import { MunchkinBoardComponent } from './munchkin-board/munchkin-board.component';

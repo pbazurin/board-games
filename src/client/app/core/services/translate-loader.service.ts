@@ -12,10 +12,12 @@ export class TranslateLoaderService implements TranslateLoader {
   private readonly SUFFIX = '.json';
   private translateHttpLoader: TranslateHttpLoader;
 
-  constructor(
-    http: HttpClient
-  ) {
-    this.translateHttpLoader = new TranslateHttpLoader(http, this.PREFIX, this.SUFFIX);
+  constructor(http: HttpClient) {
+    this.translateHttpLoader = new TranslateHttpLoader(
+      http,
+      this.PREFIX,
+      this.SUFFIX
+    );
   }
 
   getTranslation(lang: string): Observable<any> {

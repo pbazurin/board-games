@@ -1,0 +1,24 @@
+$icon-size: 24px;
+$message-font-size: 14px;
+
+.chat__messages-container {
+  overflow: auto;
+}
+
+.chat__message-icon {
+  height: $icon-size;
+  width: $icon-size;
+}
+
+.chat__message-title {
+  font-size: $message-font-size;
+  font-weight: bold;
+  margin: 0;
+}
+
+.chat__message-text {
+  font-size: $message-font-size;
+  margin: 0;
+  white-space: pre-line;
+  word-break: break-all;
+}

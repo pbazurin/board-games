@@ -10,20 +10,14 @@ import {
   MatListModule,
   MatProgressSpinnerModule,
   MatSelectModule,
-  MatSnackBarModule,
-  MatToolbarModule,
 } from '@angular/material';
 
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  declarations: [
-  ],
-  imports: [],
   exports: [
     CommonModule,
     FormsModule,
-    MatToolbarModule,
     MatIconModule,
     MatButtonModule,
     MatDialogModule,
@@ -31,9 +25,8 @@ import { TranslateModule } from '@ngx-translate/core';
     MatSelectModule,
     MatListModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule,
     TranslateModule,
-    FlexLayoutModule,
+    FlexLayoutModule
   ]
 })
-export class SharedUIModule { }
+export class SharedUIModule {}

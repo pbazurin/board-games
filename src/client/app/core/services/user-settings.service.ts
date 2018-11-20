@@ -7,7 +7,7 @@ import { generate as generateRandomName } from 'unique-names-generator';
 import { v4 } from 'uuid';
 
 import { environment } from '../../../environments/environment';
-import { Utils } from '../../shared/utils/utils';
+import { Utils } from '../../utils/utils';
 
 export interface UserSettings {
   id: string;
@@ -26,7 +26,7 @@ export class UserSettingsService {
     return this.userSettingsSubject$.asObservable();
   }
 
-  constructor() { }
+  constructor() {}
 
   init() {
     let userSettings = this.loadFromStorage();
@@ -52,7 +52,9 @@ export class UserSettingsService {
   }
 
   private loadFromStorage(): UserSettings {
-    let userSettingsString = localStorage.getItem(this.USER_SETTINGS_STORAGE_NAME);
+    let userSettingsString = localStorage.getItem(
+      this.USER_SETTINGS_STORAGE_NAME
+    );
 
     if (!userSettingsString || !userSettingsString.length) {
       return null;
@@ -66,7 +68,12 @@ export class UserSettingsService {
       return null;
     }
 
-    if (!userSettings.name || !userSettings.password || !userSettings.id || !userSettings.language) {
+    if (
+      !userSettings.name ||
+      !userSettings.password ||
+      !userSettings.id ||
+      !userSettings.language
+    ) {
       return null;
     }
 
@@ -89,6 +96,9 @@ export class UserSettingsService {
   }
 
   private saveToStorage(userSettings: UserSettings) {
-    localStorage.setItem(this.USER_SETTINGS_STORAGE_NAME, JSON.stringify(userSettings));
+    localStorage.setItem(
+      this.USER_SETTINGS_STORAGE_NAME,
+      JSON.stringify(userSettings)
+    );
   }
 }
