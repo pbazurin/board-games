@@ -11,7 +11,8 @@ import { GameMunchkinService } from './game-munchkin.service';
 
 @Component({
   selector: 'bg-game-munchkin',
-  templateUrl: './game-munchkin.component.html'
+  templateUrl: './game-munchkin.component.html',
+  styleUrls: ['./game-munchkin.component.scss']
 })
 export class GameMunchkinComponent implements OnInit, OnDestroy {
   gameId: string;
@@ -22,13 +23,13 @@ export class GameMunchkinComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private socketService: SocketService,
     private gameMunchkinService: GameMunchkinService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.route.params
       .pipe(
         takeUntil(this.tearDown$),
-        tap(params => this.gameId = params['gameId']),
+        tap(params => (this.gameId = params['gameId'])),
         switchMap(() => this.gameMunchkinService.joinGame(this.gameId))
       )
       .subscribe();

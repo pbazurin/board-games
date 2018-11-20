@@ -1,0 +1,5 @@
+@import '../../../css/variables';
+
+:host {
+  height: calc(100vh - #{$header-height});
+}

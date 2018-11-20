@@ -11,7 +11,8 @@ import { GameTestService } from './game-test.service';
 
 @Component({
   selector: 'bg-game-test',
-  templateUrl: './game-test.component.html'
+  templateUrl: './game-test.component.html',
+  styleUrls: ['./game-test.component.scss']
 })
 export class GameTestComponent implements OnInit, OnDestroy {
   gameId: string;
@@ -22,13 +23,13 @@ export class GameTestComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private socketService: SocketService,
     private gameTestService: GameTestService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.route.params
       .pipe(
         takeUntil(this.tearDown$),
-        tap(params => this.gameId = params['gameId']),
+        tap(params => (this.gameId = params['gameId'])),
         switchMap(() => this.gameTestService.joinGame(this.gameId))
       )
       .subscribe();

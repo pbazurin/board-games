@@ -12,7 +12,7 @@ export class CustomErrorHandler extends ErrorHandler {
 
   handleError(error: Error) {
     if (this.rollbar) {
-      this.rollbar.error(error);
+      this.rollbar.error(error.message);
     }
 
     super.handleError(error);

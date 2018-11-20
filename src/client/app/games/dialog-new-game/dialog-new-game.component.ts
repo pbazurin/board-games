@@ -14,7 +14,7 @@ import { GameTestService } from '../game-test/game-test.service';
 })
 export class DialogNewGameComponent {
   gameTypeNames = GameTypeNames;
-  gameTypes = [GameType.Test, GameType.Munchkin];
+  gameTypes = [GameType.Munchkin, GameType.Test];
   selectedGameType: GameType = this.gameTypes[0];
 
   constructor(
