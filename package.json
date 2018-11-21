@@ -15,14 +15,14 @@
     "start": "ng serve",
     "start.server": "nodemon --config nodemon/nodemon-dev.json",
     "start.server:debug": "nodemon --config nodemon/nodemon-debug.json",
-    "build.server:prod": "npm run clean && ng build --prod",
     "start.server:prod": "nodemon --config nodemon/nodemon-prod.json",
     "build": "ng build",
+    "build:prod": "ng build --prod",
     "clean": "rimraf dist",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "heroku-postbuild": "npm run build.server:prod"
+    "heroku-postbuild": "npm run clean && npm run build:prod"
   },
   "dependencies": {
     "@angular/animations": "^7.0.2",
