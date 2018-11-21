@@ -22,7 +22,7 @@ export class DialogNewGameComponent {
     private router: Router,
     private gameTestService: GameTestService,
     private gameMunchkinService: GameMunchkinService
-  ) { }
+  ) {}
 
   onSubmit() {
     let startNewGame$: Observable<string>;
@@ -36,10 +36,13 @@ export class DialogNewGameComponent {
         break;
     }
 
-    startNewGame$
-      .subscribe(newGameId => {
-        this.dialogRef.close();
-        this.router.navigate(['games', GameType[this.selectedGameType].toLowerCase(), newGameId]);
-      });
+    startNewGame$.subscribe(newGameId => {
+      this.dialogRef.close();
+      this.router.navigate([
+        'games',
+        GameType[this.selectedGameType].toLowerCase(),
+        newGameId
+      ]);
+    });
   }
 }

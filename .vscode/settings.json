@@ -38,6 +38,7 @@
     "**/build/**/*",
     "**/out/**/*",
     "**/dist/**/*",
-    "**/polyfills.ts"
+    "**/polyfills.ts",
+    "**/test.ts"
   ]
 }

@@ -4,11 +4,21 @@
       <mat-icon svgIcon="icon-dice" class="header__brand-logo"></mat-icon>
       <span class="header__brand-name">Board Games</span>
     </a>
-    <a mat-button class="header__navigation-link" routerLink="/home" routerLinkActive="header__navigation-link--active">
+    <a
+      mat-button
+      class="header__navigation-link"
+      routerLink="/home"
+      routerLinkActive="header__navigation-link--active"
+    >
       {{ 'Home' | translate }}
     </a>
-    <a mat-button class="header__navigation-link" routerLink="/games" routerLinkActive="header__navigation-link--active"
-      [routerLinkActiveOptions]="{exact: true}">
+    <a
+      mat-button
+      class="header__navigation-link"
+      routerLink="/games"
+      routerLinkActive="header__navigation-link--active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
       {{ 'Games' | translate }}
     </a>
     <span fxFlex></span>

@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { UseFilters, UseGuards } from '@nestjs/common';
 import { OnGatewayInit, WebSocketGateway } from '@nestjs/websockets';
 
 import { Socket } from 'socket.io';
@@ -9,6 +9,7 @@ import { GameType } from '@dto/game/game-type.enum';
 import { config } from '../../config';
 import { AuthSocketGuard } from '../auth/auth-socket.guard';
 import { AuthService } from '../auth/auth.service';
+import { AllExceptionsFilter } from '../error/all-exceptions.filter';
 import { Game } from '../games/game';
 import { GamesService } from '../games/games.service';
 import { SubscribeAction } from '../helpers/subscribe-action.decorator';
@@ -16,17 +17,20 @@ import { SocketService } from '../socket/socket.service';
 import { GameMunchkinService } from './game-munchkin.service';
 
 @WebSocketGateway()
+@UseFilters(AllExceptionsFilter)
+@UseGuards(AuthSocketGuard)
 export class GameMunchkinGateway implements OnGatewayInit {
   constructor(
     private authService: AuthService,
     private socketService: SocketService,
     private gamesService: GamesService,
     private gameMunchkinService: GameMunchkinService
-  ) { }
+  ) {}
 
   afterInit() {
     this.authService.userDisconnected$.subscribe(connection => {
-      this.gamesService.getRunningGames()
+      this.gamesService
+        .getRunningGames()
         .filter(g => g.type === GameType.Munchkin)
         .forEach(game => {
           this.leaveGame(connection.userId, game);
@@ -35,21 +39,24 @@ export class GameMunchkinGateway implements OnGatewayInit {
   }
 
   @SubscribeAction(LeaveGameAction)
-  @UseGuards(AuthSocketGuard)
   onLeaveGame(socket: Socket, action: LeaveGameAction): void {
     const userId = this.authService.getUserIdBySocketId(socket.id);
     const gameId = action.payload;
-    const targetGame = this.gamesService.getGame(gameId);
 
-    if (targetGame.type !== GameType.Munchkin) {
+    if (!this.gamesService.isGameExists(gameId, GameType.Munchkin)) {
       return;
     }
+
+    const targetGame = this.gamesService.getGame(gameId);
 
     this.leaveGame(userId, targetGame, socket);
   }
 
   private leaveGame(userId: string, game: Game, socket?: Socket) {
-    const isValidGame = this.gameMunchkinService.removeUserFromGame(userId, game);
+    const isValidGame = this.gameMunchkinService.removeUserFromGame(
+      userId,
+      game
+    );
 
     if (!isValidGame) {
       return;
@@ -65,13 +72,22 @@ export class GameMunchkinGateway implements OnGatewayInit {
       this.socketService.sendToOthersInRoom(game.id, socket, userLeftAction);
 
       socket.join(config.generalRoomName);
-      this.socketService.sendToOthersInRoom(config.generalRoomName, socket, userLeftAction);
+      this.socketService.sendToOthersInRoom(
+        config.generalRoomName,
+        socket,
+        userLeftAction
+      );
     } else {
       this.socketService.sendToAllInRoom(game.id, userLeftAction);
-      this.socketService.sendToAllInRoom(config.generalRoomName, userLeftAction);
+      this.socketService.sendToAllInRoom(
+        config.generalRoomName,
+        userLeftAction
+      );
     }
 
-    const targetGame = this.gamesService.getRunningGames().find(g => g.id === game.id);
+    const targetGame = this.gamesService
+      .getRunningGames()
+      .find(g => g.id === game.id);
 
     if (targetGame.userIds.length) {
       return;
@@ -81,9 +97,16 @@ export class GameMunchkinGateway implements OnGatewayInit {
     const gameRemovedAction = new GameRemovedAction(game.id);
 
     if (socket) {
-      this.socketService.sendToOthersInRoom(config.generalRoomName, socket, gameRemovedAction);
+      this.socketService.sendToOthersInRoom(
+        config.generalRoomName,
+        socket,
+        gameRemovedAction
+      );
     } else {
-      this.socketService.sendToAllInRoom(config.generalRoomName, gameRemovedAction);
+      this.socketService.sendToAllInRoom(
+        config.generalRoomName,
+        gameRemovedAction
+      );
     }
   }
 }

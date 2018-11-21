@@ -9,9 +9,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { Angulartics2GoogleGlobalSiteTag } from 'angulartics2/gst';
 
 import { AuthGenerateConnectionIdAction } from '@dto/auth/auth-actions';
+import { ErrorResponseAction } from '@dto/error/error.actions';
 
 import { environment } from '../environments/environment';
 import { AuthService } from './core/services/auth.service';
+import { NotificationService } from './core/services/notification.service';
 import { SocketService } from './core/services/socket.service';
 import { UserSettingsService } from './core/services/user-settings.service';
 
@@ -30,13 +32,19 @@ export class AppComponent implements OnDestroy {
     angulartics: Angulartics2GoogleGlobalSiteTag,
     userSettingsService: UserSettingsService,
     socketService: SocketService,
-    authService: AuthService
+    authService: AuthService,
+    notificationService: NotificationService
   ) {
     angulartics.startTracking();
-    matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('./assets/svg/sprite.svg'));
+    matIconRegistry.addSvgIconSet(
+      domSanitizer.bypassSecurityTrustResourceUrl('./assets/svg/sprite.svg')
+    );
 
     socketService.init();
-    authService.init().pipe(takeUntil(this.tearDown$)).subscribe();
+    authService
+      .init()
+      .pipe(takeUntil(this.tearDown$))
+      .subscribe();
     userSettingsService.init();
 
     translate.setDefaultLang(environment.supportedLanguages[0]);
@@ -49,10 +57,12 @@ export class AppComponent implements OnDestroy {
         translate.addLangs(userSettings.availableLanguages);
         translate.use(userSettings.language);
 
-        socketService.emit(new AuthGenerateConnectionIdAction({
-          userId: userSettings.id,
-          password: userSettings.password
-        }));
+        socketService.emit(
+          new AuthGenerateConnectionIdAction({
+            userId: userSettings.id,
+            password: userSettings.password
+          })
+        );
       });
     userSettingsService.userSettings$
       .pipe(
@@ -62,9 +72,17 @@ export class AppComponent implements OnDestroy {
       )
       .subscribe(selectedLanguage => translate.use(selectedLanguage));
 
-    socketService.listenAll()
+    socketService
+      .listen(ErrorResponseAction)
       .pipe(takeUntil(this.tearDown$))
-      .subscribe(action => console.log(`${action.type} ${JSON.stringify(action.payload)}`));
+      .subscribe(action => notificationService.showMessage(action.payload));
+
+    socketService
+      .listenAll()
+      .pipe(takeUntil(this.tearDown$))
+      .subscribe(action =>
+        console.log(`${action.type} ${JSON.stringify(action.payload)}`)
+      );
   }
 
   ngOnDestroy() {

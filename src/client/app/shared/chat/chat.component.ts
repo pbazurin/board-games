@@ -1,50 +1,56 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { ChatMessage } from './chat.message';
+import { ChatService } from './chat.service';
 
 @Component({
   selector: 'bg-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, OnDestroy {
-  // players: Array<c.Player>;
-
+export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   currentMessage: string;
-  messages: Array<ChatMessage> = [];
+  messages: Array<ChatMessage>;
 
   @ViewChild('messagesList', { read: ElementRef })
   messagesList: any;
 
-  // private messageSubscription: Subscription;
-  // private gameSubscription: Subscription;
+  private tearDown$ = new Subject();
+  private isScrollToLastRequired = false;
 
-  constructor() // private chatService: ChatService,
-  // private gameService: GameService
-  {}
+  constructor(private chatService: ChatService) {}
 
   ngOnInit() {
-    // this.messageSubscription = this.chatService.message.subscribe(
-    //   (m: c.Message) => this.messages.push(new ChatMessage(m, this.players))
-    // );
-    // this.gameSubscription = this.gameService.game.subscribe(
-    //   (g: c.Game) => (this.players = g.players)
-    // );
+    this.chatService.messages$
+      .pipe(takeUntil(this.tearDown$))
+      .subscribe(messages => {
+        this.messages = messages;
+        this.isScrollToLastRequired = true;
+      });
+  }
+
+  ngAfterViewChecked() {
+    if (this.isScrollToLastRequired) {
+      this.scrollToBottom();
+      this.isScrollToLastRequired = false;
+    }
+  }
+
+  trackByFn(index: number, item: ChatMessage) {
+    return item.timestamp;
   }
 
   onSubmit() {
-    this.messages.push(<ChatMessage>{
-      from: 'Me',
-      text: this.currentMessage
-    });
-    // this.chatService.sendMessage(this.myMessage).subscribe();
+    this.chatService.sendMessageFromMe(this.currentMessage);
     this.currentMessage = '';
-    this.scrollToBottom();
   }
 
   ngOnDestroy() {
-    // this.messageSubscription.unsubscribe();
-    // this.gameSubscription.unsubscribe();
+    this.tearDown$.next();
+    this.tearDown$.complete();
   }
 
   private scrollToBottom(): void {

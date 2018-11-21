@@ -2,21 +2,45 @@
   <h2 mat-dialog-title>{{ 'Settings' | translate }}</h2>
   <mat-dialog-content>
     <mat-form-field fxFill>
-      <input required matInput name="name" placeholder="{{ 'Name' | translate }}" [(ngModel)]="settings.name">
+      <input
+        required
+        matInput
+        name="name"
+        placeholder="{{ 'Name' | translate }}"
+        [(ngModel)]="settings.name"
+      />
     </mat-form-field>
     <mat-form-field fxFill>
-      <input required matInput name="password" placeholder="{{ 'Password' | translate }}" [(ngModel)]="settings.password">
+      <input
+        required
+        matInput
+        name="password"
+        placeholder="{{ 'Password' | translate }}"
+        [(ngModel)]="settings.password"
+      />
     </mat-form-field>
     <mat-form-field fxFill>
-      <mat-select required name="language" placeholder="{{ 'Language' | translate }}" [(ngModel)]="settings.language">
-        <mat-option *ngFor="let language of settings.availableLanguages" [value]="language">
+      <mat-select
+        required
+        name="language"
+        placeholder="{{ 'Language' | translate }}"
+        [(ngModel)]="settings.language"
+      >
+        <mat-option
+          *ngFor="let language of settings.availableLanguages"
+          [value]="language"
+        >
           {{ languageNames[language] }}
         </mat-option>
       </mat-select>
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions fxLayoutAlign="end">
-    <button type="button" mat-button mat-dialog-close>{{ 'Cancel' | translate }}</button>
-    <button type="submit" mat-button color="primary">{{ 'Save' | translate }}</button>
+    <button type="button" mat-button mat-dialog-close>
+      {{ 'Cancel' | translate }}
+    </button>
+    <button type="submit" mat-button color="primary">
+      {{ 'Save' | translate }}
+    </button>
   </mat-dialog-actions>
 </form>

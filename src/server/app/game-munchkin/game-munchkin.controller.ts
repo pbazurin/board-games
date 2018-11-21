@@ -1,4 +1,4 @@
-import { Controller, Param, Post, UseGuards } from '@nestjs/common';
+import { Controller, Param, Post, UseFilters, UseGuards } from '@nestjs/common';
 
 import { GameCreatedAction, GameUserJoinedAction, UserGameRelationPayload } from '@dto/game/game-actions';
 import { GameType } from '@dto/game/game-type.enum';
@@ -6,6 +6,7 @@ import { GameType } from '@dto/game/game-type.enum';
 import { config } from '../../config';
 import { AuthHttpGuard } from '../auth/auth-http.guard';
 import { AuthService } from '../auth/auth.service';
+import { AllExceptionsFilter } from '../error/all-exceptions.filter';
 import { GamesService } from '../games/games.service';
 import { BaseController } from '../helpers/base.controller';
 import { ConnectionId } from '../helpers/connection-id.decorator';
@@ -13,6 +14,8 @@ import { SocketService } from '../socket/socket.service';
 import { GameMunchkinService } from './game-munchkin.service';
 
 @Controller('api/games/munchkin')
+@UseFilters(AllExceptionsFilter)
+@UseGuards(AuthHttpGuard)
 export class GameMunchkinController extends BaseController {
   constructor(
     authService: AuthService,
@@ -24,7 +27,6 @@ export class GameMunchkinController extends BaseController {
   }
 
   @Post()
-  @UseGuards(AuthHttpGuard)
   startNewGame(@ConnectionId() connectionId: string): string {
     const userId = this.authService.getUserIdByConnectionId(connectionId);
     const newGame = this.gameMunchkinService.createNewGame(userId);
@@ -32,14 +34,20 @@ export class GameMunchkinController extends BaseController {
     this.gamesService.addNewGame(newGame);
 
     const socket = this.getSocketByConnectionId(connectionId);
-    this.socketService.sendToOthersInRoom(config.generalRoomName, socket, new GameCreatedAction(newGame.id));
+    this.socketService.sendToOthersInRoom(
+      config.generalRoomName,
+      socket,
+      new GameCreatedAction(newGame.id)
+    );
 
     return newGame.id;
   }
 
   @Post(':gameId/users')
-  @UseGuards(AuthHttpGuard)
-  joinGame(@Param('gameId') gameId, @ConnectionId() connectionId: string): void {
+  joinGame(
+    @Param('gameId') gameId,
+    @ConnectionId() connectionId: string
+  ): void {
     const userId = this.authService.getUserIdByConnectionId(connectionId);
     const targetGame = this.gamesService.getGame(gameId, GameType.Munchkin);
 
@@ -53,7 +61,15 @@ export class GameMunchkinController extends BaseController {
       gameId: gameId,
       userId: userId
     });
-    this.socketService.sendToOthersInRoom(config.generalRoomName, socket, userJoinedAction);
-    this.socketService.sendToOthersInRoom(targetGame.id, socket, userJoinedAction);
+    this.socketService.sendToOthersInRoom(
+      config.generalRoomName,
+      socket,
+      userJoinedAction
+    );
+    this.socketService.sendToOthersInRoom(
+      targetGame.id,
+      socket,
+      userJoinedAction
+    );
   }
 }

@@ -8,9 +8,11 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthSocketGuard implements CanActivate {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
-  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+  canActivate(
+    context: ExecutionContext
+  ): boolean | Promise<boolean> | Observable<boolean> {
     const socket = <Socket>context.switchToWs().getClient();
 
     return this.authService.isAuthenticatedSocket(socket.id);

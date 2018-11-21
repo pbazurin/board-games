@@ -9,13 +9,8 @@
     "outDir": "../../dist",
     "removeComments": true,
     "target": "es6",
-    "types": [
-      "node",
-      "socket.io-client"
-    ]
+    "types": ["node", "socket.io-client"]
   },
-  "include": [
-    "*"
-  ],
+  "include": ["*"],
   "exclude": []
 }

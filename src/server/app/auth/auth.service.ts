@@ -29,7 +29,11 @@ export class AuthService {
     return this.authConnections.some(c => c.socketId === socketId);
   }
 
-  authenticateSocket(socketId: string, userId: string, userPassword: string): string {
+  authenticateSocket(
+    socketId: string,
+    userId: string,
+    userPassword: string
+  ): string {
     const validUserId = sha256(userPassword);
 
     if (userId !== validUserId) {
@@ -62,7 +66,9 @@ export class AuthService {
   }
 
   disconnect(socketId: string): void {
-    const targetConnection = this.authConnections.find(c => c.socketId === socketId);
+    const targetConnection = this.authConnections.find(
+      c => c.socketId === socketId
+    );
 
     if (!targetConnection) {
       return;
@@ -70,6 +76,8 @@ export class AuthService {
 
     this.userDisconnectedSubject$.next(targetConnection);
 
-    this.authConnections = this.authConnections.filter(c => c.socketId !== socketId);
+    this.authConnections = this.authConnections.filter(
+      c => c.socketId !== socketId
+    );
   }
 }

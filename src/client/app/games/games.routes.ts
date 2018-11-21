@@ -10,7 +10,7 @@ export const gamesRoutes: Routes = [
     children: [
       {
         path: '',
-        component: GamesComponent,
+        component: GamesComponent
       },
       ...gameTestRoutes,
       ...gameMunchkinRoutes

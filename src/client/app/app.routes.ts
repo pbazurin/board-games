@@ -8,6 +8,6 @@ export const appRoutes: Routes = [
   ...gamesRoutes,
   {
     path: '**',
-    redirectTo: 'home',
+    redirectTo: 'home'
   }
 ];

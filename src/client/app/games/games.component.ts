@@ -9,9 +9,7 @@ import { DialogNewGameComponent } from './dialog-new-game/dialog-new-game.compon
   styleUrls: ['./games.component.scss']
 })
 export class GamesComponent {
-  constructor(
-    private dialog: MatDialog,
-  ) { }
+  constructor(private dialog: MatDialog) {}
 
   openStartNewGameDialog() {
     this.dialog.open(DialogNewGameComponent, { width: '300px' });

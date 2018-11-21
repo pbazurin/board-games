@@ -27,7 +27,7 @@ export class ListGamesComponent implements OnInit, OnDestroy {
     private gamesService: GamesService,
     private socketService: SocketService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.socketService
@@ -42,8 +42,9 @@ export class ListGamesComponent implements OnInit, OnDestroy {
         takeUntil(this.tearDown$),
         debounceTime(1000),
         switchMap(() => this.gamesService.getAllRunningGames()),
-        tap(() => this.isLoading = true)
-      ).subscribe(
+        tap(() => (this.isLoading = true))
+      )
+      .subscribe(
         games => {
           this.isLoading = false;
           this.games = games;

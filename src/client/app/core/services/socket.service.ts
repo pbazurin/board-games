@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import * as io from 'socket.io-client';
 
 import { Action } from '@dto/action';
+import { ErrorResponseAction } from '@dto/error/error.actions';
 
 @Injectable()
 export class SocketService {
@@ -50,9 +51,10 @@ export class SocketService {
           observer.next(data);
         });
         actionTypes.push(action.type);
-      })
+      });
 
-      return () => actionTypes.forEach(actionType => this.socket.off(actionType));
+      return () =>
+        actionTypes.forEach(actionType => this.socket.off(actionType));
     });
   }
 
@@ -63,8 +65,16 @@ export class SocketService {
   private patchWildcardEvent() {
     const oldOnEvent = this.socket['onevent'];
     const that = this;
-    this.socket['onevent'] = function () {
-      that.onAnyEvent.next(arguments[0].data[1]);
+    this.socket['onevent'] = function() {
+      const event = arguments[0].data;
+
+      if (event[0] === 'exception') {
+        const errorAction = new ErrorResponseAction(event[1].message);
+        that.onAnyEvent.next(errorAction);
+      } else {
+        that.onAnyEvent.next(event[1]);
+      }
+
       oldOnEvent.apply(that.socket, arguments);
     };
   }

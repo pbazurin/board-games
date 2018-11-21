@@ -2,7 +2,12 @@
   <h2 mat-dialog-title>{{ 'Start new game' | translate }}</h2>
   <mat-dialog-content>
     <mat-form-field fxFill>
-      <mat-select required name="gameType" placeholder="{{ 'Game type' | translate }}" [(ngModel)]="selectedGameType">
+      <mat-select
+        required
+        name="gameType"
+        placeholder="{{ 'Game type' | translate }}"
+        [(ngModel)]="selectedGameType"
+      >
         <mat-option *ngFor="let gameType of gameTypes" [value]="gameType">
           {{ gameTypeNames[gameType] | translate }}
         </mat-option>
@@ -10,7 +15,11 @@
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions fxLayoutAlign="end">
-    <button type="button" mat-button mat-dialog-close>{{ 'Cancel' | translate }}</button>
-    <button type="submit" mat-button color="primary">{{ 'Start' | translate }}</button>
+    <button type="button" mat-button mat-dialog-close>
+      {{ 'Cancel' | translate }}
+    </button>
+    <button type="submit" mat-button color="primary">
+      {{ 'Start' | translate }}
+    </button>
   </mat-dialog-actions>
 </form>

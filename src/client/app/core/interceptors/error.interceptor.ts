@@ -10,20 +10,19 @@ import { NotificationService } from '../services/notification.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
+  constructor(private notificationService: NotificationService) {}
 
-  constructor(
-    private notificationService: NotificationService
-  ) { }
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    return next.handle(request).pipe(
+      catchError((response: HttpErrorResponse) => {
+        const serverError = response.error as ErrorResponseDto;
+        this.notificationService.showMessage(serverError.errorMessage);
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(request)
-      .pipe(
-        catchError((response: HttpErrorResponse) => {
-          const serverError = response.error as ErrorResponseDto;
-          this.notificationService.showMessage(serverError.errorMessage);
-
-          return throwError(response);
-        })
-      );
+        return throwError(response);
+      })
+    );
   }
 }

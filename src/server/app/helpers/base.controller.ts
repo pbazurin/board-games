@@ -5,7 +5,7 @@ export class BaseController {
   constructor(
     protected authService: AuthService,
     protected socketService: SocketService
-  ) { }
+  ) {}
 
   protected getSocketByConnectionId(connectionId: string) {
     const socketId = this.authService.getSocketIdByConnectionId(connectionId);

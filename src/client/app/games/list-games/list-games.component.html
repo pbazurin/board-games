@@ -1,11 +1,18 @@
 <mat-list>
-  <mat-spinner class="list__spinner" *ngIf="!games.length && isLoading"></mat-spinner>
+  <mat-spinner
+    class="list__spinner"
+    *ngIf="!games.length && isLoading"
+  ></mat-spinner>
   <mat-list-item *ngFor="let game of games">
     <div fxFlex>{{ gameTypeName[game.type] | translate }}</div>
     <div fxFlex>{{ game.authorUserId }} author</div>
     <div fxFlex>{{ game.userIds.length }} player(s)</div>
     <div fxFlex>Created {{ game.createdOn | date }}</div>
-    <button mat-button color="primary" (click)="joinGame(game)">{{ 'Join' | translate }}</button>
+    <button mat-button color="primary" (click)="joinGame(game)">
+      {{ 'Join' | translate }}
+    </button>
   </mat-list-item>
-  <span *ngIf="!games.length && !isLoading">{{ 'No running games' | translate }}</span>
+  <span *ngIf="!games.length && !isLoading">{{
+    'No running games' | translate
+  }}</span>
 </mat-list>

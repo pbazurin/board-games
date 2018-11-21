@@ -10,9 +10,7 @@ import { DialogUserSettingsComponent } from './dialog-user-settings/dialog-user-
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(
-    private dialog: MatDialog,
-  ) { }
+  constructor(private dialog: MatDialog) {}
 
   openUserSettingsDialog() {
     this.dialog.open(DialogUserSettingsComponent, { width: '400px' });

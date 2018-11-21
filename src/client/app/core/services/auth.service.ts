@@ -15,10 +15,11 @@ export class AuthService {
     return this.connectionIdSubject$.asObservable();
   }
 
-  constructor(private socketService: SocketService) { }
+  constructor(private socketService: SocketService) {}
 
   init(): Observable<void> {
-    return this.socketService.listen(AuthConnectionIdGeneratedAction)
+    return this.socketService
+      .listen(AuthConnectionIdGeneratedAction)
       .pipe(map(action => this.connectionIdSubject$.next(action.payload)));
   }
 }

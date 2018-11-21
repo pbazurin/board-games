@@ -1,17 +1,14 @@
 import { Module } from '@nestjs/common';
 
 import { AuthModule } from '../auth/auth.module';
+import { AllExceptionsFilter } from '../error/all-exceptions.filter';
 import { ErrorModule } from '../error/error.module';
 import { GamesModule } from '../games/games.module';
 import { SocketModule } from '../socket/socket.module';
-import { GameTestController } from './game-test.controller';
-import { GameTestGateway } from './game-test.gateway';
-import { GameTestService } from './game-test.service';
+import { ChatGateway } from './chat.gateway';
 
 @Module({
   imports: [ErrorModule, AuthModule, SocketModule, GamesModule],
-  controllers: [GameTestController],
-  providers: [GameTestGateway, GameTestService],
-  exports: [GameTestService]
+  providers: [ChatGateway, AllExceptionsFilter]
 })
-export class GameTestModule {}
+export class ChatModule {}

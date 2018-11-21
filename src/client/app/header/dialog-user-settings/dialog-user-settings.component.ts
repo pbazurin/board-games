@@ -11,20 +11,21 @@ import { UserSettings, UserSettingsService } from '../../core/services/user-sett
 })
 export class DialogUserSettingsComponent implements OnInit {
   languageNames = {
-    'en': 'English',
-    'ru': 'Русский',
-    'ua': 'Українська'
+    en: 'English',
+    ru: 'Русский',
+    ua: 'Українська'
   };
   settings: UserSettings;
 
   constructor(
     private dialogRef: MatDialogRef<DialogUserSettingsComponent>,
     private userSettingsService: UserSettingsService
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.userSettingsService.userSettings$.pipe(take(1))
-      .subscribe(settings => this.settings = { ...settings });
+    this.userSettingsService.userSettings$
+      .pipe(take(1))
+      .subscribe(settings => (this.settings = { ...settings }));
   }
 
   onSubmit() {

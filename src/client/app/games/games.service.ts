@@ -7,9 +7,7 @@ import { GameDto } from '@dto/game/game.dto';
 
 @Injectable()
 export class GamesService {
-  constructor(
-    private httpClient: HttpClient,
-  ) { }
+  constructor(private httpClient: HttpClient) {}
 
   getAllRunningGames(): Observable<GameDto[]> {
     return this.httpClient.get<GameDto[]>('api/games');

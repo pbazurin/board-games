@@ -1,6 +1,6 @@
 <div fxFlex fxLayout="column">
   <mat-list fxFlex #messagesList class="chat__messages-container">
-    <mat-list-item *ngFor="let message of messages">
+    <mat-list-item *ngFor="let message of messages; trackBy: trackByFn">
       <mat-icon
         mat-list-avatar
         class="chat__message-icon"
@@ -18,6 +18,7 @@
         matInput
         placeholder="{{ 'Message' | translate }}"
         name="message"
+        autocomplete="off"
         [(ngModel)]="currentMessage"
       />
     </mat-form-field>
