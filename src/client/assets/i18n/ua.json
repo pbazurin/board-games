@@ -26,5 +26,9 @@
   "Password": "Пароль",
   "Close": "Закрити",
   "Message": "Повідомлення",
-  "Send": "Надіслати"
+  "Send": "Надіслати",
+  "Column game type": "Тип",
+  "Column game name": "Назва",
+  "Column game players": "Гравці",
+  "Column game created at": "Дата створення"
 }

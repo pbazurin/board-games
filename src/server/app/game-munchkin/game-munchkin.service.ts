@@ -2,22 +2,28 @@ import { Injectable } from '@nestjs/common';
 
 import { v4 } from 'uuid';
 
+import { CreateMunchkinGameDto } from '@dto/game-munchkin/create-munchkin-game.dto';
 import { GameType } from '@dto/game/game-type.enum';
 
 import { Game } from '../games/game';
 import { GameMunchkin } from './game-munchkin';
+import { gameMunchkinConfig } from './game-munchkin.config';
 
 @Injectable()
 export class GameMunchkinService {
-  createNewGame(authorUserId: string): Game {
+  createNewGame(
+    authorUserId: string,
+    createMunchkinGameDto: CreateMunchkinGameDto
+  ): Game {
     const newGameId = v4();
     const newGame = <GameMunchkin>{
       id: newGameId,
+      name: createMunchkinGameDto.name,
       authorUserId: authorUserId,
-      createdOn: new Date(),
+      createdDate: new Date(),
       userIds: [],
       type: GameType.Munchkin,
-      munchkin: 'munchkin'
+      maxPlayersNumber: gameMunchkinConfig.maxPlayersNumber
     };
 
     return newGame;
@@ -25,11 +31,11 @@ export class GameMunchkinService {
 
   addUserToGame(userId: string, game: Game): void {
     if (game.userIds.indexOf(userId) !== -1) {
-      throw new Error(`User '${userId}' already in game`);
+      throw new Error(`User already in game`);
     }
 
-    if (game.userIds.length >= 1) {
-      throw new Error(`1 player is maximum here`);
+    if (game.userIds.length >= gameMunchkinConfig.maxPlayersNumber) {
+      throw new Error(`No free player slot`);
     }
 
     game.userIds.push(userId);

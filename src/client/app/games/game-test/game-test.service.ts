@@ -3,14 +3,16 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { CreateTestGameDto } from '@dto/game-test/create-test-game.dto';
+
 @Injectable()
 export class GameTestService {
   private apiBaseUrl = 'api/games/test';
 
   constructor(private httpClient: HttpClient) {}
 
-  startNewGame(): Observable<string> {
-    return this.httpClient.post(`${this.apiBaseUrl}`, null, {
+  startNewGame(createTestGameDto: CreateTestGameDto): Observable<string> {
+    return this.httpClient.post(`${this.apiBaseUrl}`, createTestGameDto, {
       responseType: 'text'
     });
   }

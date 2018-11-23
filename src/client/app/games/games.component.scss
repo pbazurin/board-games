@@ -1,5 +1,11 @@
 @import '../../css/mixins';
 
+$games-list-margin-top: 20px;
+
 .games__container {
   @include setFixedWidth;
+}
+
+.games__list {
+  margin-top: $games-list-margin-top;
 }

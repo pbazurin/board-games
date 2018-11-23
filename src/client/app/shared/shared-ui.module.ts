@@ -10,6 +10,8 @@ import {
   MatListModule,
   MatProgressSpinnerModule,
   MatSelectModule,
+  MatSortModule,
+  MatTableModule,
 } from '@angular/material';
 
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,6 +27,8 @@ import { TranslateModule } from '@ngx-translate/core';
     MatSelectModule,
     MatListModule,
     MatProgressSpinnerModule,
+    MatTableModule,
+    MatSortModule,
     TranslateModule,
     FlexLayoutModule
   ]

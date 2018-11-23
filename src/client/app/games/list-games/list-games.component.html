@@ -1,18 +1,42 @@
-<mat-list>
-  <mat-spinner
-    class="list__spinner"
-    *ngIf="!games.length && isLoading"
-  ></mat-spinner>
-  <mat-list-item *ngFor="let game of games">
-    <div fxFlex>{{ gameTypeName[game.type] | translate }}</div>
-    <div fxFlex>{{ game.authorUserId }} author</div>
-    <div fxFlex>{{ game.userIds.length }} player(s)</div>
-    <div fxFlex>Created {{ game.createdOn | date }}</div>
-    <button mat-button color="primary" (click)="joinGame(game)">
-      {{ 'Join' | translate }}
-    </button>
-  </mat-list-item>
-  <span *ngIf="!games.length && !isLoading">{{
-    'No running games' | translate
-  }}</span>
-</mat-list>
+<table
+  *ngIf="games.length"
+  matSort
+  fxFlex="0 0 100%"
+  (matSortChange)="sortData($event)"
+>
+  <tr>
+    <th mat-sort-header="type">{{ 'Column game type' | translate }}</th>
+    <th mat-sort-header="name">{{ 'Column game name' | translate }}</th>
+    <th mat-sort-header="players">{{ 'Column game players' | translate }}</th>
+    <th mat-sort-header="created">
+      {{ 'Column game created at' | translate }}
+    </th>
+    <th></th>
+  </tr>
+
+  <tr *ngFor="let game of games">
+    <td>
+      <mat-icon
+        [svgIcon]="gameTypeIcons[game.type]"
+        title="{{ gameTypeName[game.type] | translate }}"
+      ></mat-icon>
+    </td>
+    <td>{{ game.name }}</td>
+    <td>
+      {{ game.userIds.length }}
+      <ng-container *ngIf="game.maxPlayersNumber">
+        / {{ game.maxPlayersNumber }}
+      </ng-container>
+    </td>
+    <td>{{ game.createdDate | date: 'short' }}</td>
+    <td>
+      <button mat-stroked-button color="primary" (click)="joinGame(game)">
+        {{ 'Join' | translate }}
+      </button>
+    </td>
+  </tr>
+</table>
+
+<span fxFlex *ngIf="!games.length && !isLoading">
+  {{ 'No running games' | translate }}
+</span>

@@ -26,5 +26,9 @@
   "Password": "Пароль",
   "Close": "Закрыть",
   "Message": "Сообщение",
-  "Send": "Отправить"
+  "Send": "Отправить",
+  "Column game type": "Тип",
+  "Column game name": "Название",
+  "Column game players": "Игроки",
+  "Column game created at": "Дата создания"
 }

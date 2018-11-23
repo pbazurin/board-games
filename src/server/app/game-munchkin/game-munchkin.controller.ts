@@ -1,5 +1,6 @@
-import { Controller, Param, Post, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, Post, UseFilters, UseGuards } from '@nestjs/common';
 
+import { CreateMunchkinGameDto } from '@dto/game-munchkin/create-munchkin-game.dto';
 import { GameCreatedAction, GameUserJoinedAction, UserGameRelationPayload } from '@dto/game/game-actions';
 import { GameType } from '@dto/game/game-type.enum';
 
@@ -27,9 +28,15 @@ export class GameMunchkinController extends BaseController {
   }
 
   @Post()
-  startNewGame(@ConnectionId() connectionId: string): string {
+  startNewGame(
+    @ConnectionId() connectionId: string,
+    @Body() createMunchkinGameDto: CreateMunchkinGameDto
+  ): string {
     const userId = this.authService.getUserIdByConnectionId(connectionId);
-    const newGame = this.gameMunchkinService.createNewGame(userId);
+    const newGame = this.gameMunchkinService.createNewGame(
+      userId,
+      createMunchkinGameDto
+    );
 
     this.gamesService.addNewGame(newGame);
 

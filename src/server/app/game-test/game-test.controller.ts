@@ -1,5 +1,6 @@
-import { Controller, Param, Post, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, Post, UseFilters, UseGuards } from '@nestjs/common';
 
+import { CreateTestGameDto } from '@dto/game-test/create-test-game.dto';
 import { GameCreatedAction, GameUserJoinedAction, UserGameRelationPayload } from '@dto/game/game-actions';
 import { GameType } from '@dto/game/game-type.enum';
 
@@ -27,9 +28,15 @@ export class GameTestController extends BaseController {
   }
 
   @Post()
-  startNewGame(@ConnectionId() connectionId: string): string {
+  startNewGame(
+    @ConnectionId() connectionId: string,
+    @Body() createTestGameDto: CreateTestGameDto
+  ): string {
     const userId = this.authService.getUserIdByConnectionId(connectionId);
-    const newGame = this.gameTestService.createNewGame(userId);
+    const newGame = this.gameTestService.createNewGame(
+      userId,
+      createTestGameDto
+    );
 
     this.gamesService.addNewGame(newGame);
 

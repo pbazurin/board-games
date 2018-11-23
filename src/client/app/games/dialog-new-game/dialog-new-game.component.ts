@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
+import { CreateMunchkinGameDto } from '@dto/game-munchkin/create-munchkin-game.dto';
+import { CreateTestGameDto } from '@dto/game-test/create-test-game.dto';
+
 import { GameType, GameTypeNames } from '../../../../shared/dto/game/game-type.enum';
 import { GameMunchkinService } from '../game-munchkin/game-munchkin.service';
 import { GameTestService } from '../game-test/game-test.service';
@@ -16,6 +19,7 @@ export class DialogNewGameComponent {
   gameTypeNames = GameTypeNames;
   gameTypes = [GameType.Munchkin, GameType.Test];
   selectedGameType: GameType = this.gameTypes[0];
+  gameName: string;
 
   constructor(
     private dialogRef: MatDialogRef<DialogNewGameComponent>,
@@ -28,12 +32,16 @@ export class DialogNewGameComponent {
     let startNewGame$: Observable<string>;
 
     switch (this.selectedGameType) {
-      case GameType.Test:
-        startNewGame$ = this.gameTestService.startNewGame();
+      case GameType.Munchkin: {
+        const createGameDto = <CreateMunchkinGameDto>{ name: this.gameName };
+        startNewGame$ = this.gameMunchkinService.startNewGame(createGameDto);
         break;
-      case GameType.Munchkin:
-        startNewGame$ = this.gameMunchkinService.startNewGame();
+      }
+      case GameType.Test: {
+        const createGameDto = <CreateTestGameDto>{ name: this.gameName };
+        startNewGame$ = this.gameTestService.startNewGame(createGameDto);
         break;
+      }
     }
 
     startNewGame$.subscribe(newGameId => {

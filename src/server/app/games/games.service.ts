@@ -20,7 +20,7 @@ export class GamesService {
 
   getGame(id: string, type?: GameType): Game {
     if (!this.isGameExists(id, type)) {
-      throw new Error(`Game with id '${id}' doesn't exists`);
+      throw new Error(`Game doesn't exist`);
     }
 
     const game = this.games.find(g => g.id === id);

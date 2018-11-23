@@ -2,9 +2,19 @@
   <h2 mat-dialog-title>{{ 'Start new game' | translate }}</h2>
   <mat-dialog-content>
     <mat-form-field fxFill>
+      <input
+        matInput
+        required
+        name="name"
+        autocomplete="off"
+        placeholder="{{ 'Name' | translate }}"
+        [(ngModel)]="gameName"
+      />
+    </mat-form-field>
+    <mat-form-field fxFill>
       <mat-select
         required
-        name="gameType"
+        name="type"
         placeholder="{{ 'Game type' | translate }}"
         [(ngModel)]="selectedGameType"
       >

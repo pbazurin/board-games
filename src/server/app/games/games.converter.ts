@@ -7,9 +7,11 @@ export class GamesConverter {
     return <GameDto>{
       id: game.id,
       type: game.type,
+      name: game.name,
       authorUserId: game.authorUserId,
-      createdOn: game.createdOn,
-      userIds: [...game.userIds]
+      createdDate: game.createdDate,
+      userIds: [...game.userIds],
+      maxPlayersNumber: game.maxPlayersNumber
     };
   }
 }

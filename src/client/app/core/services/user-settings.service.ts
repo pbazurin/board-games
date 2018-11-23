@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 
 import { sha256 } from 'js-sha256';
-import { generate as generateRandomName } from 'unique-names-generator';
 import { v4 } from 'uuid';
 
 import { environment } from '../../../environments/environment';
+import { generateRandomName } from '../../shared/unique-names-generator/unique-names-generator';
 import { Utils } from '../../utils/utils';
 
 export interface UserSettings {

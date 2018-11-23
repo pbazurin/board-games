@@ -3,7 +3,9 @@ import { GameType } from '@dto/game/game-type.enum';
 export interface Game {
   id: string;
   type: GameType;
+  name: string;
   userIds: string[];
   authorUserId: string;
-  createdOn: Date;
+  createdDate: Date;
+  maxPlayersNumber?: number;
 }
