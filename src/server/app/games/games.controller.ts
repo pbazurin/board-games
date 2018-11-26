@@ -2,24 +2,24 @@ import { Controller, Get, UseFilters, UseGuards } from '@nestjs/common';
 
 import { GameDto } from '@dto/game/game.dto';
 
-import { AuthHttpGuard } from '../auth/auth-http.guard';
-import { AuthService } from '../auth/auth.service';
+import { BaseController } from '../base.controller';
 import { AllExceptionsFilter } from '../error/all-exceptions.filter';
-import { BaseController } from '../helpers/base.controller';
 import { SocketService } from '../socket/socket.service';
+import { UsersService } from '../users/users.service';
+import { ValidUserHttpGuard } from '../users/valid-user-http.guard';
 import { GamesConverter } from './games.converter';
 import { GamesService } from './games.service';
 
 @Controller('api/games')
 @UseFilters(AllExceptionsFilter)
-@UseGuards(AuthHttpGuard)
+@UseGuards(ValidUserHttpGuard)
 export class GamesController extends BaseController {
   constructor(
-    authService: AuthService,
+    usersService: UsersService,
     socketService: SocketService,
     private gamesService: GamesService
   ) {
-    super(authService, socketService);
+    super(usersService, socketService);
   }
 
   @Get()

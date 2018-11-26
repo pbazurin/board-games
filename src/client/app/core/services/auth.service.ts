@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AuthConnectionIdGeneratedAction } from '@dto/auth/auth-actions';
+import { UserConnectionApprovedAction } from '@dto/user/user-actions';
 
 import { SocketService } from './socket.service';
 
@@ -19,7 +19,7 @@ export class AuthService {
 
   init(): Observable<void> {
     return this.socketService
-      .listen(AuthConnectionIdGeneratedAction)
+      .listen(UserConnectionApprovedAction)
       .pipe(map(action => this.connectionIdSubject$.next(action.payload)));
   }
 }

@@ -7,7 +7,7 @@
         matInput
         name="name"
         placeholder="{{ 'Name' | translate }}"
-        [(ngModel)]="settings.name"
+        [(ngModel)]="currentSettings.name"
       />
     </mat-form-field>
     <mat-form-field fxFill>
@@ -16,7 +16,7 @@
         matInput
         name="password"
         placeholder="{{ 'Password' | translate }}"
-        [(ngModel)]="settings.password"
+        [(ngModel)]="currentSettings.password"
       />
     </mat-form-field>
     <mat-form-field fxFill>
@@ -24,10 +24,10 @@
         required
         name="language"
         placeholder="{{ 'Language' | translate }}"
-        [(ngModel)]="settings.language"
+        [(ngModel)]="currentSettings.language"
       >
         <mat-option
-          *ngFor="let language of settings.availableLanguages"
+          *ngFor="let language of currentSettings.availableLanguages"
           [value]="language"
         >
           {{ languageNames[language] }}

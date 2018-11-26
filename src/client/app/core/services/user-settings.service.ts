@@ -40,7 +40,7 @@ export class UserSettingsService {
     this.userSettingsSubject$.next(userSettings);
   }
 
-  update(newUserSettings: UserSettings) {
+  update(newUserSettings: UserSettings): UserSettings {
     const userSettings = {
       ...newUserSettings,
       id: sha256(newUserSettings.password)
@@ -49,6 +49,8 @@ export class UserSettingsService {
     this.saveToStorage(userSettings);
 
     this.userSettingsSubject$.next(userSettings);
+
+    return userSettings;
   }
 
   private loadFromStorage(): UserSettings {

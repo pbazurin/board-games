@@ -8,8 +8,8 @@ import { distinctUntilChanged, map, take, takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { Angulartics2GoogleGlobalSiteTag } from 'angulartics2/gst';
 
-import { AuthGenerateConnectionIdAction } from '@dto/auth/auth-actions';
 import { ErrorResponseAction } from '@dto/error/error.actions';
+import { UserRequestConnectionAction } from '@dto/user/user-actions';
 
 import { environment } from '../environments/environment';
 import { AuthService } from './core/services/auth.service';
@@ -58,8 +58,12 @@ export class AppComponent implements OnDestroy {
         translate.use(userSettings.language);
 
         socketService.emit(
-          new AuthGenerateConnectionIdAction({
-            userId: userSettings.id,
+          new UserRequestConnectionAction({
+            user: {
+              id: userSettings.id,
+              name: userSettings.name,
+              language: userSettings.language
+            },
             password: userSettings.password
           })
         );

@@ -2,11 +2,11 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 
 import { Observable } from 'rxjs';
 
-import { AuthService } from './auth.service';
+import { UsersService } from './users.service';
 
 @Injectable()
-export class AuthHttpGuard implements CanActivate {
-  constructor(private authService: AuthService) {}
+export class ValidUserHttpGuard implements CanActivate {
+  constructor(private usersService: UsersService) {}
 
   canActivate(
     context: ExecutionContext
@@ -20,6 +20,6 @@ export class AuthHttpGuard implements CanActivate {
 
     const connectionId = authHeader.split(' ')[1];
 
-    return this.authService.isAuthenticatedConnection(connectionId);
+    return this.usersService.isAuthenticatedConnection(connectionId);
   }
 }

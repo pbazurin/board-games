@@ -5,26 +5,26 @@ import { GameCreatedAction, GameUserJoinedAction, UserGameRelationPayload } from
 import { GameType } from '@dto/game/game-type.enum';
 
 import { config } from '../../config';
-import { AuthHttpGuard } from '../auth/auth-http.guard';
-import { AuthService } from '../auth/auth.service';
+import { BaseController } from '../base.controller';
 import { AllExceptionsFilter } from '../error/all-exceptions.filter';
 import { GamesService } from '../games/games.service';
-import { BaseController } from '../helpers/base.controller';
-import { ConnectionId } from '../helpers/connection-id.decorator';
 import { SocketService } from '../socket/socket.service';
+import { ConnectionId } from '../users/connection-id.decorator';
+import { UsersService } from '../users/users.service';
+import { ValidUserHttpGuard } from '../users/valid-user-http.guard';
 import { GameTestService } from './game-test.service';
 
 @Controller('api/games/test')
 @UseFilters(AllExceptionsFilter)
-@UseGuards(AuthHttpGuard)
+@UseGuards(ValidUserHttpGuard)
 export class GameTestController extends BaseController {
   constructor(
-    authService: AuthService,
+    usersService: UsersService,
     socketService: SocketService,
     private gamesService: GamesService,
     private gameTestService: GameTestService
   ) {
-    super(authService, socketService);
+    super(usersService, socketService);
   }
 
   @Post()
@@ -32,7 +32,7 @@ export class GameTestController extends BaseController {
     @ConnectionId() connectionId: string,
     @Body() createTestGameDto: CreateTestGameDto
   ): string {
-    const userId = this.authService.getUserIdByConnectionId(connectionId);
+    const userId = this.usersService.getUserByConnectionId(connectionId).id;
     const newGame = this.gameTestService.createNewGame(
       userId,
       createTestGameDto
@@ -55,7 +55,7 @@ export class GameTestController extends BaseController {
     @Param('gameId') gameId,
     @ConnectionId() connectionId: string
   ): void {
-    const userId = this.authService.getUserIdByConnectionId(connectionId);
+    const userId = this.usersService.getUserByConnectionId(connectionId).id;
     const targetGame = this.gamesService.getGame(gameId, GameType.Test);
 
     this.gameTestService.addUserToGame(userId, targetGame);

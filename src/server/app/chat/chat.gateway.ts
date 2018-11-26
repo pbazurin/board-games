@@ -5,26 +5,26 @@ import { Socket } from 'socket.io';
 
 import { ChatSendMessageAction } from '@dto/chat/chat-actions';
 
-import { AuthSocketGuard } from '../auth/auth-socket.guard';
-import { AuthService } from '../auth/auth.service';
 import { AllExceptionsFilter } from '../error/all-exceptions.filter';
 import { GamesService } from '../games/games.service';
-import { SubscribeAction } from '../helpers/subscribe-action.decorator';
 import { SocketService } from '../socket/socket.service';
+import { SubscribeAction } from '../subscribe-action.decorator';
+import { UsersService } from '../users/users.service';
+import { ValidUserSocketGuard } from '../users/valid-user-socket.guard';
 
 @WebSocketGateway()
 @UseFilters(AllExceptionsFilter)
-@UseGuards(AuthSocketGuard)
+@UseGuards(ValidUserSocketGuard)
 export class ChatGateway {
   constructor(
-    private authService: AuthService,
+    private usersService: UsersService,
     private socketService: SocketService,
     private gamesService: GamesService
   ) {}
 
   @SubscribeAction(ChatSendMessageAction)
   onMessage(socket: Socket, action: ChatSendMessageAction): void {
-    const userId = this.authService.getUserIdBySocketId(socket.id);
+    const userId = this.usersService.getUserBySocketId(socket.id).id;
     const gameId = action.payload.gameId;
     const targetGame = this.gamesService.getGame(gameId);
 

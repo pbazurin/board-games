@@ -7,40 +7,40 @@ import { GameRemovedAction, GameUserLeftAction, LeaveGameAction, UserGameRelatio
 import { GameType } from '@dto/game/game-type.enum';
 
 import { config } from '../../config';
-import { AuthSocketGuard } from '../auth/auth-socket.guard';
-import { AuthService } from '../auth/auth.service';
 import { AllExceptionsFilter } from '../error/all-exceptions.filter';
 import { Game } from '../games/game';
 import { GamesService } from '../games/games.service';
-import { SubscribeAction } from '../helpers/subscribe-action.decorator';
 import { SocketService } from '../socket/socket.service';
+import { SubscribeAction } from '../subscribe-action.decorator';
+import { UsersService } from '../users/users.service';
+import { ValidUserSocketGuard } from '../users/valid-user-socket.guard';
 import { GameTestService } from './game-test.service';
 
 @WebSocketGateway()
 @UseFilters(AllExceptionsFilter)
-@UseGuards(AuthSocketGuard)
+@UseGuards(ValidUserSocketGuard)
 export class GameTestGateway implements OnGatewayInit {
   constructor(
-    private authService: AuthService,
+    private usersService: UsersService,
     private socketService: SocketService,
     private gamesService: GamesService,
     private gameTestService: GameTestService
   ) {}
 
   afterInit() {
-    this.authService.userDisconnected$.subscribe(connection => {
+    this.usersService.userDisconnected$.subscribe(user => {
       this.gamesService
         .getRunningGames()
         .filter(g => g.type === GameType.Test)
         .forEach(game => {
-          this.leaveGame(connection.userId, game);
+          this.leaveGame(user.id, game);
         });
     });
   }
 
   @SubscribeAction(LeaveGameAction)
   onLeaveGame(socket: Socket, action: LeaveGameAction): void {
-    const userId = this.authService.getUserIdBySocketId(socket.id);
+    const userId = this.usersService.getUserBySocketId(socket.id).id;
     const gameId = action.payload;
 
     if (!this.gamesService.isGameExists(gameId, GameType.Test)) {
