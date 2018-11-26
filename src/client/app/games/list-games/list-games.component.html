@@ -23,7 +23,7 @@
     </td>
     <td>{{ game.name }}</td>
     <td>
-      {{ game.userIds.length }}
+      {{ game.players.length }}
       <ng-container *ngIf="game.maxPlayersNumber">
         / {{ game.maxPlayersNumber }}
       </ng-container>
@@ -36,6 +36,11 @@
     </td>
   </tr>
 </table>
+
+<mat-spinner
+  class="list__spinner"
+  *ngIf="!games.length && isLoading"
+></mat-spinner>
 
 <span fxFlex *ngIf="!games.length && !isLoading">
   {{ 'No running games' | translate }}

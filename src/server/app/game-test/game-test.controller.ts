@@ -55,10 +55,10 @@ export class GameTestController extends BaseController {
     @Param('gameId') gameId,
     @ConnectionId() connectionId: string
   ): void {
-    const userId = this.usersService.getUserByConnectionId(connectionId).id;
+    const user = this.usersService.getUserByConnectionId(connectionId);
     const targetGame = this.gamesService.getGame(gameId, GameType.Test);
 
-    this.gameTestService.addUserToGame(userId, targetGame);
+    this.gameTestService.addUserToGame(user, targetGame);
 
     const socket = this.getSocketByConnectionId(connectionId);
     socket.leave(config.generalRoomName);
@@ -66,7 +66,7 @@ export class GameTestController extends BaseController {
 
     const userJoinedAction = new GameUserJoinedAction(<UserGameRelationPayload>{
       gameId: gameId,
-      userId: userId
+      userId: user.id
     });
     this.socketService.sendToOthersInRoom(
       config.generalRoomName,

@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { CreateMunchkinGameDto } from '@dto/game-munchkin/create-munchkin-game.dto';
+import { GameMunchkinDto } from '@dto/game-munchkin/game-munchkin.dto';
 
 @Injectable()
 export class GameMunchkinService {
@@ -24,5 +25,9 @@ export class GameMunchkinService {
       `${this.apiBaseUrl}/${gameId}/users`,
       null
     );
+  }
+
+  getGameById(gameId: string): Observable<GameMunchkinDto> {
+    return this.httpClient.get<GameMunchkinDto>(`${this.apiBaseUrl}/${gameId}`);
   }
 }

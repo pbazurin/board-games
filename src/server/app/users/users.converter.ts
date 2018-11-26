@@ -4,10 +4,12 @@ import { User } from './user';
 
 export class UsersConverter {
   static toDto(user: User): UserDto {
-    return <UserDto>{
+    const userDto = <UserDto>{
       id: user.id,
       name: user.name,
       language: user.language
     };
+
+    return userDto;
   }
 }

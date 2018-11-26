@@ -86,7 +86,7 @@ export class GameTestGateway implements OnGatewayInit {
       .getRunningGames()
       .find(g => g.id === game.id);
 
-    if (targetGame.userIds.length) {
+    if (targetGame.players.length) {
       return;
     }
 

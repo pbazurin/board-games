@@ -1,1 +1,11 @@
-Players
+<mat-card *ngFor="let player of players">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>
+      {{ player.name }}
+      <ng-container *ngIf="player.id === myUserId">(me)</ng-container>
+    </mat-card-title>
+    <mat-card-subtitle>{{ player.level }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content> Content </mat-card-content>
+</mat-card>

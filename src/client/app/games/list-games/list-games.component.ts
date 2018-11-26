@@ -25,7 +25,6 @@ export class ListGamesComponent implements OnInit, OnDestroy {
     [GameType.Munchkin]: 'icon-enter',
     [GameType.Test]: 'icon-bug'
   };
-  displayedColumns: string[] = ['type', 'name', 'weight', 'symbol'];
 
   private tearDown$ = new Subject();
 
@@ -85,7 +84,7 @@ export class ListGamesComponent implements OnInit, OnDestroy {
         case 'name':
           return compare(a.name, b.name, isAsc);
         case 'players':
-          return compare(a.userIds.length, b.userIds.length, isAsc);
+          return compare(a.players.length, b.players.length, isAsc);
         case 'created':
           return compare(
             a.createdDate.getDate(),

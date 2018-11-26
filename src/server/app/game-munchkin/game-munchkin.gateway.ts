@@ -8,12 +8,12 @@ import { GameType } from '@dto/game/game-type.enum';
 
 import { config } from '../../config';
 import { AllExceptionsFilter } from '../error/all-exceptions.filter';
-import { Game } from '../games/game';
 import { GamesService } from '../games/games.service';
 import { SocketService } from '../socket/socket.service';
 import { SubscribeAction } from '../subscribe-action.decorator';
 import { UsersService } from '../users/users.service';
 import { ValidUserSocketGuard } from '../users/valid-user-socket.guard';
+import { GameMunchkin } from './game-munchkin';
 import { GameMunchkinService } from './game-munchkin.service';
 
 @WebSocketGateway()
@@ -32,7 +32,7 @@ export class GameMunchkinGateway implements OnGatewayInit {
       this.gamesService
         .getRunningGames()
         .filter(g => g.type === GameType.Munchkin)
-        .forEach(game => {
+        .forEach((game: GameMunchkin) => {
           this.leaveGame(user.id, game);
         });
     });
@@ -47,12 +47,12 @@ export class GameMunchkinGateway implements OnGatewayInit {
       return;
     }
 
-    const targetGame = this.gamesService.getGame(gameId);
+    const targetGame = <GameMunchkin>this.gamesService.getGame(gameId);
 
     this.leaveGame(userId, targetGame, socket);
   }
 
-  private leaveGame(userId: string, game: Game, socket?: Socket) {
+  private leaveGame(userId: string, game: GameMunchkin, socket?: Socket) {
     const isValidGame = this.gameMunchkinService.removeUserFromGame(
       userId,
       game
@@ -89,7 +89,7 @@ export class GameMunchkinGateway implements OnGatewayInit {
       .getRunningGames()
       .find(g => g.id === game.id);
 
-    if (targetGame.userIds.length) {
+    if (targetGame.players.length) {
       return;
     }
 

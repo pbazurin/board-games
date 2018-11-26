@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import {
   MatButtonModule,
+  MatCardModule,
   MatDialogModule,
   MatIconModule,
   MatInputModule,
@@ -29,6 +30,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatProgressSpinnerModule,
     MatTableModule,
     MatSortModule,
+    MatCardModule,
     TranslateModule,
     FlexLayoutModule
   ]

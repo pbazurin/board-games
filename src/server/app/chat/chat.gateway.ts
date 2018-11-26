@@ -28,7 +28,7 @@ export class ChatGateway {
     const gameId = action.payload.gameId;
     const targetGame = this.gamesService.getGame(gameId);
 
-    if (targetGame.userIds.indexOf(userId) === -1) {
+    if (!targetGame.players.find(p => p.id === userId)) {
       throw new Error('Not valid game');
     }
 

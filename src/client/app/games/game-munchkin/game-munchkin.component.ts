@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { ChatSendMessageAction, ChatSendMessagePayload } from '@dto/chat/chat-actions';
+import { GameMunchkinDto } from '@dto/game-munchkin/game-munchkin.dto';
 import { LeaveGameAction } from '@dto/game/game-actions';
 
 import { SocketService } from '../../core/services/socket.service';
@@ -20,6 +21,8 @@ import { GameMunchkinService } from './game-munchkin.service';
 })
 export class GameMunchkinComponent implements OnInit, OnDestroy {
   gameId: string;
+  game: GameMunchkinDto;
+  myUserId: string;
 
   private tearDown$ = new Subject();
 
@@ -36,13 +39,19 @@ export class GameMunchkinComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.tearDown$),
         tap(params => (this.gameId = params['gameId'])),
-        switchMap(() => this.gameMunchkinService.joinGame(this.gameId))
+        switchMap(() => this.gameMunchkinService.joinGame(this.gameId)),
+        switchMap(() => this.gameMunchkinService.getGameById(this.gameId))
       )
-      .subscribe();
+      .subscribe(game => {
+        this.game = game;
+      });
 
     this.userSettingsService.userSettings$
       .pipe(takeUntil(this.tearDown$))
-      .subscribe(settings => (this.chatService.myName = settings.name));
+      .subscribe(settings => {
+        this.myUserId = settings.id;
+        this.chatService.myName = settings.name;
+      });
 
     this.socketService
       .listen(ChatSendMessageAction)
