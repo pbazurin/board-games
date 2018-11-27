@@ -1,0 +1,17 @@
+$player-card-margin: 10px;
+$background-color: #e5e5e5;
+
+:host {
+  background-color: $background-color;
+}
+
+.player-card {
+  margin: $player-card-margin;
+}
+
+.player-card__property-name {
+  font-weight: bold;
+}
+
+.player-card__property-value {
+}

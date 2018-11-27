@@ -1,11 +1,45 @@
-<mat-card *ngFor="let player of players">
+<mat-card
+  *ngFor="let player of players"
+  class="player-card"
+  [class.my-card]="player.id === myUserId"
+>
   <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>
+    <mat-icon
+      mat-card-avatar
+      svgIcon="icon-user"
+      class="player-card__avatar"
+    ></mat-icon>
+    <mat-card-title class="player-card__title">
       {{ player.name }}
-      <ng-container *ngIf="player.id === myUserId">(me)</ng-container>
     </mat-card-title>
-    <mat-card-subtitle>{{ player.level }}</mat-card-subtitle>
+    <mat-card-subtitle *ngIf="player.id === myUserId">
+      {{ 'Me' | translate }}
+    </mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content> Content </mat-card-content>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item>
+        <span fxFlex class="player-card__property-name">
+          {{ 'Level' | translate }}
+        </span>
+        <span class="player-card__property-value">{{ player.level }}</span>
+      </mat-list-item>
+      <mat-list-item>
+        <span fxFlex class="player-card__property-name">
+          {{ 'Cards in hands' | translate }}
+        </span>
+        <span class="player-card__property-value">
+          {{ player.cardIdsInHands.length }}
+        </span>
+      </mat-list-item>
+      <mat-list-item>
+        <span fxFlex class="player-card__property-name">
+          {{ 'Cards on table' | translate }}
+        </span>
+        <span class="player-card__property-value">
+          {{ player.cardIdsOnTable.length }}
+        </span>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
 </mat-card>

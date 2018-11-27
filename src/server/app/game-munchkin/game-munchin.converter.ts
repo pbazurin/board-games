@@ -24,6 +24,7 @@ export class GameMunchkinConverter {
       name: player.name,
       language: player.language,
       level: player.level,
+      cardIdsInHands: [...player.cardIdsInHands], // TODO: show only my cards
       cardIdsOnTable: [...player.cardIdsInHands]
     };
 

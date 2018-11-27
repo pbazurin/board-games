@@ -5,6 +5,7 @@ import { Socket } from 'socket.io';
 
 import { GameRemovedAction, GameUserLeftAction, LeaveGameAction, UserGameRelationPayload } from '@dto/game/game-actions';
 import { GameType } from '@dto/game/game-type.enum';
+import { UserDataChangedAction } from '@dto/user/user-actions';
 
 import { config } from '../../config';
 import { AllExceptionsFilter } from '../error/all-exceptions.filter';
@@ -50,6 +51,27 @@ export class GameMunchkinGateway implements OnGatewayInit {
     const targetGame = <GameMunchkin>this.gamesService.getGame(gameId);
 
     this.leaveGame(userId, targetGame, socket);
+  }
+
+  @SubscribeAction(UserDataChangedAction)
+  onUserDataChanged(socket: Socket, action: UserDataChangedAction): void {
+    const userId = this.usersService.getUserBySocketId(socket.id).id;
+    const activePlayerGames: string[] = [];
+
+    this.gamesService
+      .getRunningGames()
+      .filter(g => g.type === GameType.Munchkin)
+      .forEach(g => {
+        if (g.players.find(p => p.id === userId)) {
+          activePlayerGames.push(g.id);
+        }
+      });
+
+    action.payload.password = null;
+
+    activePlayerGames.forEach(gameId => {
+      this.socketService.sendToOthersInRoom(gameId, socket, action);
+    });
   }
 
   private leaveGame(userId: string, game: GameMunchkin, socket?: Socket) {

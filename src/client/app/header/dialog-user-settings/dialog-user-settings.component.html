@@ -7,6 +7,7 @@
         matInput
         name="name"
         placeholder="{{ 'Name' | translate }}"
+        autocomplete="off"
         [(ngModel)]="currentSettings.name"
       />
     </mat-form-field>
@@ -16,6 +17,7 @@
         matInput
         name="password"
         placeholder="{{ 'Password' | translate }}"
+        autocomplete="off"
         [(ngModel)]="currentSettings.password"
       />
     </mat-form-field>

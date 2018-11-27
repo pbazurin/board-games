@@ -2,11 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Subject } from 'rxjs';
-import { switchMap, takeUntil, tap } from 'rxjs/operators';
+import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { ChatSendMessageAction, ChatSendMessagePayload } from '@dto/chat/chat-actions';
 import { GameMunchkinDto } from '@dto/game-munchkin/game-munchkin.dto';
-import { LeaveGameAction } from '@dto/game/game-actions';
+import { GameUserJoinedAction, GameUserLeftAction, LeaveGameAction } from '@dto/game/game-actions';
+import { UserDataChangedAction } from '@dto/user/user-actions';
 
 import { SocketService } from '../../core/services/socket.service';
 import { UserSettingsService } from '../../core/services/user-settings.service';
@@ -35,17 +36,47 @@ export class GameMunchkinComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.initGame();
+
+    this.initChat();
+  }
+
+  ngOnDestroy() {
+    if (this.gameId) {
+      this.socketService.emit(new LeaveGameAction(this.gameId));
+    }
+
+    this.tearDown$.next();
+    this.tearDown$.complete();
+  }
+
+  private initGame() {
     this.route.params
       .pipe(
         takeUntil(this.tearDown$),
         tap(params => (this.gameId = params['gameId'])),
         switchMap(() => this.gameMunchkinService.joinGame(this.gameId)),
-        switchMap(() => this.gameMunchkinService.getGameById(this.gameId))
+        switchMap(() =>
+          this.socketService
+            .listenAnyOf(
+              GameUserJoinedAction,
+              GameUserLeftAction,
+              UserDataChangedAction
+            )
+            .pipe(
+              startWith(-1),
+              takeUntil(this.tearDown$),
+              switchMap(() =>
+                this.gameMunchkinService.getGameById(this.gameId)
+              ),
+              tap(game => (this.game = game))
+            )
+        )
       )
-      .subscribe(game => {
-        this.game = game;
-      });
+      .subscribe();
+  }
 
+  private initChat() {
     this.userSettingsService.userSettings$
       .pipe(takeUntil(this.tearDown$))
       .subscribe(settings => {
@@ -72,14 +103,5 @@ export class GameMunchkinComponent implements OnInit, OnDestroy {
 
         this.socketService.emit(sendMessageAction);
       });
-  }
-
-  ngOnDestroy() {
-    if (this.gameId) {
-      this.socketService.emit(new LeaveGameAction(this.gameId));
-    }
-
-    this.tearDown$.next();
-    this.tearDown$.complete();
   }
 }
