@@ -47,3 +47,7 @@ $header-z-index: 1000;
 .header__user-name {
   margin-left: $user-name-margin-left;
 }
+
+.header__loading {
+  position: absolute;
+}

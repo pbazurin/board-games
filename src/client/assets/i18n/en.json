@@ -30,5 +30,9 @@
   "Column game type": "Type",
   "Column game name": "Name",
   "Column game players": "Players",
-  "Column game created at": "Created at"
+  "Column game created at": "Created at",
+  "Me": "Me",
+  "Level": "Level",
+  "Cards in hands": "Cards in hands",
+  "Cards on table": "Cards on table"
 }

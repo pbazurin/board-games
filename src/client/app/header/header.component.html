@@ -30,3 +30,8 @@
     </button>
   </div>
 </mat-toolbar>
+<mat-progress-bar
+  *ngIf="isRouterLoading"
+  mode="indeterminate"
+  class="header__loading"
+></mat-progress-bar>

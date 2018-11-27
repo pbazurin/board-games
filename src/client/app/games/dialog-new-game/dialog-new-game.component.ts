@@ -8,8 +8,7 @@ import { CreateMunchkinGameDto } from '@dto/game-munchkin/create-munchkin-game.d
 import { CreateTestGameDto } from '@dto/game-test/create-test-game.dto';
 
 import { GameType, GameTypeNames } from '../../../../shared/dto/game/game-type.enum';
-import { GameMunchkinService } from '../game-munchkin/game-munchkin.service';
-import { GameTestService } from '../game-test/game-test.service';
+import { GamesService } from '../games.service';
 
 @Component({
   selector: 'bg-dialog-new-game',
@@ -24,8 +23,7 @@ export class DialogNewGameComponent {
   constructor(
     private dialogRef: MatDialogRef<DialogNewGameComponent>,
     private router: Router,
-    private gameTestService: GameTestService,
-    private gameMunchkinService: GameMunchkinService
+    private gamesService: GamesService
   ) {}
 
   onSubmit() {
@@ -34,12 +32,12 @@ export class DialogNewGameComponent {
     switch (this.selectedGameType) {
       case GameType.Munchkin: {
         const createGameDto = <CreateMunchkinGameDto>{ name: this.gameName };
-        startNewGame$ = this.gameMunchkinService.startNewGame(createGameDto);
+        startNewGame$ = this.gamesService.startNewMunchkinGame(createGameDto);
         break;
       }
       case GameType.Test: {
         const createGameDto = <CreateTestGameDto>{ name: this.gameName };
-        startNewGame$ = this.gameTestService.startNewGame(createGameDto);
+        startNewGame$ = this.gamesService.startNewTestGame(createGameDto);
         break;
       }
     }
