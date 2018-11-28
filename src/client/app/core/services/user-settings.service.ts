@@ -54,7 +54,7 @@ export class UserSettingsService {
   }
 
   private loadFromStorage(): UserSettings {
-    let userSettingsString = localStorage.getItem(
+    const userSettingsString = localStorage.getItem(
       this.USER_SETTINGS_STORAGE_NAME
     );
 
@@ -85,7 +85,7 @@ export class UserSettingsService {
   }
 
   private generateNew(): UserSettings {
-    let userSettings = <UserSettings>{
+    const userSettings = <UserSettings>{
       name: Utils.capitalizeString(generateRandomName(' ')),
       password: v4().replace(/-/g, ''),
       availableLanguages: environment.supportedLanguages,

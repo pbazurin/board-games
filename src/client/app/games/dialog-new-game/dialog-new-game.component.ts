@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 import { CreateMunchkinGameDto } from '@dto/game-munchkin/create-munchkin-game.dto';
 import { CreateTestGameDto } from '@dto/game-test/create-test-game.dto';
 
-import { GameType, GameTypeNames } from '../../../../shared/dto/game/game-type.enum';
+import { GameType } from '../../../../shared/dto/game/game-type.enum';
+import { GameTypeNames } from '../game-type-names';
 import { GamesService } from '../games.service';
 
 @Component({

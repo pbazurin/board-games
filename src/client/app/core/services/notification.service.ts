@@ -12,7 +12,7 @@ export class NotificationService {
 
   showMessage(error: string): void {
     this.translateService.get('Close').subscribe((closeTranslated: string) => {
-      let snackRef = this.snackBar.open(error, closeTranslated);
+      const snackRef = this.snackBar.open(error, closeTranslated);
       snackRef.onAction().subscribe(() => snackRef.dismiss());
     });
   }

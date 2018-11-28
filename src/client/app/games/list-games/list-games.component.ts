@@ -6,10 +6,11 @@ import { Subject } from 'rxjs';
 import { debounceTime, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { GameCreatedAction, GameRemovedAction, GameUserJoinedAction, GameUserLeftAction } from '@dto/game/game-actions';
-import { GameType, GameTypeNames } from '@dto/game/game-type.enum';
+import { GameType } from '@dto/game/game-type.enum';
 import { GameDto } from '@dto/game/game.dto';
 
 import { SocketService } from '../../core/services/socket.service';
+import { GameTypeNames } from '../game-type-names';
 import { GamesService } from '../games.service';
 
 @Component({

@@ -34,8 +34,8 @@ export class SocketService {
   listen<T extends Action>(A: new (...args) => T): Observable<T> {
     return new Observable(observer => {
       const action = new A();
-      this.socket.on(action.type, action => {
-        observer.next(action);
+      this.socket.on(action.type, a => {
+        observer.next(a);
       });
 
       return () => this.socket.off(action.type);
