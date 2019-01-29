@@ -55,7 +55,6 @@ export class AppComponent implements OnDestroy {
       )
       .subscribe(userSettings => {
         translate.addLangs(userSettings.availableLanguages);
-        translate.use(userSettings.language);
 
         socketService.emit(
           new UserRequestConnectionAction({

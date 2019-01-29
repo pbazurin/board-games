@@ -31,8 +31,7 @@ export class GameMunchkinGateway implements OnGatewayInit {
   afterInit() {
     this.usersService.userDisconnected$.subscribe(user => {
       this.gamesService
-        .getRunningGames()
-        .filter(g => g.type === GameType.Munchkin)
+        .getRunningGames(GameType.Munchkin)
         .forEach((game: GameMunchkin) => {
           this.leaveGame(user.id, game);
         });
@@ -58,14 +57,11 @@ export class GameMunchkinGateway implements OnGatewayInit {
     const userId = this.usersService.getUserBySocketId(socket.id).id;
     const activePlayerGames: string[] = [];
 
-    this.gamesService
-      .getRunningGames()
-      .filter(g => g.type === GameType.Munchkin)
-      .forEach(g => {
-        if (g.players.find(p => p.id === userId)) {
-          activePlayerGames.push(g.id);
-        }
-      });
+    this.gamesService.getRunningGames(GameType.Munchkin).forEach(g => {
+      if (g.players.find(p => p.id === userId)) {
+        activePlayerGames.push(g.id);
+      }
+    });
 
     action.payload.password = null;
 
@@ -108,7 +104,7 @@ export class GameMunchkinGateway implements OnGatewayInit {
     }
 
     const targetGame = this.gamesService
-      .getRunningGames()
+      .getRunningGames(GameType.Munchkin)
       .find(g => g.id === game.id);
 
     if (targetGame.players.length) {

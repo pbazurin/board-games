@@ -8,8 +8,12 @@ import { Game } from './game';
 export class GamesService {
   private games: Game[] = [];
 
-  getRunningGames(): Game[] {
-    return this.games;
+  getRunningGames(type?: GameType): Game[] {
+    if (!type) {
+      return this.games;
+    }
+
+    return this.games.filter(g => g.type === type);
   }
 
   isGameExists(id: string, type?: GameType) {

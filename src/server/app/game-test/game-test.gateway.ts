@@ -29,12 +29,9 @@ export class GameTestGateway implements OnGatewayInit {
 
   afterInit() {
     this.usersService.userDisconnected$.subscribe(user => {
-      this.gamesService
-        .getRunningGames()
-        .filter(g => g.type === GameType.Test)
-        .forEach(game => {
-          this.leaveGame(user.id, game);
-        });
+      this.gamesService.getRunningGames(GameType.Test).forEach(game => {
+        this.leaveGame(user.id, game);
+      });
     });
   }
 
@@ -83,7 +80,7 @@ export class GameTestGateway implements OnGatewayInit {
     }
 
     const targetGame = this.gamesService
-      .getRunningGames()
+      .getRunningGames(GameType.Test)
       .find(g => g.id === game.id);
 
     if (targetGame.players.length) {
